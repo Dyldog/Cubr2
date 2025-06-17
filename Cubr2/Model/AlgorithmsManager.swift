@@ -20,6 +20,9 @@ class AlgorithmsManager: ObservableObject {
     @UserDefaultable(key: DefaultKeys.bestTimes)
     private var bestTimes: [String: [SolveAttempt]] = [:]
     
+    @UserDefaultable(key: DefaultKeys.enabledMethods)
+    private var enabledMethods: [SolveMethod: Bool] = [:]
+    
     private func data(for step: any SolveStep) -> AlgorithmGroupData {
         let url = Bundle.main.url(forResource: step.file, withExtension: "json")!
         let data = try! Data(contentsOf: url)
@@ -56,8 +59,12 @@ class AlgorithmsManager: ObservableObject {
         markAlgorithmForLearning(algorithm, learning: !algorithmIsLearning(algorithm))
     }
     
+    var methodsEnabled: [SolveMethod] {
+        SolveMethod.allCases.filter { methodEnabled($0) }
+    }
+    
     var learningAlgorithms: [AlgorithmMethod] {
-        SolveMethod.allCases.reduce(into: []) { partialResult, method in
+        methodsEnabled.reduce(into: []) { partialResult, method in
             partialResult.append(
                 AlgorithmMethod(method: method, stages: method.steps.map { step in
                     AlgorithmStage(title: step.title, groups: algorithms(for: step).map { group in
@@ -102,6 +109,15 @@ class AlgorithmsManager: ObservableObject {
         objectWillChange.send()
         bestTimes[algorithm.name, default: []].removeAll { $0.id == attempt.id }
     }
+    
+    func methodEnabled(_ method: SolveMethod) -> Bool {
+        enabledMethods[method] ?? true
+    }
+    
+    func updateMethodEnabled(_ enabled: Bool, for method: SolveMethod) {
+        objectWillChange.send()
+        enabledMethods[method] = enabled
+    }
 }
 
 private extension AlgorithmsManager {
@@ -109,5 +125,6 @@ private extension AlgorithmsManager {
         case learnedAlgorithms = "LEARNED_ALGORITHMS"
         case mnemonics = "MNEMONICS"
         case bestTimes = "BEST_TIMES"
+        case enabledMethods = "ENABLED_METHODS"
     }
 }

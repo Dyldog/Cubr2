@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct StageList: View {
+    @ObservedObject var algorithmsManager: AlgorithmsManager = .shared
     @State var showAllTimes: Bool = false
+    @State var showMethods: Bool = false
 
     var body: some View {
-        List(SolveMethod.allCases, id: \.self) { method in
+        List(algorithmsManager.methodsEnabled, id: \.self) { method in
             Section(method.title) {
                 ForEach(method.steps) { step in
                     NavigationLink {
@@ -30,10 +32,20 @@ struct StageList: View {
             Button(systemName: "clock") {
                 showAllTimes = true
             }
+            
+            Button(systemName: "eye") {
+                showMethods = true
+            }
+            
         }
         .sheet(isPresented: $showAllTimes) {
             NavigationStack {
                 AllTimesView()
+            }
+        }
+        .sheet(isPresented: $showMethods) {
+            NavigationStack {
+                MethodsView()
             }
         }
     }

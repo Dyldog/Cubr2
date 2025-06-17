@@ -31,6 +31,36 @@ class TestViewModel: ObservableObject {
     
     @Published var showTimes: Bool = false
     
+    let loadFakeScrambles: Bool = false
+    var fakeScrambles: [[String]] = [
+//        ["L L R R F F L L R R F F"],
+//        ["L L R R F F"],
+//        ["L L R R F F"],
+        ["L F L"]
+//        ["M"],
+//        ["M'"],
+//        ["U"],
+//        ["U2"],
+//        ["U'"],
+//        ["D"],
+//        ["D2"],
+//        ["D'"],
+//        ["L"],
+//        ["L2"],
+//        ["L'"],
+//        ["R"],
+//        ["R2"],
+//        ["R'"],
+//        ["r"],
+//        ["r'"],
+//        ["F"],
+//        ["F2"],
+//        ["F'"],
+//        ["B"],
+//        ["B2"],
+//        ["B'"]
+    ]
+    
     init() {
         loadAlgorithm()
     }
@@ -41,6 +71,14 @@ class TestViewModel: ObservableObject {
                 (method.method, algorithm)
             }
             .randomElement()
+        
+        if loadFakeScrambles {
+            algorithm = (algorithm.0, .init(
+                name: algorithm.1.name,
+                stepSets: algorithm.1.stepSets,
+                scrambles: fakeScrambles.removeFirst()
+            ))
+        }
     }
     
     private func formatDuration(_ duration: Duration) -> String {
@@ -66,7 +104,6 @@ class TestViewModel: ObservableObject {
     
     func resetTapped() {
         stopTimer()
-        loadAlgorithm()
         currentTime = nil
     }
     

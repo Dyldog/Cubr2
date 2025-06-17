@@ -20,7 +20,8 @@ class ScrambleViewModel: ObservableObject, MnemonicsHandling {
     var hintItems: [AlgorithmStepsView.Item] = []
     var hasExtraFullHint: Bool = false
     
-    @Published var showImage: Bool = false
+    @Published var showImage: Bool = true
+    let show3dCube: Bool = false
     @Published var hintCount: Int = 0
     @Published var showExtraFullHint: Bool = false
     @Published var showRemainingSteps: Bool = false
@@ -50,14 +51,17 @@ class ScrambleViewModel: ObservableObject, MnemonicsHandling {
         let mnemonics = self.mnemonics
         hintItems = algorithm.defaultSteps.algorithmItems(with: mnemonics)
         hasExtraFullHint = !mnemonics.isEmpty
+        showExtraFullHint = false
     }
     
     func showNextHint() {
         if showImage == false {
             showImage = true
+        } else if hintCount == hintItems.count {
+            showExtraFullHint.toggle()
         } else {
             hintCount = hintCount + 1 // Increment
-            showExtraFullHint = hasExtraFullHint && hintCount > hintItems.count // Check it while it's over
+//            showExtraFullHint = hasExtraFullHint && hintCount > hintItems.count // Check it while it's over
             hintCount = min(hintItems.count, hintCount) // Reset back
         }
     }
@@ -65,7 +69,7 @@ class ScrambleViewModel: ObservableObject, MnemonicsHandling {
     func showFullHint() {
         showImage = true
         hintCount = hintItems.count
-        showExtraFullHint = hasExtraFullHint
+//        showExtraFullHint = hasExtraFullHint
     }
     
     func showRemainingStepsTapped() {
@@ -83,6 +87,16 @@ struct ScrambleView: View {
     
     var body: some View {
         VStack {
+            cubeView
+                .aspectRatio(1, contentMode: .fit)
+                .frame(minWidth: 150, maxWidth: 250)
+//                .onTapGesture {
+//                    viewModel.showNextHint()
+//                }
+//                .onLongPressGesture {
+//                    viewModel.showFullHint()
+//                }
+            
             Text("Scramble")
                 .bold()
                 .padding(.bottom, 4)
@@ -94,23 +108,8 @@ struct ScrambleView: View {
                 }
             }
             
-            if let image = viewModel.image {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 250)
-                    .onTapGesture {
-                        viewModel.showNextHint()
-                    }
-                    .onLongPressGesture {
-                        viewModel.showFullHint()
-                    }
-            }
-            
-            if viewModel.hintCount > 0 {
-                hintView
-                    .padding(.horizontal)
-            }
+            hintView
+                .padding([.horizontal, .top])
             
             Spacer()
             
@@ -123,11 +122,11 @@ struct ScrambleView: View {
         }
         .padding()
         .navigationTitle(viewModel.title)
-        .toolbar {
-            Button(systemName: "wand.and.stars") {
-                viewModel.showNextHint()
-            }
-        }
+//        .toolbar {
+//            Button(systemName: "wand.and.stars") {
+//                viewModel.showNextHint()
+//            }
+//        }
         .sheet(isPresented: $viewModel.showRemainingSteps) {
             NavigationStack {
                 TutorialView(method: viewModel.method, algorithm: viewModel.algorithm)
@@ -136,25 +135,45 @@ struct ScrambleView: View {
     }
     
     @ViewBuilder
+    private var cubeView: some View {
+        if viewModel.show3dCube {
+            CubeView(steps: viewModel.scramble.steps.cubeMoves)
+        } else if let image = viewModel.image {
+            Image(image: image)
+        }
+    }
+    
+    @ViewBuilder
     private var hintView: some View {
-        Text("Hint")
-            .bold()
-            .padding(.bottom, 4)
-        
-        AlgorithmStepsView(
-            steps: viewModel.steps,
-            mnemonics: viewModel.mnemonics,
-            shownItems: (0 ..< viewModel.hintCount),
-            updateMnemonic: nil
-        )
-        
-        if viewModel.showExtraFullHint {
-            AlgorithmStepsView(
-                steps: viewModel.steps,
-                mnemonics: [],
-                updateMnemonic: nil
-            )
-            .padding(.top, 4)
+        VStack {
+            HStack {
+                Text("Hint")
+                    .bold()
+                    .padding(.bottom, 4)
+                
+                Button(systemName: "eye.fill") {
+                    viewModel.showNextHint()
+                }
+            }
+            
+            if viewModel.hintCount > 0 {
+                AlgorithmStepsView(
+                    steps: viewModel.steps,
+                    mnemonics: viewModel.showExtraFullHint ? [] : viewModel.mnemonics,
+                    shownItems: (0 ..<  (viewModel.showExtraFullHint ? viewModel.steps.count : viewModel.hintCount)),
+                    updateMnemonic: nil
+                )
+            }
+            
+//            if viewModel.showExtraFullHint {
+//                AlgorithmStepsView(
+//                    steps: viewModel.steps,
+//                    mnemonics: [],
+//                    updateMnemonic: nil
+//                )
+//                .minimumScaleFactor(0.7)
+//                .padding(.top, 4)
+//            }
         }
     }
 }

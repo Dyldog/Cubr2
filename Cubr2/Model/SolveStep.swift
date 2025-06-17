@@ -7,9 +7,9 @@
 
 import Foundation
 
-enum SolveMethod: CaseIterable {
-    case beginner
-    case cfop
+enum SolveMethod: String, CaseIterable, Codable {
+    case beginner = "BEGINNER"
+    case cfop = "CFOP"
     
     var title: String {
         switch self {
@@ -102,9 +102,11 @@ extension SolveMethod {
             }
         }
     }
-    
-    static func allAlgorithms(with manager: AlgorithmsManager = .shared) -> [(String, [Algorithm])] {
-        SolveMethod.allCases.flatMap { method in
+}
+
+extension Array where Element == SolveMethod {
+    func allAlgorithms(with manager: AlgorithmsManager = .shared) -> [(String, [Algorithm])] {
+        flatMap { method in
             method.allAlgorithms(with: manager)
         }
     }
