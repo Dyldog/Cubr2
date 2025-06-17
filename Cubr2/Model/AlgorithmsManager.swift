@@ -63,8 +63,9 @@ class AlgorithmsManager: ObservableObject {
                     name: group.name,
                     algorithms: group.algorithms.filter { algorithmIsLearning($0) }
                 )
-            })
+            }.filter { $0.algorithms.isEmpty == false })
         }
+        .filter { $0.1.isEmpty == false }
     }
     
     func mnemonics(for steps: String) -> [StepMnemonic] {
