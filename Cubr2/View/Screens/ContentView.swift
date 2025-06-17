@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class ContentViewModel: ObservableObject, MnemonicsHandling {
+class ContentViewModel: ObservableObject, AlgorithmHandling {
     private let step: SolveStep
     
     let algorithmsManager: AlgorithmsManager = .init()
@@ -71,7 +71,7 @@ struct ContentView: View {
     }
     
     private func algorithm(_ algorithm: Algorithm) -> some View {
-        AlgorithmView(algorithm: algorithm, mnemonicsHandler: viewModel) {
+        AlgorithmView(algorithm: algorithm, handler: viewModel) {
             viewModel.showScramble = algorithm
         }
         .if(viewModel.algorithmIsLearning(algorithm)) {

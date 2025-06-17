@@ -17,7 +17,7 @@ struct StepButton: View {
             onTap()
         } label: {
             Text(step)
-                .font(.largeTitle)
+                .font(.system(size: 34))
         }
         .buttonStyle(.plain)
         .if(highlighted) {

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct AlgorithmView: View {
     let algorithm: Algorithm
+    let bestTime: Duration?
     let mnemonics: (String) -> [StepMnemonic]
     
     let iconTapped: () -> Void
@@ -31,8 +32,13 @@ struct AlgorithmView: View {
             .buttonStyle(.plain)
             
             VStack(alignment: .leading) {
-                Text(algorithm.name)
-                    .bold()
+                HStack {
+                    Text(algorithm.name)
+                        .bold()
+                    if let bestTime {
+                        Text("PB: " + bestTime.formatted(.time(pattern: .minuteSecond(padMinuteToLength: 2, fractionalSecondsLength: 2))))
+                    }
+                }
                 AlgorithmStepsView(
                     steps: steps,
                     mnemonics: mnemonics(stepsString)

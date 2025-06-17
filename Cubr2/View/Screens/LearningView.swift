@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class LearningViewModel: ObservableObject, MnemonicsHandling {
+class LearningViewModel: ObservableObject, AlgorithmHandling {
     let algorithmsManager: AlgorithmsManager = .shared
 
     @Published private(set) var algorithms: [(String, [AlgorithmGroup])] = []
@@ -24,6 +24,7 @@ class LearningViewModel: ObservableObject, MnemonicsHandling {
     var randomAlgorithm: Algorithm? {
         algorithms.flatMap { $0.1 }.flatMap { $0.algorithms }.randomElement()
     }
+    
 }
 
 struct LearningView: View {
@@ -57,7 +58,7 @@ struct LearningView: View {
     
     private func groupView(for group: AlgorithmGroup) -> some View {
         ForEach(group.algorithms) { algorithm in
-            AlgorithmView(algorithm: algorithm, mnemonicsHandler: viewModel) {
+            AlgorithmView(algorithm: algorithm, handler: viewModel) {
                 viewModel.learningAlgorithm = algorithm
             }
         }

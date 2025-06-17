@@ -24,8 +24,13 @@ extension MnemonicsHandling {
 }
 
 extension AlgorithmView {
-    init(algorithm: Algorithm, mnemonicsHandler: MnemonicsHandling, iconTapped: @escaping () -> Void) {
-        self.init(algorithm: algorithm) { [weak mnemonicsHandler] steps in
+    init(
+        algorithm: Algorithm, 
+        bestTime: Duration?,
+        mnemonicsHandler: MnemonicsHandling,
+        iconTapped: @escaping () -> Void
+    ) {
+        self.init(algorithm: algorithm, bestTime: bestTime) { [weak mnemonicsHandler] steps in
             mnemonicsHandler?.mnemonics(for: steps) ?? []
         } iconTapped: {
             iconTapped()

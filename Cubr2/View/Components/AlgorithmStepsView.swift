@@ -15,13 +15,15 @@ enum AlgorithmStepViewError: Error {
 struct AlgorithmStepsView: View {
     let steps: [String]
     let mnemonics: [StepMnemonic]
+    let canEdit: Bool
+    let shownItems: Range<Int>?
     @State var highlightedItems: [Bool]
     
     @State var highlightedMnemonicTitle: String = ""
     @State var editingMnemonic: StepMnemonic?
     @FocusState var keyboardFocused: Bool
     
-    let updateMnemonic: (UUID?, StepMnemonic?) -> Void
+    let updateMnemonic: ((UUID?, StepMnemonic?) -> Void)?
     
     var highlighteRange: Range<Int>? {
         try? range(for: highlightedItems)
@@ -30,10 +32,13 @@ struct AlgorithmStepsView: View {
     init(
         steps: [String],
         mnemonics: [StepMnemonic],
-        updateMnemonic: @escaping (UUID?, StepMnemonic?) -> Void
+        shownItems: Range<Int>? = nil,
+        updateMnemonic: ((UUID?, StepMnemonic?) -> Void)?
     ) {
         self.steps = steps
         self.mnemonics = mnemonics
+        self.canEdit = updateMnemonic != nil
+        self.shownItems = shownItems
         self.updateMnemonic = updateMnemonic
         self._highlightedItems = .init(initialValue: .init(
             repeating: false,
@@ -42,17 +47,8 @@ struct AlgorithmStepsView: View {
     }
     
     var items: [Item] {
-        var items: [Item?] = steps.map { .step($0) }
-        
-        mnemonics.forEach { mnemonic in
-            guard mnemonic.id != editingMnemonic?.id else { return }
-            mnemonic.range.forEach { location in
-                items[location] = nil
-            }
-            items[mnemonic.location] = .mnemonic(mnemonic, steps[mnemonic.range].array)
-        }
-        
-        return items.compactMap { $0 }
+        let allItems = steps.algorithmItems(with: mnemonics.filter { $0.id != editingMnemonic?.id })
+        return shownItems.map { allItems[$0].array } ?? allItems
     }
     
     var body: some View {
@@ -73,7 +69,7 @@ struct AlgorithmStepsView: View {
     }
     
     private var stepsView: some View {
-        WrappingHStack {
+        WrappingHStack(verticalSpacing: 8) {
             ForEach(enumerated: items) { index, item in
                 switch item {
                 case let .step(step):
@@ -100,6 +96,8 @@ struct AlgorithmStepsView: View {
     }
     
     private func stepTapped(at index: Int) {
+        guard updateMnemonic != nil else { return }
+
         var newHighlights = highlightedItems
         newHighlights[index].toggle()
         var newRange: Range<Int>?
@@ -126,6 +124,7 @@ struct AlgorithmStepsView: View {
     }
     
     private func mnemonicDoneTapped() {
+        guard let updateMnemonic else { return }
         guard let highlighteRange else { return }
         
         let actualOffset = items
@@ -163,5 +162,27 @@ struct AlgorithmStepsView: View {
     enum Item {
         case step(String)
         case mnemonic(StepMnemonic, [String])
+    }
+}
+
+extension Array where Element == String {
+    typealias Item = AlgorithmStepsView.Item
+    
+    func algorithmItems(
+        with mnemonics: [StepMnemonic]
+    ) -> [Item] {
+        var items: [Item?] = self.map { .step($0) }
+        
+        mnemonics.forEach { mnemonic in
+//            guard mnemonic.id != editingMnemonic?.id else { return }
+            mnemonic.range.forEach { location in
+                items[location] = nil
+            }
+            items[mnemonic.location] = .mnemonic(mnemonic, self[mnemonic.range].array)
+        }
+        
+        return items.compactMap { $0 }
+        
+//        return shownItems.map { mappedItems[$0].array } ?? mappedItems
     }
 }

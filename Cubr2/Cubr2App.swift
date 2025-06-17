@@ -13,6 +13,12 @@ struct Cubr2App: App {
         WindowGroup {
             TabView {
                 NavigationStack {
+                    TestView()
+                }.tabItem {
+                    Label("Test", systemImage: "graduationcap.fill")
+                }
+                
+                NavigationStack {
                     LearningView()
                 }.tabItem {
                     Label("Learning", systemImage: "brain.fill")
