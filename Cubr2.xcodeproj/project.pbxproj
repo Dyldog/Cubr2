@@ -10,6 +10,9 @@
 		FC4AA4432DFA973B0069EFBE /* DylKit in Frameworks */ = {isa = PBXBuildFile; productRef = FC4AA4422DFA973B0069EFBE /* DylKit */; };
 		FC4AA4452DFA99250069EFBE /* LearningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4AA4442DFA99250069EFBE /* LearningView.swift */; };
 		FC4AA4472DFA9A220069EFBE /* AlgorithmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4AA4462DFA9A220069EFBE /* AlgorithmView.swift */; };
+		FC55D4AB2E0112C3004D499B /* String+Moves.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC55D4AA2E0112C3004D499B /* String+Moves.swift */; };
+		FC55D4AD2E011814004D499B /* AllTimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC55D4AC2E011814004D499B /* AllTimesView.swift */; };
+		FC55D4B02E011D34004D499B /* Duration+TimeString.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC55D4AF2E011D34004D499B /* Duration+TimeString.swift */; };
 		FC5C1C232DFCFFA6004E5190 /* AlgorithmStepsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5C1C222DFCFFA6004E5190 /* AlgorithmStepsView.swift */; };
 		FC5C1C252DFCFFD6004E5190 /* StepButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5C1C242DFCFFD6004E5190 /* StepButton.swift */; };
 		FC5C1C272DFCFFF1004E5190 /* MnemonicButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5C1C262DFCFFF1004E5190 /* MnemonicButton.swift */; };
@@ -23,6 +26,7 @@
 		FC9532A52E00F1EA005E1907 /* TimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9532A42E00F1EA005E1907 /* TimesView.swift */; };
 		FC9532A72E00FCAC005E1907 /* BestTimeHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9532A62E00FCAC005E1907 /* BestTimeHandling.swift */; };
 		FC9532A92E00FD6B005E1907 /* AlgorithmHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9532A82E00FD6B005E1907 /* AlgorithmHandling.swift */; };
+		FCBFBE052E01057200E33B6A /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBFBE042E01057200E33B6A /* TutorialView.swift */; };
 		FCD988982DF81A080083047A /* Cubr2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD988972DF81A080083047A /* Cubr2App.swift */; };
 		FCD9889A2DF81A080083047A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD988992DF81A080083047A /* ContentView.swift */; };
 		FCD9889C2DF81A0B0083047A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCD9889B2DF81A0B0083047A /* Assets.xcassets */; };
@@ -57,6 +61,9 @@
 /* Begin PBXFileReference section */
 		FC4AA4442DFA99250069EFBE /* LearningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningView.swift; sourceTree = "<group>"; };
 		FC4AA4462DFA9A220069EFBE /* AlgorithmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmView.swift; sourceTree = "<group>"; };
+		FC55D4AA2E0112C3004D499B /* String+Moves.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Moves.swift"; sourceTree = "<group>"; };
+		FC55D4AC2E011814004D499B /* AllTimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllTimesView.swift; sourceTree = "<group>"; };
+		FC55D4AF2E011D34004D499B /* Duration+TimeString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Duration+TimeString.swift"; sourceTree = "<group>"; };
 		FC5C1C222DFCFFA6004E5190 /* AlgorithmStepsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmStepsView.swift; sourceTree = "<group>"; };
 		FC5C1C242DFCFFD6004E5190 /* StepButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepButton.swift; sourceTree = "<group>"; };
 		FC5C1C262DFCFFF1004E5190 /* MnemonicButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MnemonicButton.swift; sourceTree = "<group>"; };
@@ -70,6 +77,7 @@
 		FC9532A42E00F1EA005E1907 /* TimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesView.swift; sourceTree = "<group>"; };
 		FC9532A62E00FCAC005E1907 /* BestTimeHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestTimeHandling.swift; sourceTree = "<group>"; };
 		FC9532A82E00FD6B005E1907 /* AlgorithmHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmHandling.swift; sourceTree = "<group>"; };
+		FCBFBE042E01057200E33B6A /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
 		FCD988942DF81A080083047A /* Cubr2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cubr2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCD988972DF81A080083047A /* Cubr2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cubr2App.swift; sourceTree = "<group>"; };
 		FCD988992DF81A080083047A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -113,6 +121,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FC55D4AE2E011D29004D499B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FC55D4AF2E011D34004D499B /* Duration+TimeString.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		FC5C1C282DFCFFFF004E5190 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +138,7 @@
 				FC5C1C2E2DFD0067004E5190 /* SolveStep.swift */,
 				FC5C1C302DFD007B004E5190 /* AlgorithmData.swift */,
 				FC5C1C322DFD009D004E5190 /* Algorithm.swift */,
+				FC55D4AA2E0112C3004D499B /* String+Moves.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -140,9 +157,12 @@
 			children = (
 				FCD988992DF81A080083047A /* ContentView.swift */,
 				FC4AA4442DFA99250069EFBE /* LearningView.swift */,
+				FCD988C72DF8238A0083047A /* StageList.swift */,
 				FCF229082DF939C700B0F881 /* ScrambleView.swift */,
+				FCBFBE042E01057200E33B6A /* TutorialView.swift */,
 				FC9532A02E00E017005E1907 /* TestView.swift */,
 				FC9532A42E00F1EA005E1907 /* TimesView.swift */,
+				FC55D4AC2E011814004D499B /* AllTimesView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -192,9 +212,9 @@
 			isa = PBXGroup;
 			children = (
 				FCD988972DF81A080083047A /* Cubr2App.swift */,
+				FC55D4AE2E011D29004D499B /* Extensions */,
 				FC5C1C342DFD03BE004E5190 /* Protocol */,
 				FC5C1C282DFCFFFF004E5190 /* Model */,
-				FCD988C72DF8238A0083047A /* StageList.swift */,
 				FC5C1C2B2DFD0013004E5190 /* View */,
 				FCD988C52DF8235E0083047A /* 2LookOLL.json */,
 				FCD988C32DF81B160083047A /* 2LookPLL.json */,
@@ -370,21 +390,25 @@
 				FC5C1C2A2DFD000E004E5190 /* StepMnemonic.swift in Sources */,
 				FCD9889A2DF81A080083047A /* ContentView.swift in Sources */,
 				FCD988C22DF81A4D0083047A /* AlgorithmsManager.swift in Sources */,
+				FC55D4B02E011D34004D499B /* Duration+TimeString.swift in Sources */,
 				FC5C1C362DFD03CA004E5190 /* MnemonicsHandling.swift in Sources */,
 				FC9532A72E00FCAC005E1907 /* BestTimeHandling.swift in Sources */,
 				FC9532A12E00E017005E1907 /* TestView.swift in Sources */,
 				FC4AA4452DFA99250069EFBE /* LearningView.swift in Sources */,
 				FC5C1C312DFD007B004E5190 /* AlgorithmData.swift in Sources */,
+				FC55D4AD2E011814004D499B /* AllTimesView.swift in Sources */,
 				FC5C1C272DFCFFF1004E5190 /* MnemonicButton.swift in Sources */,
 				FCD988982DF81A080083047A /* Cubr2App.swift in Sources */,
 				FC9532A92E00FD6B005E1907 /* AlgorithmHandling.swift in Sources */,
 				FC5C1C332DFD009D004E5190 /* Algorithm.swift in Sources */,
 				FC5C1C232DFCFFA6004E5190 /* AlgorithmStepsView.swift in Sources */,
 				FC9532A52E00F1EA005E1907 /* TimesView.swift in Sources */,
+				FCBFBE052E01057200E33B6A /* TutorialView.swift in Sources */,
 				FC9532A32E00F0B6005E1907 /* SolveAttempt.swift in Sources */,
 				FC5C1C2F2DFD0067004E5190 /* SolveStep.swift in Sources */,
 				FC5C1C252DFCFFD6004E5190 /* StepButton.swift in Sources */,
 				FCF229092DF939C700B0F881 /* ScrambleView.swift in Sources */,
+				FC55D4AB2E0112C3004D499B /* String+Moves.swift in Sources */,
 				FCD988C82DF8238A0083047A /* StageList.swift in Sources */,
 				FC4AA4472DFA9A220069EFBE /* AlgorithmView.swift in Sources */,
 			);

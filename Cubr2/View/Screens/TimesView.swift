@@ -26,7 +26,7 @@ struct TimesView: View {
                         .foregroundStyle(.gray)
                         .font(.footnote)
                     
-                    Text(time.time.formatted(.time(pattern: .minuteSecond(padMinuteToLength: 2, fractionalSecondsLength: 2))))
+                    Text(time.time.timeString)
                 }
                 .swipeActions {
                     Button(systemName: "trash") {

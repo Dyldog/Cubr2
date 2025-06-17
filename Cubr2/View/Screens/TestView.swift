@@ -42,7 +42,7 @@ class TestViewModel: ObservableObject {
     }
     
     private func formatDuration(_ duration: Duration) -> String {
-        duration.formatted(.time(pattern: .minuteSecond(padMinuteToLength: 2, fractionalSecondsLength: 2)))
+        duration.timeString
     }
     
     private func startTimer() {
@@ -91,6 +91,8 @@ class TestViewModel: ObservableObject {
 struct TestView: View {
     @StateObject var viewModel: TestViewModel = .init()
     
+    let iconFont: Font = .system(size: 24)
+    
     var body: some View {
         VStack {
             ScrambleView(algorithm: viewModel.algorithm)
@@ -129,32 +131,43 @@ struct TestView: View {
                 Button(systemName: "stop.fill") {
                     viewModel.stopTapped()
                 }
+                .font(iconFont)
             } else if viewModel.canReset {
-                Button(systemName: "arrow.circlepath") {
+                Button(systemName: "arrow.counterclockwise.circle.fill") {
                     viewModel.resetTapped()
                 }
+                .font(iconFont)
             } else {
                 Button(systemName: "play.fill") {
                     viewModel.startTapped()
                 }
+                .font(iconFont)
             }
             
             Spacer()
             
             timeLabels
+                .foregroundStyle(Color.accentColor)
+                .bold()
             
             Spacer()
             
             if viewModel.isTimerRunning {
-                Button(systemName: "xmark") {
+                Button(systemName: "xmark.app.fill") {
                     viewModel.cancelTapped()
                 }
+                .font(iconFont)
             } else {
-                Button(systemName: "clock") {
+                Button(systemName: "clock.fill") {
                     viewModel.showTimesTapped()
                 }
+                .font(iconFont)
             }
         }
         .padding()
+        .background {
+            RoundedRectangle(cornerRadius: 40).stroke(Color.accentColor, lineWidth: 3)
+        }
+        .padding([.bottom, .horizontal])
     }
 }

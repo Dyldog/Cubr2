@@ -13,15 +13,20 @@ extension AlgorithmView {
     init(
         algorithm: Algorithm,
         handler: AlgorithmHandling,
-        iconTapped: @escaping () -> Void
+        disallowMmnemonicsUpdating: Bool = false,
+        iconTapped: (() -> Void)?
     ) {
-        self.init(algorithm: algorithm, bestTime: handler.bestTime(for: algorithm)) { [weak handler] steps in
-            handler?.mnemonics(for: steps) ?? []
-        } iconTapped: {
-            iconTapped()
-        } mnemonicsUpdated: { [weak handler] newMnemonics, steps in
-            handler?.mnemonicsUpdated(newMnemonics, for: steps)
-        }
+        self.init(
+            algorithm: algorithm,
+            bestTime: handler.bestTime(for: algorithm),
+            mnemonics: { [weak handler] steps in
+                handler?.mnemonics(for: steps) ?? []
+            }, iconTapped: {
+                iconTapped?()
+            }, mnemonicsUpdated: disallowMmnemonicsUpdating ? nil : { [weak handler] newMnemonics, steps in
+                handler?.mnemonicsUpdated(newMnemonics, for: steps)
+            }
+        )
 
     }
 }

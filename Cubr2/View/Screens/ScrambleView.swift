@@ -5,6 +5,7 @@
 //  Created by Dylan Elliott on 11/6/2025.
 //
 
+import DylKit
 import SwiftUI
 
 class ScrambleViewModel: ObservableObject, MnemonicsHandling {
@@ -21,6 +22,17 @@ class ScrambleViewModel: ObservableObject, MnemonicsHandling {
     @Published var showImage: Bool = false
     @Published var hintCount: Int = 0
     @Published var showExtraFullHint: Bool = false
+    @Published var showRemainingSteps: Bool = false
+    
+    var showRemainingStepsButton: Bool {
+        guard 
+            let lastStep = SolveStep.allCases.last,
+            let lastGroup = algorithmsManager.algorithms(for: lastStep).last
+        else { return false }
+        
+        return lastGroup.algorithms.contains(algorithm) == false
+        
+    }
     
     var image: UIImage? {
         showImage ? algorithm.image : nil
@@ -53,6 +65,10 @@ class ScrambleViewModel: ObservableObject, MnemonicsHandling {
         hintCount = hintItems.count
         showExtraFullHint = hasExtraFullHint
     }
+    
+    func showRemainingStepsTapped() {
+        showRemainingSteps = true
+    }
 }
 
 struct ScrambleView: View {
@@ -67,10 +83,14 @@ struct ScrambleView: View {
         VStack {
             Text("Scramble")
                 .bold()
-            Text(viewModel.scramble)
-                .font(.largeTitle)
-                .multilineTextAlignment(.center)
-                .minimumScaleFactor(0.5)
+                .padding(.bottom, 4)
+            
+            WrappingHStack(verticalSpacing: 6) {
+                ForEach(viewModel.scramble.components(separatedBy: " ").moves(chunk: 4)) { steps in
+                    MnemonicButton(text: steps.joined(separator: " "), highlighted: false, onTap: { })
+                        .font(.system(size: 28))
+                }
+            }
             
             if let image = viewModel.image {
                 Image(uiImage: image)
@@ -91,6 +111,13 @@ struct ScrambleView: View {
             }
             
             Spacer()
+            
+            if viewModel.showRemainingStepsButton {
+                Button("Remaining Steps") {
+                    viewModel.showRemainingStepsTapped()
+                }
+                .buttonStyle(.borderedProminent)
+            }
         }
         .padding()
         .navigationTitle(viewModel.title)
@@ -99,12 +126,19 @@ struct ScrambleView: View {
                 viewModel.showNextHint()
             }
         }
+        .sheet(isPresented: $viewModel.showRemainingSteps) {
+            NavigationStack {
+                TutorialView(algorithm: viewModel.algorithm)
+            }
+        }
     }
     
     @ViewBuilder
     private var hintView: some View {
         Text("Hint")
             .bold()
+            .padding(.bottom, 4)
+        
         AlgorithmStepsView(
             steps: viewModel.steps,
             mnemonics: viewModel.mnemonics,
