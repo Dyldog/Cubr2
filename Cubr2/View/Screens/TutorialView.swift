@@ -12,19 +12,26 @@ class TutorialViewModel: ObservableObject, AlgorithmHandling {
     typealias Group = (title: String, algorithms: [Algorithm])
     let algorithmsManager: AlgorithmsManager = .shared
     
-    private let allAlgorithms: [Group] = SolveMethod.allAlgorithms()
+    private let method: SolveMethod
+    private let allAlgorithms: [Group]
     @Published private var currentIndex = 0
     
     private var currentGroup: Group { allAlgorithms[currentIndex] }
     var title: String { currentGroup.title }
     var algorithms: [Algorithm] { currentGroup.algorithms }
     
-    var isAtLastStep: Bool {
-        currentIndex == algorithms.lastIndex
+    var isAtFirstStep: Bool {
+        currentIndex == 0
     }
     
-    init(algorithm: Algorithm) {
-        currentIndex = (allAlgorithms.firstIndex { _, algorithms in
+    var isAtLastStep: Bool {
+        currentIndex == allAlgorithms.lastIndex
+    }
+    
+    init(method: SolveMethod, algorithm: Algorithm) {
+        self.method = method
+        self.allAlgorithms = method.allAlgorithms()
+        self.currentIndex = (method.allAlgorithms().firstIndex { _, algorithms in
             algorithms.contains(algorithm)
         } ?? -1) + 1
     }
@@ -45,8 +52,8 @@ struct TutorialView: View {
     @StateObject var viewModel: TutorialViewModel
     @Environment(\.dismiss) var dismiss
     
-    init(algorithm: Algorithm) {
-        _viewModel = .init(wrappedValue: .init(algorithm: algorithm))
+    init(method: SolveMethod, algorithm: Algorithm) {
+        _viewModel = .init(wrappedValue: .init(method: method, algorithm: algorithm))
     }
     
     var body: some View {
@@ -58,8 +65,10 @@ struct TutorialView: View {
         .navigationTitle(viewModel.title)
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-                Button(systemName: "arrowshape.left.fill") {
-                    viewModel.previousTapped()
+                if viewModel.isAtFirstStep == false {
+                    Button(systemName: "arrowshape.left.fill") {
+                        viewModel.previousTapped()
+                    }
                 }
             }
             

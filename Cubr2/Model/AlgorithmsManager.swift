@@ -34,7 +34,7 @@ class AlgorithmsManager: ObservableObject {
                 Algorithm(
                     name: algorithm.element.name,
                     stepSets: algorithm.element.alg,
-                    scrambles: data.scrambles[algorithm.offset]
+                    scrambles: data.scrambles[safe: algorithm.offset] ?? []
                 )
             )
         }.map {

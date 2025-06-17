@@ -8,16 +8,19 @@
 import Foundation
 
 enum SolveMethod: CaseIterable {
+    case beginner
     case cfop
     
     var title: String {
         switch self {
+        case .beginner: "Beginner"
         case .cfop: "CFOP"
         }
     }
     
     var steps: [any SolveStep] {
         switch self {
+        case .beginner: BeginnerSolveStep.allCases
         case .cfop: CFOPSolveStep.allCases
         }
     }
@@ -34,6 +37,32 @@ protocol SolveStep: CaseIterable, Hashable {
 }
 
 extension SolveStep {
+    var shortTitle: String { title }
+}
+
+enum BeginnerSolveStep: SolveStep {
+    case firstLayer
+    case secondLayer
+    case topLayer
+    
+    var method: SolveMethod { .beginner }
+    
+    var file: String {
+        switch self {
+        case .firstLayer: "BeginnerFirstLayer"
+        case .secondLayer: "BeginnerSecondLayer"
+        case .topLayer: "BeginnerTopLayer"
+        }
+    }
+    
+    var title: String {
+        switch self {
+        case .firstLayer: "First Layer"
+        case .secondLayer: "Second Layer"
+        case .topLayer: "Top Layer"
+        }
+    }
+    
     var shortTitle: String { title }
 }
 
@@ -66,13 +95,17 @@ enum CFOPSolveStep: SolveStep {
 }
 
 extension SolveMethod {
+    func allAlgorithms(with manager: AlgorithmsManager = .shared) -> [(String, [Algorithm])] {
+        steps.flatMap { step in
+            manager.algorithms(for: step).map { group in
+                ("\(step.shortTitle): \(group.name)", group.algorithms)
+            }
+        }
+    }
+    
     static func allAlgorithms(with manager: AlgorithmsManager = .shared) -> [(String, [Algorithm])] {
         SolveMethod.allCases.flatMap { method in
-            method.steps.flatMap { step in
-                manager.algorithms(for: step).map { group in
-                    ("\(step.shortTitle): \(group.name)", group.algorithms)
-                }
-            }
+            method.allAlgorithms(with: manager)
         }
     }
 }

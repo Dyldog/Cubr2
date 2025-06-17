@@ -1,0 +1,15 @@
+{
+    "algorithms": [{
+        "name":"Left Edge Insert",
+        "alg":["U' L' U' L U y' U R U R' U'"],
+        "group":"All",
+        "prob":1,
+    }, {
+        "name":"Right Edge Insert",
+        "alg":["U R U R' U' y L' U' L U"],
+        "group":"All",
+        "prob":1,
+    }],
+    "scrambles": [
+    ]
+}

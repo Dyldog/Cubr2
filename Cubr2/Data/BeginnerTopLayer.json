@@ -1,0 +1,35 @@
+{
+    "algorithms": [{
+        "name":"Top Dot",
+        "alg":["F R U R' U'"],
+        "group":"1: Cross",
+        "prob":1,
+    }, {
+        "name":"Top Line",
+        "alg":["F R U R' U'"],
+        "group":"1: Cross",
+        "prob":1,
+    }, {
+        "name":"Top Corner",
+        "alg":["F R U R' U'"],
+        "group":"1: Cross",
+        "prob":1,
+    }, {
+        "name":"Swap Cross Colours",
+        "alg":["R U R' U R U U R' U"],
+        "group":"2: Edges",
+        "prob":1,
+    }, {
+        "name":"Swap Corner Colours",
+        "alg":["U R U' L' U R' U' L"],
+        "group":"3: Corners",
+        "prob":1,
+    }, {
+        "name":"Rotate Corners",
+        "alg":["R U R' U'"],
+        "group":"3: Corners",
+        "prob":1,
+    }],
+    "scrambles": [
+    ]
+}

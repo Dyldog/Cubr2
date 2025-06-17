@@ -1,0 +1,20 @@
+{
+    "algorithms": [{
+        "name":"Swap Edge Colours",
+        "alg":["F U' R U"],
+        "group":"1: Cross",
+        "prob":1,
+    }, {
+        "name":"Move Edge To Bottom",
+        "alg":["R' D' R"],
+        "group":"1: Cross",
+        "prob":1,
+    }, {
+        "name":"Insert Corner",
+        "alg":["R U R' U'"],
+        "group":"2: Corners",
+        "prob":1,
+    }],
+    "scrambles": [
+    ]
+}

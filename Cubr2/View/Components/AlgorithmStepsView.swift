@@ -52,20 +52,23 @@ struct AlgorithmStepsView: View {
     }
     
     var body: some View {
-        if highlighteRange != nil {
-            TextField("Mmnemonic Title", text: $highlightedMnemonicTitle)
-                .focused($keyboardFocused)
-                .textFieldStyle(.roundedBorder)
-                .labelsHidden()
-                .onAppear {
-                    keyboardFocused = true
-                }
-                .onSubmit {
-                    mnemonicDoneTapped()
-                }
+        VStack {
+            if highlighteRange != nil {
+                TextField("Mmnemonic Title", text: $highlightedMnemonicTitle)
+                    .focused($keyboardFocused)
+                    .textFieldStyle(.roundedBorder)
+                    .labelsHidden()
+                    .onAppear {
+                        keyboardFocused = true
+                    }
+                    .onSubmit {
+                        mnemonicDoneTapped()
+                    }
+            }
+            
+            stepsView
+                .id(mnemonics)
         }
-        stepsView
-            .id(mnemonics)
     }
     
     private var stepsView: some View {

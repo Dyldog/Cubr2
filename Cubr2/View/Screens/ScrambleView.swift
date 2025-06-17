@@ -130,7 +130,7 @@ struct ScrambleView: View {
         }
         .sheet(isPresented: $viewModel.showRemainingSteps) {
             NavigationStack {
-                TutorialView(algorithm: viewModel.algorithm)
+                TutorialView(method: viewModel.method, algorithm: viewModel.algorithm)
             }
         }
     }
