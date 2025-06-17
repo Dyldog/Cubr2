@@ -9,6 +9,7 @@ import DylKit
 import SwiftUI
 
 class ScrambleViewModel: ObservableObject, MnemonicsHandling {
+    let method: SolveMethod
     let algorithm: Algorithm
     let algorithmsManager: AlgorithmsManager
     
@@ -26,7 +27,7 @@ class ScrambleViewModel: ObservableObject, MnemonicsHandling {
     
     var showRemainingStepsButton: Bool {
         guard 
-            let lastStep = SolveStep.allCases.last,
+            let lastStep = method.steps.last,
             let lastGroup = algorithmsManager.algorithms(for: lastStep).last
         else { return false }
         
@@ -38,7 +39,8 @@ class ScrambleViewModel: ObservableObject, MnemonicsHandling {
         showImage ? algorithm.image : nil
     }
     
-    init(algorithm: Algorithm, algorithmsManager: AlgorithmsManager = .shared) {
+    init(method: SolveMethod, algorithm: Algorithm, algorithmsManager: AlgorithmsManager = .shared) {
+        self.method = method
         self.algorithm = algorithm
         self.algorithmsManager = algorithmsManager
         reload()
@@ -75,8 +77,8 @@ struct ScrambleView: View {
 
     @StateObject var viewModel: ScrambleViewModel
     
-    init(algorithm: Algorithm) {
-        _viewModel = .init(wrappedValue: .init(algorithm: algorithm))
+    init(method: SolveMethod, algorithm: Algorithm) {
+        _viewModel = .init(wrappedValue: .init(method: method, algorithm: algorithm))
     }
     
     var body: some View {

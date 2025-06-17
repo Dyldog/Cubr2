@@ -8,7 +8,7 @@
 import SwiftUI
 
 class ContentViewModel: ObservableObject, AlgorithmHandling {
-    private let step: SolveStep
+    private let step: any SolveStep
     
     let algorithmsManager: AlgorithmsManager = .init()
     
@@ -16,8 +16,9 @@ class ContentViewModel: ObservableObject, AlgorithmHandling {
     @Published var showScramble: Algorithm?
     
     var title: String { step.title }
+    var method: SolveMethod { step.method }
     
-    init(step: SolveStep) {
+    init(step: any SolveStep) {
         self.step = step
         reload()
     }
@@ -40,7 +41,7 @@ struct ContentView: View {
     
     @StateObject var viewModel: ContentViewModel
     
-    init(step: SolveStep) {
+    init(step: any SolveStep) {
         _viewModel = .init(wrappedValue: .init(step: step))
     }
     
@@ -53,7 +54,7 @@ struct ContentView: View {
         .navigationTitle(viewModel.title)
         .sheet(item: $viewModel.showScramble) { algorithm in
             NavigationStack {
-                ScrambleView(algorithm: algorithm)
+                ScrambleView(method: viewModel.method, algorithm: algorithm)
             }
         }
     }
@@ -89,7 +90,7 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView(step: .twoLookOLL)
+    ContentView(step: CFOPSolveStep.twoLookOLL)
 }
 
 private extension Color {

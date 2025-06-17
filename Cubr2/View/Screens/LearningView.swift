@@ -7,11 +7,17 @@
 
 import SwiftUI
 
+struct AlgorithmWithMethod: Hashable, Identifiable {
+    var id: Int { hashValue }
+    let method: SolveMethod
+    let algorithm: Algorithm
+}
+
 class LearningViewModel: ObservableObject, AlgorithmHandling {
     let algorithmsManager: AlgorithmsManager = .shared
 
-    @Published private(set) var algorithms: [(String, [AlgorithmGroup])] = []
-    @Published var learningAlgorithm: Algorithm?
+    @Published private(set) var algorithms: [AlgorithmMethod] = []
+    @Published var learningAlgorithm: AlgorithmWithMethod?
     
     init() {
         reload()
@@ -21,10 +27,12 @@ class LearningViewModel: ObservableObject, AlgorithmHandling {
         algorithms = algorithmsManager.learningAlgorithms
     }
     
-    var randomAlgorithm: Algorithm? {
-        algorithms.flatMap { $0.1 }.flatMap { $0.algorithms }.randomElement()
+    var randomAlgorithm: AlgorithmWithMethod? {
+        algorithms.algorithms { method, _, _, algorithm in
+            .init(method: method.method, algorithm: algorithm)
+        }
+        .randomElement()
     }
-    
 }
 
 struct LearningView: View {
@@ -32,11 +40,9 @@ struct LearningView: View {
     
     var body: some View {
         List {
-            ForEach(viewModel.algorithms, id: \.0) { stage in
-                Section(stage.0) {
-                    ForEach(stage.1) { group in
-                        groupView(for: group)
-                    }
+            ForEach(viewModel.algorithms) { method in
+                ForEach(method.stages) { stage in
+                    stageView(for: stage, in: method.method)
                 }
             }
         }
@@ -48,7 +54,7 @@ struct LearningView: View {
         }
         .sheet(item: $viewModel.learningAlgorithm) { algorithm in
             NavigationStack {
-                ScrambleView(algorithm: algorithm)
+                ScrambleView(method: algorithm.method, algorithm: algorithm.algorithm)
             }
         }
         .onAppear {
@@ -56,10 +62,18 @@ struct LearningView: View {
         }
     }
     
-    private func groupView(for group: AlgorithmGroup) -> some View {
+    private func stageView(for stage: AlgorithmStage, in method: SolveMethod) -> some View {
+        Section(stage.title) {
+            ForEach(stage.groups) { group in
+                groupView(for: group, in: method)
+            }
+        }
+    }
+    
+    private func groupView(for group: AlgorithmGroup, in method: SolveMethod) -> some View {
         ForEach(group.algorithms) { algorithm in
             AlgorithmView(algorithm: algorithm, handler: viewModel) {
-                viewModel.learningAlgorithm = algorithm
+                viewModel.learningAlgorithm = .init(method: method, algorithm: algorithm)
             }
         }
     }

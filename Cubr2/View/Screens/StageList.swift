@@ -11,14 +11,19 @@ struct StageList: View {
     @State var showAllTimes: Bool = false
 
     var body: some View {
-        List(SolveStep.allCases, id: \.self) { step in
-            NavigationLink(value: step) {
-                Text(step.title)
-                    .bold()
-                    .font(.largeTitle)
+        List(SolveMethod.allCases, id: \.self) { method in
+            Section(method.title) {
+                ForEach(method.steps) { step in
+                    NavigationLink {
+                        ContentView(step: step)
+                    } label: {
+                        Text(step.title)
+                            .bold()
+                            .font(.largeTitle)
+                    }
+
+                }
             }
-        }.navigationDestination(for: SolveStep.self) { step in
-            ContentView(step: step)
         }
         .navigationTitle("Algorithms")
         .toolbar {

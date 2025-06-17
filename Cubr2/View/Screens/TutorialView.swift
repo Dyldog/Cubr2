@@ -12,7 +12,7 @@ class TutorialViewModel: ObservableObject, AlgorithmHandling {
     typealias Group = (title: String, algorithms: [Algorithm])
     let algorithmsManager: AlgorithmsManager = .shared
     
-    private let allAlgorithms: [Group] = SolveStep.allAlgorithms()
+    private let allAlgorithms: [Group] = SolveMethod.allAlgorithms()
     @Published private var currentIndex = 0
     
     private var currentGroup: Group { allAlgorithms[currentIndex] }

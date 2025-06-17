@@ -9,7 +9,7 @@ import SwiftUI
 
 class TestViewModel: ObservableObject {
     private let algorithmsManager: AlgorithmsManager = .shared
-    @Published var algorithm: Algorithm!
+    @Published var algorithm: (method: SolveMethod, algorithm: Algorithm)!
 
     @Published private var currentTimer: Timer?
     var isTimerRunning: Bool { currentTimer != nil }
@@ -22,7 +22,7 @@ class TestViewModel: ObservableObject {
     }
     
     private var bestTime: Duration? {
-        algorithmsManager.bestTime(for: algorithm)
+        algorithmsManager.bestTime(for: algorithm.algorithm)
     }
     
     var bestTimeString: String? {
@@ -37,8 +37,10 @@ class TestViewModel: ObservableObject {
     
     private func loadAlgorithm() {
         algorithm = algorithmsManager.learningAlgorithms
-            .flatMap { $0.1 }
-            .flatMap { $0.algorithms }.randomElement()
+            .algorithms { method, _, _, algorithm in
+                (method.method, algorithm)
+            }
+            .randomElement()
     }
     
     private func formatDuration(_ duration: Duration) -> String {
@@ -75,7 +77,7 @@ class TestViewModel: ObservableObject {
         
         objectWillChange.send()
         
-        algorithmsManager.addTime(currentTime, for: algorithm)
+        algorithmsManager.addTime(currentTime, for: algorithm.algorithm)
     }
     
     func cancelTapped() {
@@ -95,8 +97,8 @@ struct TestView: View {
     
     var body: some View {
         VStack {
-            ScrambleView(algorithm: viewModel.algorithm)
-                .id(viewModel.algorithm)
+            ScrambleView(method: viewModel.algorithm.method, algorithm: viewModel.algorithm.algorithm)
+                .id(viewModel.algorithm.algorithm)
             timer
         }
         .toolbar {
@@ -106,7 +108,7 @@ struct TestView: View {
         }
         .sheet(isPresented: $viewModel.showTimes) {
             NavigationStack {
-                TimesView(algorithm: viewModel.algorithm)
+                TimesView(algorithm: viewModel.algorithm.algorithm)
             }
         }
     }

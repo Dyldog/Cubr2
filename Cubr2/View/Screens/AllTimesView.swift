@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AllTimesView: View {
     @ObservedObject var algorithmsManager: AlgorithmsManager = .shared
-    var algorithms: [(String, [Algorithm])] { SolveStep.allAlgorithmsWithTimes() }
+    var algorithms: [(String, [Algorithm])] { SolveMethod.allAlgorithmsWithTimes() }
     
     var body: some View {
         List {
@@ -58,9 +58,9 @@ struct AllTimesView: View {
     }
 }
 
-private extension SolveStep {
+private extension SolveMethod {
     static func allAlgorithmsWithTimes(with algorithmsManager: AlgorithmsManager = .shared) -> [(String, [Algorithm])] {
-        SolveStep.allAlgorithms(with: algorithmsManager).map { title, algorithms in
+        SolveMethod.allAlgorithms(with: algorithmsManager).map { title, algorithms in
             (title, algorithms.filter { algorithmsManager.attempts(for: $0).isEmpty == false })
         }
         .filter { $0.1.isEmpty == false }

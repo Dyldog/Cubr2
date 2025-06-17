@@ -20,13 +20,13 @@ class AlgorithmsManager: ObservableObject {
     @UserDefaultable(key: DefaultKeys.bestTimes)
     private var bestTimes: [String: [SolveAttempt]] = [:]
     
-    private func data(for step: SolveStep) -> AlgorithmGroupData {
+    private func data(for step: any SolveStep) -> AlgorithmGroupData {
         let url = Bundle.main.url(forResource: step.file, withExtension: "json")!
         let data = try! Data(contentsOf: url)
         return try! JSONDecoder().decode(AlgorithmGroupData.self, from: data)
     }
     
-    func algorithms(for step: SolveStep) -> [AlgorithmGroup] {
+    func algorithms(for step: any SolveStep) -> [AlgorithmGroup] {
         let data = data(for: step)
         
         return data.algorithms.enumerated().reduce(into: [:]) { groups, algorithm in
@@ -56,16 +56,19 @@ class AlgorithmsManager: ObservableObject {
         markAlgorithmForLearning(algorithm, learning: !algorithmIsLearning(algorithm))
     }
     
-    var learningAlgorithms: [(String, [AlgorithmGroup])] {
-        SolveStep.allCases.map { step in
-            (step.title, algorithms(for: step).map { group in
-                AlgorithmGroup(
-                    name: group.name,
-                    algorithms: group.algorithms.filter { algorithmIsLearning($0) }
-                )
-            }.filter { $0.algorithms.isEmpty == false })
+    var learningAlgorithms: [AlgorithmMethod] {
+        SolveMethod.allCases.reduce(into: []) { partialResult, method in
+            partialResult.append(
+                AlgorithmMethod(method: method, stages: method.steps.map { step in
+                    AlgorithmStage(title: step.title, groups: algorithms(for: step).map { group in
+                        AlgorithmGroup(
+                            name: group.name,
+                            algorithms: group.algorithms.filter { algorithmIsLearning($0) }
+                        )
+                    }.filter { $0.algorithms.isEmpty == false })
+                }.filter { $0.groups.isEmpty == false }))
         }
-        .filter { $0.1.isEmpty == false }
+        .filter { $0.stages.isEmpty == false }
     }
     
     func mnemonics(for steps: String) -> [StepMnemonic] {
