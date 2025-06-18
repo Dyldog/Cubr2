@@ -10,61 +10,77 @@ import SwiftUI
 struct AllTimesView: View {
     @ObservedObject var algorithmsManager: AlgorithmsManager = .shared
     
-    var algorithms: [(String, [Algorithm])] {
+    var hasFullCubeTimes: Bool {
+        algorithmsManager.attempts(for: .cube).isEmpty == false
+    }
+    
+    var algorithms: [(String, [AlgorithmWithMethod])] {
         algorithmsManager.methodsEnabled.allAlgorithmsWithTimes()
     }
     
     var body: some View {
         List {
+            if hasFullCubeTimes {
+                Section {
+                    row(for: .cube)
+                }
+            }
+            
             ForEach(algorithms) { group in
                 Section(group.0) {
                     ForEach(group.1) { algorithm in
-                        NavigationLink(value: algorithm) {
-                            HStack {
-                                Image(uiImage: algorithm.image)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 100)
-                                
-                                VStack(alignment: .leading) {
-                                    Text(algorithm.name)
-                                        .font(.largeTitle)
-                                        .bold()
-                                    
-                                    HStack {
-                                        Image(systemName: "star.fill")
-                                        Text(bestTime(for: algorithm))
-                                            .font(.largeTitle)
-                                    }
-                                    
-                                    Text(attemptsString(for: algorithm))
-                                }
-                            }
-                        }
+                        row(for: .algorithm(algorithm))
                     }
                 }
             }
         }
-        .navigationDestination(for: Algorithm.self) { algorithm in
-            TimesView(algorithm: algorithm)
+        .navigationDestination(for: Timeable.self) { timeable in
+            TimesView(timeable: timeable)
         }
         .navigationTitle("All Times")
     }
     
-    private func bestTime(for algorithm: Algorithm) -> String {
-        algorithmsManager.bestTime(for: algorithm)?.timeString ?? ""
+    private func row(for timeable: Timeable) -> some View {
+        NavigationLink(value: timeable) {
+            HStack {
+                Image(uiImage: timeable.image)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100)
+                
+                VStack(alignment: .leading) {
+                    Text(timeable.name)
+                        .font(.largeTitle)
+                        .bold()
+                    
+                    HStack {
+                        Image(systemName: "star.fill")
+                        Text(bestTime(for: timeable))
+                            .font(.largeTitle)
+                    }
+                    
+                    Text(attemptsString(for: timeable))
+                }
+            }
+        }
     }
     
-    private func attemptsString(for algorithm: Algorithm) -> String {
-        let attempts = algorithmsManager.attempts(for: algorithm).count
+    private func bestTime(for timeable: Timeable) -> String {
+        algorithmsManager.bestTime(for: timeable)?.timeString ?? ""
+    }
+    
+    private func attemptsString(for timeable: Timeable) -> String {
+        let attempts = algorithmsManager.attempts(for: timeable).count
         return "\(attempts) \("Time".pluralise(attempts))"
     }
 }
 
 private extension Array where Element == SolveMethod {
-    func allAlgorithmsWithTimes(with algorithmsManager: AlgorithmsManager = .shared) -> [(String, [Algorithm])] {
+    func allAlgorithmsWithTimes(with algorithmsManager: AlgorithmsManager = .shared) -> [(String, [AlgorithmWithMethod])] {
         allAlgorithms(with: algorithmsManager).map { title, algorithms in
-            (title, algorithms.filter { algorithmsManager.attempts(for: $0).isEmpty == false })
+            (title, algorithms.filter {
+                algorithmsManager.attempts(for: .algorithm($0)).isEmpty == false
+            })
         }
         .filter { $0.1.isEmpty == false }
     }

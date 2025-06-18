@@ -8,6 +8,32 @@
 import DylKit
 import UIKit
 
+enum Timeable: Hashable {
+    case algorithm(AlgorithmWithMethod)
+    case cube
+    
+    var id: String {
+        switch self {
+        case let .algorithm(algorithm): "ALGORITHM: \(algorithm.algorithm.name)"
+        case .cube: "CUBE"
+        }
+    }
+    
+    var image: UIImage {
+        switch self {
+        case let .algorithm(algorithm): algorithm.algorithm.image
+        case .cube: .init(named: "Full Cube")!
+        }
+    }
+    
+    var name: String {
+        switch self {
+        case let .algorithm(algorithm): algorithm.algorithm.name
+        case .cube: TestMode.cube.title
+        }
+    }
+}
+
 class AlgorithmsManager: ObservableObject {
     static var shared: AlgorithmsManager = .init()
     
@@ -87,27 +113,27 @@ class AlgorithmsManager: ObservableObject {
         mnemonics[steps] = newMnemonics
     }
     
-    func attempts(for algorithm: Algorithm) -> [SolveAttempt] {
-        bestTimes[algorithm.name, default: []]
+    func attempts(for timeable: Timeable) -> [SolveAttempt] {
+        bestTimes[timeable.id, default: []]
     }
     
-    func bestTime(for algorithm: Algorithm) -> Duration? {
-        attempts(for: algorithm)
+    func bestTime(for timeable: Timeable) -> Duration? {
+        attempts(for: timeable)
             .sorted { $0.time < $1.time }
             .first?
             .time
     }
     
-    func addTime(_ duration: Duration, for algorithm: Algorithm) {
+    func addTime(_ duration: Duration, for timeable: Timeable, with scramble: [String]) {
         objectWillChange.send()
-        bestTimes[algorithm.name, default: []].append(
-            SolveAttempt(id: .init(), date: .now, time: duration)
+        bestTimes[timeable.id, default: []].append(
+            SolveAttempt(id: .init(), date: .now, time: duration, scramble: scramble)
         )
     }
     
-    func deleteTime(_ attempt: SolveAttempt, for algorithm: Algorithm) {
+    func deleteTime(_ attempt: SolveAttempt, for timeable: Timeable) {
         objectWillChange.send()
-        bestTimes[algorithm.name, default: []].removeAll { $0.id == attempt.id }
+        bestTimes[timeable.id, default: []].removeAll { $0.id == attempt.id }
     }
     
     func methodEnabled(_ method: SolveMethod) -> Bool {

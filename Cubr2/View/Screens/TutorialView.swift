@@ -9,16 +9,15 @@ import DylKit
 import SwiftUI
 
 class TutorialViewModel: ObservableObject, AlgorithmHandling {
-    typealias Group = (title: String, algorithms: [Algorithm])
+    typealias Group = (title: String, algorithms: [AlgorithmWithMethod])
     let algorithmsManager: AlgorithmsManager = .shared
     
-    private let method: SolveMethod
     private let allAlgorithms: [Group]
     @Published private var currentIndex = 0
     
     private var currentGroup: Group { allAlgorithms[currentIndex] }
     var title: String { currentGroup.title }
-    var algorithms: [Algorithm] { currentGroup.algorithms }
+    var algorithms: [AlgorithmWithMethod] { currentGroup.algorithms }
     
     var isAtFirstStep: Bool {
         currentIndex == 0
@@ -28,10 +27,9 @@ class TutorialViewModel: ObservableObject, AlgorithmHandling {
         currentIndex == allAlgorithms.lastIndex
     }
     
-    init(method: SolveMethod, algorithm: Algorithm) {
-        self.method = method
-        self.allAlgorithms = method.allAlgorithms()
-        self.currentIndex = (method.allAlgorithms().firstIndex { _, algorithms in
+    init(algorithm: AlgorithmWithMethod) {
+        self.allAlgorithms = algorithm.method.allAlgorithms()
+        self.currentIndex = (algorithm.method.allAlgorithms().firstIndex { _, algorithms in
             algorithms.contains(algorithm)
         } ?? -1) + 1
     }
@@ -52,8 +50,8 @@ struct TutorialView: View {
     @StateObject var viewModel: TutorialViewModel
     @Environment(\.dismiss) var dismiss
     
-    init(method: SolveMethod, algorithm: Algorithm) {
-        _viewModel = .init(wrappedValue: .init(method: method, algorithm: algorithm))
+    init(algorithm: AlgorithmWithMethod) {
+        _viewModel = .init(wrappedValue: .init(algorithm: algorithm))
     }
     
     var body: some View {

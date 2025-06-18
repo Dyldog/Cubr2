@@ -13,7 +13,7 @@ class ContentViewModel: ObservableObject, AlgorithmHandling {
     let algorithmsManager: AlgorithmsManager = .init()
     
     @Published private(set) var algorithms: [AlgorithmGroup] = []
-    @Published var showScramble: Algorithm?
+    @Published var showScramble: AlgorithmWithMethod?
     
     var title: String { step.title }
     var method: SolveMethod { step.method }
@@ -35,6 +35,10 @@ class ContentViewModel: ObservableObject, AlgorithmHandling {
         algorithmsManager.toggleAlgorithmForLearning(algorithm)
         reload()
     }
+    
+    func scramble(for algorithm: Algorithm) -> [String] {
+        algorithm.scrambles.first!.components(separatedBy: " ")
+    }
 }
 
 struct ContentView: View {
@@ -54,7 +58,10 @@ struct ContentView: View {
         .navigationTitle(viewModel.title)
         .sheet(item: $viewModel.showScramble) { algorithm in
             NavigationStack {
-                ScrambleView(method: viewModel.method, algorithm: algorithm)
+                ScrambleView(
+                    algorithm: algorithm,
+                    scramble: viewModel.scramble(for: algorithm.algorithm)
+                )
             }
         }
     }
@@ -62,7 +69,7 @@ struct ContentView: View {
     private func group(_ group: AlgorithmGroup) -> some View {
         Section {
             ForEach(group.algorithms, id: \.self) {
-                algorithm($0)
+                algorithm(.init(method: viewModel.method, algorithm: $0))
             }
         } header: {
             Text(group.name)
@@ -71,20 +78,20 @@ struct ContentView: View {
         }
     }
     
-    private func algorithm(_ algorithm: Algorithm) -> some View {
+    private func algorithm(_ algorithm: AlgorithmWithMethod) -> some View {
         AlgorithmView(algorithm: algorithm, handler: viewModel) {
             viewModel.showScramble = algorithm
         }
-        .if(viewModel.algorithmIsLearning(algorithm)) {
+        .if(viewModel.algorithmIsLearning(algorithm.algorithm)) {
             $0.listRowBackground(Color.actualYellow)
         }
         .swipeActions {
             Button {
-                viewModel.toggleAlgorithmForLearning(algorithm)
+                viewModel.toggleAlgorithmForLearning(algorithm.algorithm)
             } label: {
                 Image(systemName: "brain.fill")
             }
-            .tint(viewModel.algorithmIsLearning(algorithm) ? .gray : .actualYellow)
+            .tint(viewModel.algorithmIsLearning(algorithm.algorithm) ? .gray : .actualYellow)
         }
     }
 }

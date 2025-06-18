@@ -2,211 +2,44 @@
 //  TestView.swift
 //  Cubr2
 //
-//  Created by Dylan Elliott on 17/6/2025.
+//  Created by Dylan Elliott on 18/6/2025.
 //
 
+import DylKit
 import SwiftUI
 
-class TestViewModel: ObservableObject {
-    private let algorithmsManager: AlgorithmsManager = .shared
-    @Published var algorithm: (method: SolveMethod, algorithm: Algorithm)!
+enum TestMode: CaseIterable, Pickable {
+    case cube
+    case algorithms
+    
+    var title: String {
+        switch self {
+        case .cube: "Full Cube"
+        case .algorithms: "Algorithms"
+        }
+    }
+}
 
-    @Published private var currentTimer: Timer?
-    var isTimerRunning: Bool { currentTimer != nil }
-    var canReset: Bool { currentTime != nil }
-    
-    @Published private var currentTime: Duration?
-    
-    var currentTimeString: String? {
-        currentTime.map { formatDuration($0) }
-    }
-    
-    private var bestTime: Duration? {
-        algorithmsManager.bestTime(for: algorithm.algorithm)
-    }
-    
-    var bestTimeString: String? {
-        bestTime.map { formatDuration($0) }
-    }
-    
-    @Published var showTimes: Bool = false
-    
-    let loadFakeScrambles: Bool = false
-    var fakeScrambles: [[String]] = [
-//        ["L L R R F F L L R R F F"],
-//        ["L L R R F F"],
-//        ["L L R R F F"],
-        ["L F L"]
-//        ["M"],
-//        ["M'"],
-//        ["U"],
-//        ["U2"],
-//        ["U'"],
-//        ["D"],
-//        ["D2"],
-//        ["D'"],
-//        ["L"],
-//        ["L2"],
-//        ["L'"],
-//        ["R"],
-//        ["R2"],
-//        ["R'"],
-//        ["r"],
-//        ["r'"],
-//        ["F"],
-//        ["F2"],
-//        ["F'"],
-//        ["B"],
-//        ["B2"],
-//        ["B'"]
-    ]
-    
-    init() {
-        loadAlgorithm()
-    }
-    
-    private func loadAlgorithm() {
-        algorithm = algorithmsManager.learningAlgorithms
-            .algorithms { method, _, _, algorithm in
-                (method.method, algorithm)
-            }
-            .randomElement()
-        
-        if loadFakeScrambles {
-            algorithm = (algorithm.0, .init(
-                name: algorithm.1.name,
-                stepSets: algorithm.1.stepSets,
-                scrambles: fakeScrambles.removeFirst()
-            ))
-        }
-    }
-    
-    private func formatDuration(_ duration: Duration) -> String {
-        duration.timeString
-    }
-    
-    private func startTimer() {
-        currentTime = .zero
-        
-        currentTimer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { timer in
-            self.currentTime = (self.currentTime ?? .zero) + .seconds(timer.timeInterval)
-        }
-    }
-    
-    private func stopTimer() {
-        currentTimer?.invalidate()
-        currentTimer = nil
-    }
-    
-    func startTapped() {
-        startTimer()
-    }
-    
-    func resetTapped() {
-        stopTimer()
-        currentTime = nil
-    }
-    
-    func stopTapped() {
-        stopTimer()
-        
-        guard let currentTime else { return }
-        
-        objectWillChange.send()
-        
-        algorithmsManager.addTime(currentTime, for: algorithm.algorithm)
-    }
-    
-    func cancelTapped() {
-        stopTimer()
-        currentTime = nil
-    }
-    
-    func showTimesTapped() {
-        showTimes = true
-    }
+class TestViewModel: ObservableObject {
+    @Published var mode: TestMode = .cube
 }
 
 struct TestView: View {
     @StateObject var viewModel: TestViewModel = .init()
     
-    let iconFont: Font = .system(size: 24)
-    
     var body: some View {
         VStack {
-            ScrambleView(method: viewModel.algorithm.method, algorithm: viewModel.algorithm.algorithm)
-                .id(viewModel.algorithm.algorithm)
-            timer
-        }
-        .toolbar {
-            Button(systemName: "arrow.circlepath") {
-                viewModel.resetTapped()
-            }
-        }
-        .sheet(isPresented: $viewModel.showTimes) {
-            NavigationStack {
-                TimesView(algorithm: viewModel.algorithm.algorithm)
-            }
-        }
-    }
-    
-    private var timeLabels: some View {
-        VStack {
-            if let currentTimeString = viewModel.currentTimeString {
-                Text("Current: \(currentTimeString)")
-            }
+            Picker("Test Mode", selection: $viewModel.mode)
+                .pickerStyle(.segmented)
+                .labelsHidden()
+                .padding(.horizontal)
             
-            if let bestTime = viewModel.bestTimeString {
-                Text("PB: \(bestTime)")
-            } else {
-                Text("PB: None")
+            switch viewModel.mode {
+            case .cube: CubeTestView()
+            case .algorithms: AlgorithmTestView()
             }
         }
-    }
-    
-    private var timer: some View {
-        HStack {
-            if viewModel.isTimerRunning {
-                Button(systemName: "stop.fill") {
-                    viewModel.stopTapped()
-                }
-                .font(iconFont)
-            } else if viewModel.canReset {
-                Button(systemName: "arrow.counterclockwise.circle.fill") {
-                    viewModel.resetTapped()
-                }
-                .font(iconFont)
-            } else {
-                Button(systemName: "play.fill") {
-                    viewModel.startTapped()
-                }
-                .font(iconFont)
-            }
-            
-            Spacer()
-            
-            timeLabels
-                .foregroundStyle(Color.accentColor)
-                .bold()
-            
-            Spacer()
-            
-            if viewModel.isTimerRunning {
-                Button(systemName: "xmark.app.fill") {
-                    viewModel.cancelTapped()
-                }
-                .font(iconFont)
-            } else {
-                Button(systemName: "clock.fill") {
-                    viewModel.showTimesTapped()
-                }
-                .font(iconFont)
-            }
-        }
-        .padding()
-        .background {
-            RoundedRectangle(cornerRadius: 40).stroke(Color.accentColor, lineWidth: 3)
-        }
-        .padding([.bottom, .horizontal])
     }
 }
+
+

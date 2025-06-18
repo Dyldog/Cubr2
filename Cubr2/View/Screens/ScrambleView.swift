@@ -9,13 +9,12 @@ import DylKit
 import SwiftUI
 
 class ScrambleViewModel: ObservableObject, MnemonicsHandling {
-    let method: SolveMethod
-    let algorithm: Algorithm
+    let algorithm: AlgorithmWithMethod
     let algorithmsManager: AlgorithmsManager
     
     var title: String { algorithm.name }
     var steps: [String] { algorithm.defaultSteps }
-    var scramble: String { algorithm.scrambles.first ?? "NO SCRAMBLE!" }
+    var scramble: [String]
     var mnemonics: [StepMnemonic] { algorithmsManager.mnemonics(for: algorithm.defaultStepsString) }
     var hintItems: [AlgorithmStepsView.Item] = []
     var hasExtraFullHint: Bool = false
@@ -28,11 +27,11 @@ class ScrambleViewModel: ObservableObject, MnemonicsHandling {
     
     var showRemainingStepsButton: Bool {
         guard 
-            let lastStep = method.steps.last,
+            let lastStep = algorithm.method.steps.last,
             let lastGroup = algorithmsManager.algorithms(for: lastStep).last
         else { return false }
         
-        return lastGroup.algorithms.contains(algorithm) == false
+        return lastGroup.algorithms.contains { $0 == algorithm.algorithm } == false
         
     }
     
@@ -40,9 +39,12 @@ class ScrambleViewModel: ObservableObject, MnemonicsHandling {
         showImage ? algorithm.image : nil
     }
     
-    init(method: SolveMethod, algorithm: Algorithm, algorithmsManager: AlgorithmsManager = .shared) {
-        self.method = method
+    init(
+        algorithm: AlgorithmWithMethod,
+        scramble: [String]?,
+        algorithmsManager: AlgorithmsManager = .shared) {
         self.algorithm = algorithm
+        self.scramble = scramble ?? algorithm.scrambles.first!.components(separatedBy: " ")
         self.algorithmsManager = algorithmsManager
         reload()
     }
@@ -81,8 +83,11 @@ struct ScrambleView: View {
 
     @StateObject var viewModel: ScrambleViewModel
     
-    init(method: SolveMethod, algorithm: Algorithm) {
-        _viewModel = .init(wrappedValue: .init(method: method, algorithm: algorithm))
+    init(algorithm: AlgorithmWithMethod, scramble: [String]?) {
+        _viewModel = .init(wrappedValue: .init(
+            algorithm: algorithm,
+            scramble: scramble
+        ))
     }
     
     var body: some View {
@@ -102,7 +107,7 @@ struct ScrambleView: View {
                 .padding(.bottom, 4)
             
             WrappingHStack(verticalSpacing: 6) {
-                ForEach(viewModel.scramble.components(separatedBy: " ").moves(chunk: 4)) { steps in
+                ForEach(viewModel.scramble.moves(chunk: 4)) { steps in
                     MnemonicButton(text: steps.joined(separator: " "), highlighted: false, onTap: { })
                         .font(.system(size: 28))
                 }
@@ -129,7 +134,7 @@ struct ScrambleView: View {
 //        }
         .sheet(isPresented: $viewModel.showRemainingSteps) {
             NavigationStack {
-                TutorialView(method: viewModel.method, algorithm: viewModel.algorithm)
+                TutorialView(algorithm: viewModel.algorithm)
             }
         }
     }
@@ -137,7 +142,7 @@ struct ScrambleView: View {
     @ViewBuilder
     private var cubeView: some View {
         if viewModel.show3dCube {
-            CubeView(steps: viewModel.scramble.steps.cubeMoves)
+            CubeView(steps: viewModel.scramble.cubeMoves)
         } else if let image = viewModel.image {
             Image(image: image)
         }

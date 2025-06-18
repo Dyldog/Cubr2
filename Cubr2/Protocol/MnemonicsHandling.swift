@@ -25,7 +25,7 @@ extension MnemonicsHandling {
 
 extension AlgorithmView {
     init(
-        algorithm: Algorithm, 
+        algorithm: AlgorithmWithMethod, 
         bestTime: Duration?,
         mnemonicsHandler: MnemonicsHandling,
         iconTapped: @escaping () -> Void

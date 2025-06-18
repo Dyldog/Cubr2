@@ -7,8 +7,9 @@
 
 import Foundation
 
-struct SolveAttempt: Codable {
+struct SolveAttempt: Codable, Identifiable {
     let id: UUID
     let date: Date
     let time: Duration
+    let scramble: [String]
 }

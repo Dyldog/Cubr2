@@ -11,7 +11,7 @@ protocol AlgorithmHandling: MnemonicsHandling, BestTimeHandling { }
 
 extension AlgorithmView {
     init(
-        algorithm: Algorithm,
+        algorithm: AlgorithmWithMethod,
         handler: AlgorithmHandling,
         disallowMmnemonicsUpdating: Bool = false,
         iconTapped: (() -> Void)?

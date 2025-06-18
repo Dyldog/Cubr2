@@ -8,9 +8,25 @@
 import SwiftUI
 
 struct AlgorithmWithMethod: Hashable, Identifiable {
-    var id: Int { hashValue }
     let method: SolveMethod
     let algorithm: Algorithm
+}
+
+extension AlgorithmWithMethod {
+    var name: String { algorithm.name }
+    var stepSets: [String] { algorithm.stepSets }
+    var scrambles: [String] { algorithm.scrambles }
+    
+    var id: Int {
+        var hasher = Hasher()
+        hasher.combine(algorithm)
+        hasher.combine(method)
+        return hasher.finalize()
+    }
+    
+    var image: UIImage { algorithm.image }
+    var defaultStepsString: String { algorithm.defaultStepsString }
+    var defaultSteps: [String] { algorithm.defaultSteps }
 }
 
 class LearningViewModel: ObservableObject, AlgorithmHandling {
@@ -33,6 +49,10 @@ class LearningViewModel: ObservableObject, AlgorithmHandling {
         }
         .randomElement()
     }
+    
+    func scramble(for algorithm: Algorithm) -> [String] {
+        algorithm.scrambles.first!.components(separatedBy: " ")
+    }
 }
 
 struct LearningView: View {
@@ -54,7 +74,10 @@ struct LearningView: View {
         }
         .sheet(item: $viewModel.learningAlgorithm) { algorithm in
             NavigationStack {
-                ScrambleView(method: algorithm.method, algorithm: algorithm.algorithm)
+                ScrambleView(
+                    algorithm: algorithm,
+                    scramble: viewModel.scramble(for: algorithm.algorithm)
+                )
             }
         }
         .onAppear {
@@ -72,7 +95,10 @@ struct LearningView: View {
     
     private func groupView(for group: AlgorithmGroup, in method: SolveMethod) -> some View {
         ForEach(group.algorithms) { algorithm in
-            AlgorithmView(algorithm: algorithm, handler: viewModel) {
+            AlgorithmView(
+                algorithm: .init(method: method, algorithm: algorithm), 
+                handler: viewModel
+            ) {
                 viewModel.learningAlgorithm = .init(method: method, algorithm: algorithm)
             }
         }

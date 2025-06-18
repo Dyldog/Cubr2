@@ -9,7 +9,7 @@ import DylKit
 import SwiftUI
 
 struct AlgorithmView: View {
-    let algorithm: Algorithm
+    let algorithm: AlgorithmWithMethod
     let bestTime: Duration?
     let mnemonics: (String) -> [StepMnemonic]
     
@@ -19,13 +19,13 @@ struct AlgorithmView: View {
     var stepsString: String { algorithm.defaultStepsString }
     var steps: [String] { algorithm.defaultSteps}
     
-    @State var showTimes: Algorithm?
+    @State var showTimes: AlgorithmWithMethod?
     
     var body: some View {
         content
             .sheet(item: $showTimes) { showTimeAlgorithm in
                 NavigationStack {
-                    TimesView(algorithm: algorithm)
+                    TimesView(timeable: .algorithm(algorithm))
                 }
             }
     }

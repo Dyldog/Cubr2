@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		FC1197592E01ABB500744006 /* SceneKit+Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1197582E01ABB500744006 /* SceneKit+Math.swift */; };
+		FC3174052E025652008EEE8E /* CubeTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3174042E025652008EEE8E /* CubeTestView.swift */; };
+		FC3174072E02567A008EEE8E /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3174062E02567A008EEE8E /* TestView.swift */; };
+		FC3174092E025919008EEE8E /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC3174082E025919008EEE8E /* TimerView.swift */; };
+		FC31740B2E025CF2008EEE8E /* BestTimeManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC31740A2E025CF2008EEE8E /* BestTimeManaging.swift */; };
+		FC31740D2E025D11008EEE8E /* BestTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC31740C2E025D11008EEE8E /* BestTimeView.swift */; };
+		FC31740F2E025E25008EEE8E /* Steps+All.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC31740E2E025E25008EEE8E /* Steps+All.swift */; };
 		FC4AA4432DFA973B0069EFBE /* DylKit in Frameworks */ = {isa = PBXBuildFile; productRef = FC4AA4422DFA973B0069EFBE /* DylKit */; };
 		FC4AA4452DFA99250069EFBE /* LearningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4AA4442DFA99250069EFBE /* LearningView.swift */; };
 		FC4AA4472DFA9A220069EFBE /* AlgorithmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4AA4462DFA9A220069EFBE /* AlgorithmView.swift */; };
@@ -30,7 +36,7 @@
 		FC5C1C312DFD007B004E5190 /* AlgorithmData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5C1C302DFD007B004E5190 /* AlgorithmData.swift */; };
 		FC5C1C332DFD009D004E5190 /* Algorithm.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5C1C322DFD009D004E5190 /* Algorithm.swift */; };
 		FC5C1C362DFD03CA004E5190 /* MnemonicsHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5C1C352DFD03CA004E5190 /* MnemonicsHandling.swift */; };
-		FC9532A12E00E017005E1907 /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9532A02E00E017005E1907 /* TestView.swift */; };
+		FC9532A12E00E017005E1907 /* AlgorithmTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9532A02E00E017005E1907 /* AlgorithmTestView.swift */; };
 		FC9532A32E00F0B6005E1907 /* SolveAttempt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9532A22E00F0B6005E1907 /* SolveAttempt.swift */; };
 		FC9532A52E00F1EA005E1907 /* TimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9532A42E00F1EA005E1907 /* TimesView.swift */; };
 		FC9532A72E00FCAC005E1907 /* BestTimeHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9532A62E00FCAC005E1907 /* BestTimeHandling.swift */; };
@@ -70,6 +76,12 @@
 
 /* Begin PBXFileReference section */
 		FC1197582E01ABB500744006 /* SceneKit+Math.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneKit+Math.swift"; sourceTree = "<group>"; };
+		FC3174042E025652008EEE8E /* CubeTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubeTestView.swift; sourceTree = "<group>"; };
+		FC3174062E02567A008EEE8E /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		FC3174082E025919008EEE8E /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		FC31740A2E025CF2008EEE8E /* BestTimeManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestTimeManaging.swift; sourceTree = "<group>"; };
+		FC31740C2E025D11008EEE8E /* BestTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestTimeView.swift; sourceTree = "<group>"; };
+		FC31740E2E025E25008EEE8E /* Steps+All.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Steps+All.swift"; sourceTree = "<group>"; };
 		FC4AA4442DFA99250069EFBE /* LearningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearningView.swift; sourceTree = "<group>"; };
 		FC4AA4462DFA9A220069EFBE /* AlgorithmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmView.swift; sourceTree = "<group>"; };
 		FC55D4AA2E0112C3004D499B /* String+Moves.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Moves.swift"; sourceTree = "<group>"; };
@@ -91,7 +103,7 @@
 		FC5C1C302DFD007B004E5190 /* AlgorithmData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmData.swift; sourceTree = "<group>"; };
 		FC5C1C322DFD009D004E5190 /* Algorithm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Algorithm.swift; sourceTree = "<group>"; };
 		FC5C1C352DFD03CA004E5190 /* MnemonicsHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MnemonicsHandling.swift; sourceTree = "<group>"; };
-		FC9532A02E00E017005E1907 /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
+		FC9532A02E00E017005E1907 /* AlgorithmTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmTestView.swift; sourceTree = "<group>"; };
 		FC9532A22E00F0B6005E1907 /* SolveAttempt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolveAttempt.swift; sourceTree = "<group>"; };
 		FC9532A42E00F1EA005E1907 /* TimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesView.swift; sourceTree = "<group>"; };
 		FC9532A62E00FCAC005E1907 /* BestTimeHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestTimeHandling.swift; sourceTree = "<group>"; };
@@ -146,6 +158,7 @@
 			children = (
 				FC55D4AF2E011D34004D499B /* Duration+TimeString.swift */,
 				FCB95A782E0192CE00D49DEE /* Steps+CubeMove.swift */,
+				FC31740E2E025E25008EEE8E /* Steps+All.swift */,
 				FC1197582E01ABB500744006 /* SceneKit+Math.swift */,
 			);
 			path = Extensions;
@@ -205,7 +218,9 @@
 				FCD988C72DF8238A0083047A /* StageList.swift */,
 				FCF229082DF939C700B0F881 /* ScrambleView.swift */,
 				FCBFBE042E01057200E33B6A /* TutorialView.swift */,
-				FC9532A02E00E017005E1907 /* TestView.swift */,
+				FC3174062E02567A008EEE8E /* TestView.swift */,
+				FC9532A02E00E017005E1907 /* AlgorithmTestView.swift */,
+				FC3174042E025652008EEE8E /* CubeTestView.swift */,
 				FC9532A42E00F1EA005E1907 /* TimesView.swift */,
 				FC55D4AC2E011814004D499B /* AllTimesView.swift */,
 				FC55D4BF2E014EB2004D499B /* MethodsView.swift */,
@@ -218,6 +233,8 @@
 			children = (
 				FC55D4C12E017BF6004D499B /* CubeView */,
 				FC4AA4462DFA9A220069EFBE /* AlgorithmView.swift */,
+				FC3174082E025919008EEE8E /* TimerView.swift */,
+				FC31740C2E025D11008EEE8E /* BestTimeView.swift */,
 				FC5C1C222DFCFFA6004E5190 /* AlgorithmStepsView.swift */,
 				FC5C1C262DFCFFF1004E5190 /* MnemonicButton.swift */,
 				FC5C1C242DFCFFD6004E5190 /* StepButton.swift */,
@@ -229,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				FC5C1C352DFD03CA004E5190 /* MnemonicsHandling.swift */,
+				FC31740A2E025CF2008EEE8E /* BestTimeManaging.swift */,
 				FC9532A62E00FCAC005E1907 /* BestTimeHandling.swift */,
 				FC9532A82E00FD6B005E1907 /* AlgorithmHandling.swift */,
 			);
@@ -443,15 +461,18 @@
 				FC5C1C362DFD03CA004E5190 /* MnemonicsHandling.swift in Sources */,
 				FCB95A792E0192CF00D49DEE /* Steps+CubeMove.swift in Sources */,
 				FC9532A72E00FCAC005E1907 /* BestTimeHandling.swift in Sources */,
-				FC9532A12E00E017005E1907 /* TestView.swift in Sources */,
+				FC3174052E025652008EEE8E /* CubeTestView.swift in Sources */,
+				FC9532A12E00E017005E1907 /* AlgorithmTestView.swift in Sources */,
 				FC55D4C32E017C03004D499B /* CubeView.swift in Sources */,
 				FC4AA4452DFA99250069EFBE /* LearningView.swift in Sources */,
+				FC31740B2E025CF2008EEE8E /* BestTimeManaging.swift in Sources */,
 				FC5C1C312DFD007B004E5190 /* AlgorithmData.swift in Sources */,
 				FC1197592E01ABB500744006 /* SceneKit+Math.swift in Sources */,
 				FC55D4AD2E011814004D499B /* AllTimesView.swift in Sources */,
 				FC5C1C272DFCFFF1004E5190 /* MnemonicButton.swift in Sources */,
 				FCD988982DF81A080083047A /* Cubr2App.swift in Sources */,
 				FC55D4B22E01385E004D499B /* AlgorithmStage.swift in Sources */,
+				FC31740F2E025E25008EEE8E /* Steps+All.swift in Sources */,
 				FC9532A92E00FD6B005E1907 /* AlgorithmHandling.swift in Sources */,
 				FC5C1C332DFD009D004E5190 /* Algorithm.swift in Sources */,
 				FC55D4C02E014EB2004D499B /* MethodsView.swift in Sources */,
@@ -459,12 +480,15 @@
 				FC5C1C232DFCFFA6004E5190 /* AlgorithmStepsView.swift in Sources */,
 				FC9532A52E00F1EA005E1907 /* TimesView.swift in Sources */,
 				FCBFBE052E01057200E33B6A /* TutorialView.swift in Sources */,
+				FC3174092E025919008EEE8E /* TimerView.swift in Sources */,
+				FC3174072E02567A008EEE8E /* TestView.swift in Sources */,
 				FC55D4B42E0138B4004D499B /* AlgorithmMethod.swift in Sources */,
 				FC9532A32E00F0B6005E1907 /* SolveAttempt.swift in Sources */,
 				FC5C1C2F2DFD0067004E5190 /* SolveStep.swift in Sources */,
 				FC5C1C252DFCFFD6004E5190 /* StepButton.swift in Sources */,
 				FCF229092DF939C700B0F881 /* ScrambleView.swift in Sources */,
 				FC55D4AB2E0112C3004D499B /* String+Moves.swift in Sources */,
+				FC31740D2E025D11008EEE8E /* BestTimeView.swift in Sources */,
 				FCD988C82DF8238A0083047A /* StageList.swift in Sources */,
 				FC4AA4472DFA9A220069EFBE /* AlgorithmView.swift in Sources */,
 			);
