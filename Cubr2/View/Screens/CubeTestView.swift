@@ -45,21 +45,8 @@ struct CubeTestView: View {
             VStack {
                 Spacer()
                 
-                Text("Scramble")
-                    .bold()
-                    .padding(.bottom, 4)
-                
-                WrappingHStack(verticalSpacing: 6) {
-                    ForEach(viewModel.scramble.moves(chunk: 4)) { steps in
-                        MnemonicButton(
-                            text: steps.joined(separator: " "),
-                            highlighted: false,
-                            onTap: { }
-                        )
-                        .font(.system(size: 28))
-                    }
-                }
-                .padding(.horizontal)
+                ScrambleSection(scramble: viewModel.scramble)
+                    .padding(.horizontal, 24)
                 
                 Spacer()
             }

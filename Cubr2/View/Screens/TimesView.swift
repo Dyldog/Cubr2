@@ -57,18 +57,9 @@ struct TimesView: View {
                     .frame(maxWidth: .infinity)
             }
             
-            WrappingHStack(verticalSpacing: 6) {
-                ForEach(time.scramble.moves(chunk: 4)) { steps in
-                    MnemonicButton(
-                        text: steps.joined(separator: " "),
-                        highlighted: false,
-                        onTap: { }
-                    )
-                    .font(.system(size: 20))
-                }
-            }
-            .allowsHitTesting(false)
-            .padding(.horizontal)
+            ScrambleLabel(scramble: time.scramble, fontSize: 20)
+                .allowsHitTesting(false)
+                .padding(.horizontal)
         }
         .swipeActions {
             Button(systemName: "trash") {

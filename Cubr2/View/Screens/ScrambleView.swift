@@ -95,23 +95,8 @@ struct ScrambleView: View {
             cubeView
                 .aspectRatio(1, contentMode: .fit)
                 .frame(minWidth: 150, maxWidth: 250)
-//                .onTapGesture {
-//                    viewModel.showNextHint()
-//                }
-//                .onLongPressGesture {
-//                    viewModel.showFullHint()
-//                }
             
-            Text("Scramble")
-                .bold()
-                .padding(.bottom, 4)
-            
-            WrappingHStack(verticalSpacing: 6) {
-                ForEach(viewModel.scramble.moves(chunk: 4)) { steps in
-                    MnemonicButton(text: steps.joined(separator: " "), highlighted: false, onTap: { })
-                        .font(.system(size: 28))
-                }
-            }
+            ScrambleSection(scramble: viewModel.scramble)
             
             hintView
                 .padding([.horizontal, .top])
@@ -127,11 +112,6 @@ struct ScrambleView: View {
         }
         .padding()
         .navigationTitle(viewModel.title)
-//        .toolbar {
-//            Button(systemName: "wand.and.stars") {
-//                viewModel.showNextHint()
-//            }
-//        }
         .sheet(isPresented: $viewModel.showRemainingSteps) {
             NavigationStack {
                 TutorialView(algorithm: viewModel.algorithm)
