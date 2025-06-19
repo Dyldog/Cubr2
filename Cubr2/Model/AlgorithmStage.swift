@@ -9,5 +9,6 @@ import Foundation
 
 struct AlgorithmStage: Hashable {
     let title: String
+    let description: String?
     let groups: [AlgorithmGroup]
 }

@@ -16,11 +16,13 @@
         "prob":1,
     }, {
         "name":"Swap Cross Colours",
+        "description": "If two of the cross pieces are already solved, put them on the back and right",
         "alg":["R U R' U R U U R' U"],
         "group":"2: Edges",
         "prob":1,
     }, {
         "name":"Swap Corner Colours",
+        "description": "If any corner is solved, put it on the front right",
         "alg":["U R U' L' U R' U' L"],
         "group":"3: Corners",
         "prob":1,

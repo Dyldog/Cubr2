@@ -33,6 +33,8 @@ protocol SolveStep: CaseIterable, Hashable {
     var title: String { get }
     var shortTitle: String { get }
     
+    var description: String? { get }
+    
     var method: SolveMethod { get }
 }
 
@@ -64,6 +66,10 @@ enum BeginnerSolveStep: SolveStep {
     }
     
     var shortTitle: String { title }
+    
+    var description: String? {
+        nil
+    }
 }
 
 enum CFOPSolveStep: SolveStep {
@@ -91,6 +97,10 @@ enum CFOPSolveStep: SolveStep {
         case .twoLookPLL: "2-Look PLL"
         case .twoLookOLL: "2-Look OLL"
         }
+    }
+    
+    var description: String? {
+        nil
     }
 }
 

@@ -38,20 +38,26 @@ struct AlgorithmView: View {
     }
     
     private var header: some View {
-        HStack {
-            Text(algorithm.name)
-                .bold()
-            Spacer()
-            
-            if let bestTime {
-                Button {
-                    showTimes = algorithm
-                } label: {
-                    HStack {
-                        Image(systemName: "star")
-                        Text(bestTime.timeString)
+        VStack {
+            HStack {
+                Text(algorithm.name)
+                    .bold()
+                Spacer()
+                
+                if let bestTime {
+                    Button {
+                        showTimes = algorithm
+                    } label: {
+                        HStack {
+                            Image(systemName: "star")
+                            Text(bestTime.timeString)
+                        }
                     }
                 }
+            }
+            
+            if let description = algorithm.description {
+                
             }
         }
     }

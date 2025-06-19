@@ -1,6 +1,11 @@
 {
+    "description": "To solve the first layer, first make the cross, then insert the corners",
+    "groupDescriptions": {
+        "2: Corners": "Rotate the cube so the cross faces the bottom"
+    },
     "algorithms": [{
         "name":"Swap Edge Colours",
+        "description": "Swaps the colours on the front top center piece",
         "alg":["F U' R U"],
         "group":"1: Cross",
         "prob":1,

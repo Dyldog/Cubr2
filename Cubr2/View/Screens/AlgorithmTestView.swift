@@ -64,7 +64,8 @@ class AlgorithmTestViewModel: BestTimeManaging {
         
         if loadFakeScrambles {
             algorithm = .init(method: algorithm.method, algorithm: .init(
-                name: algorithm.name,
+                name: algorithm.name, 
+                description: algorithm.algorithm.description,
                 stepSets: algorithm.stepSets,
                 scrambles: fakeScrambles.removeFirst()
             ))

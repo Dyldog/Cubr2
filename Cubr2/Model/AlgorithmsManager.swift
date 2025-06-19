@@ -8,33 +8,7 @@
 import DylKit
 import UIKit
 
-enum Timeable: Hashable {
-    case algorithm(AlgorithmWithMethod)
-    case cube
-    
-    var id: String {
-        switch self {
-        case let .algorithm(algorithm): "ALGORITHM: \(algorithm.algorithm.name)"
-        case .cube: "CUBE"
-        }
-    }
-    
-    var image: UIImage {
-        switch self {
-        case let .algorithm(algorithm): algorithm.algorithm.image
-        case .cube: .init(named: "Full Cube")!
-        }
-    }
-    
-    var name: String {
-        switch self {
-        case let .algorithm(algorithm): algorithm.algorithm.name
-        case .cube: TestMode.cube.title
-        }
-    }
-}
-
-class AlgorithmsManager: ObservableObject {
+class AlgorithmsManager: ObservableObject, AlgorithmsManaging {
     static var shared: AlgorithmsManager = .init()
     
     @UserDefaultable(key: DefaultKeys.learnedAlgorithms)
@@ -58,19 +32,29 @@ class AlgorithmsManager: ObservableObject {
     func algorithms(for step: any SolveStep) -> [AlgorithmGroup] {
         let data = data(for: step)
         
-        return data.algorithms.enumerated().reduce(into: [:]) { groups, algorithm in
-            groups[algorithm.element.group, default: []].append(
-                Algorithm(
-                    name: algorithm.element.name,
-                    stepSets: algorithm.element.alg,
-                    scrambles: data.scrambles[safe: algorithm.offset] ?? []
+        let algs = zip(data.algorithms, data.safeScrambles)
+            .map { algorithm, scrambles in
+                (group: algorithm.group, algorithm: Algorithm(
+                    name: algorithm.name,
+                    description: algorithm.description,
+                    stepSets: algorithm.alg,
+                    scrambles: scrambles
+                ))
+            }
+        
+        let groups = Dictionary(grouping: algs, by: { $0.group })
+            .map { name, algorithms in
+                AlgorithmGroup(
+                    name: name,
+                    description: data.groupDescriptions?[name],
+                    algorithms: algorithms.map { $0.algorithm }
                 )
-            )
-        }.map {
-            AlgorithmGroup(name: $0.key, algorithms: $0.value)
-        }.sorted {
+            }
+        .sorted {
             $0.name < $1.name
         }
+        
+        return groups
     }
     
     func algorithmIsLearning(_ algorithm: Algorithm) -> Bool {
@@ -90,18 +74,9 @@ class AlgorithmsManager: ObservableObject {
     }
     
     var learningAlgorithms: [AlgorithmMethod] {
-        methodsEnabled.reduce(into: []) { partialResult, method in
-            partialResult.append(
-                AlgorithmMethod(method: method, stages: method.steps.map { step in
-                    AlgorithmStage(title: step.title, groups: algorithms(for: step).map { group in
-                        AlgorithmGroup(
-                            name: group.name,
-                            algorithms: group.algorithms.filter { algorithmIsLearning($0) }
-                        )
-                    }.filter { $0.algorithms.isEmpty == false })
-                }.filter { $0.groups.isEmpty == false }))
+        methodsEnabled.algorithms(with: self) {
+            algorithmIsLearning($0)
         }
-        .filter { $0.stages.isEmpty == false }
     }
     
     func mnemonics(for steps: String) -> [StepMnemonic] {
@@ -152,5 +127,17 @@ private extension AlgorithmsManager {
         case mnemonics = "MNEMONICS"
         case bestTimes = "BEST_TIMES"
         case enabledMethods = "ENABLED_METHODS"
+    }
+}
+
+private extension AlgorithmGroupData {
+    func zipped() -> [(algorithms: AlgorithmData, scrambles: [String])] {
+        zip(algorithms, scrambles).map { $0 }
+    }
+}
+
+extension Array {
+    func grouping<Key: Hashable>(by grouper: (Element) -> Key) -> Dictionary<Key, [Element]> {
+        Dictionary(grouping: self, by: grouper)
     }
 }

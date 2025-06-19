@@ -14,6 +14,7 @@ struct AlgorithmWithMethod: Hashable, Identifiable {
 
 extension AlgorithmWithMethod {
     var name: String { algorithm.name }
+    var description: String? { algorithm.description }
     var stepSets: [String] { algorithm.stepSets }
     var scrambles: [String] { algorithm.scrambles }
     
