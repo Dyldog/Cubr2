@@ -20,7 +20,7 @@ class ScrambleViewModel: ObservableObject, MnemonicsHandling {
     var hasExtraFullHint: Bool = false
     
     @Published var showImage: Bool = true
-    let show3dCube: Bool = false
+    let show3dCube: Bool = true
     @Published var hintCount: Int = 0
     @Published var showExtraFullHint: Bool = false
     @Published var showRemainingSteps: Bool = false
@@ -44,7 +44,7 @@ class ScrambleViewModel: ObservableObject, MnemonicsHandling {
         scramble: [String]?,
         algorithmsManager: AlgorithmsManager = .shared) {
         self.algorithm = algorithm
-        self.scramble = scramble ?? algorithm.scrambles.first!.components(separatedBy: " ")
+        self.scramble = scramble ?? algorithm.scrambles.first ?? []
         self.algorithmsManager = algorithmsManager
         reload()
     }

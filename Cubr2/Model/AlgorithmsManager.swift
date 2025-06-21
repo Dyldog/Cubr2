@@ -38,7 +38,9 @@ class AlgorithmsManager: ObservableObject, AlgorithmsManaging {
                     name: algorithm.name,
                     description: algorithm.description,
                     stepSets: algorithm.alg,
-                    scrambles: scrambles
+                    scrambles: scrambles.scrambles.mapIf(step.operatesOnFlipped) {
+                        $0.withCubeFlip
+                    }
                 ))
             }
         

@@ -21,36 +21,40 @@ class Cubie {
 enum CubeMove: String, CaseIterable {
     case U
     case UPrime
+    case E
+    case EPrime
     case D
     case DPrime
     case L
     case LPrime
+    case M
+    case MPrime
     case R
     case RPrime
     case F
     case FPrime
+    case S
+    case SPrime
     case B
     case BPrime
-    case M
-    case MPrime
     
     var axis: SCNVector3 {
         switch self {
-        case .U, .UPrime, .D, .DPrime:
-            return SCNVector3(0, 1, 0)
-        case .L, .LPrime, .R, .RPrime, .M, .MPrime:
-            return SCNVector3(1, 0, 0)
-        case .F, .FPrime, .B, .BPrime:
-            return SCNVector3(0, 0, 1)
+        case .U, .UPrime: SCNVector3(0, -1, 0)
+        case .D, .DPrime, .E, .EPrime: SCNVector3(0, 1, 0)
+        case .L, .LPrime, .M, .MPrime: SCNVector3(1, 0, 0)
+        case .R, .RPrime: SCNVector3(-1, 0, 0)
+        case .F, .FPrime, .S, .SPrime: SCNVector3(0, 0, -1)
+        case .B, .BPrime: SCNVector3(0, 0, 1)
         }
     }
     
     var angle: Float {
         switch self {
-        case .U, .DPrime, .LPrime, .R, .F, .BPrime, .MPrime:
-            return -Float.pi / 2
-        case .UPrime, .D, .L, .RPrime, .FPrime, .B, .M:
+        case .U, .D, .L, .R, .F, .B, .E, .M, .S:
             return Float.pi / 2
+        case .UPrime, .DPrime, .LPrime, .RPrime, .FPrime, .BPrime, .EPrime, .MPrime, .SPrime:
+            return -Float.pi / 2
         }
     }
     
@@ -58,6 +62,8 @@ enum CubeMove: String, CaseIterable {
         switch self {
         case .U, .UPrime:
             return ("y", 1)
+        case .E, .EPrime:
+            return ("", 0)
         case .D, .DPrime:
             return ("y", -1)
         case .L, .LPrime:
@@ -68,6 +74,8 @@ enum CubeMove: String, CaseIterable {
             return ("x", 1)
         case .F, .FPrime:
             return ("z", 1)
+        case .S, .SPrime:
+            return ("", 0)
         case .B, .BPrime:
             return ("z", -1)
         }
@@ -75,33 +83,20 @@ enum CubeMove: String, CaseIterable {
     
     func rotateCoordinate(_ coord: (x: Int, y: Int, z: Int)) -> (x: Int, y: Int, z: Int) {
         switch self {
-        case .U:
-            return (x: coord.z, y: coord.y, z: -coord.x)
-        case .UPrime:
+        case .U, .EPrime, .DPrime:
             return (x: -coord.z, y: coord.y, z: coord.x)
-        case .D:
-            return (x: -coord.z, y: coord.y, z: coord.x)
-        case .DPrime:
-            return (x: coord.z, y: coord.y, z: -coord.x)
-        case .L, .M:
+        case .D, .E, .UPrime:
+            return CubeMove.U.rotateCoordinate((-coord.x, coord.y, -coord.z))
+        case .R, .MPrime, .LPrime:
             return (x: coord.x, y: coord.z, z: -coord.y)
-        case .LPrime, .MPrime:
-            return (x: coord.x, y: -coord.z, z: coord.y)
-        case .R:
-            return (x: coord.x, y: -coord.z, z: coord.y)
-        case .RPrime:
-            return (x: coord.x, y: coord.z, z: -coord.y)
-        case .F:
+        case .L, .M, .RPrime:
+            return CubeMove.R.rotateCoordinate((coord.x, -coord.y, -coord.z))
+        case .F, .S, .BPrime:
             return (x: coord.y, y: -coord.x, z: coord.z)
-        case .FPrime:
-            return (x: -coord.y, y: coord.x, z: coord.z)
-        case .B:
-            return (x: -coord.y, y: coord.x, z: coord.z)
-        case .BPrime:
-            return (x: coord.y, y: -coord.x, z: coord.z)
+        case .B, .SPrime, .FPrime:
+            return CubeMove.F.rotateCoordinate((-coord.x, -coord.y, coord.z))
         }
     }
-    
     var quaternion: SCNQuaternion {
         let halfAngle = angle / 2
         let sinHalf = sin(halfAngle)
@@ -126,6 +121,10 @@ enum CubeMove: String, CaseIterable {
         case .FPrime: return .F
         case .B: return .BPrime
         case .BPrime: return .B
+        case .S: return .SPrime
+        case .SPrime: return .S
+        case .E: return .EPrime
+        case .EPrime: return .E
         }
     }
 }
@@ -135,32 +134,51 @@ class CubeManager: ObservableObject {
     let scene: SCNScene
     let cubeContainer: SCNNode   // Container node for the entire cube
     var cubies: [Cubie] = []
-    let offset: Float = 1.1
+    let offset: Float = 0.97
     var moveHistory: [CubeMove] = []
     var isAnimating = false
     var unscrambleTimer: Timer?
+    
+    let size: Float = 5
+    let chamfer: CGFloat = 0.1
     
     init(moves: [CubeMove]) {
         scene = SCNScene()
         cubeContainer = SCNNode()
         let cubeParent = SCNNode()
         cubeParent.addChildNode(cubeContainer)
+        let secondParent = SCNNode()
+        secondParent.addChildNode(cubeParent)
+        scene.rootNode.addChildNode(secondParent)
         cubeContainer.rotation = .init(x: 0, y: 1, z: 0, w: .pi / 4.0)
-        scene.rootNode.addChildNode(cubeParent)
-        cubeParent.rotation = .init(x: 0, y: 0, z: -1, w: .pi / 4.0)
-        setupCameraAndLights()
+        cubeParent.rotation = .init(x: 1, y: 0, z: 0, w: .pi / 4.0)
+//        scene.background.contents = UIColor.blue
         buildCube()
-        performMoves(moves)
+        setupCameraAndLights()
+        performMoves(moves, animated: false)
+//        doRotate()
+    }
+    
+    func doRotate() {
+        let rotationAction = SCNAction.rotate(
+            by: 2.0 * .pi,
+            around: .init(x: 1, y: 0, z: 0),
+            duration: 3
+        )
+        
+        cubeContainer.parent?.runAction(rotationAction) {
+            self.doRotate()
+        }
     }
     
     private func setupCameraAndLights() {
         // Set up the camera at (7,7,7) with a look-at constraint.
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
-        let distance = 6
-        cameraNode.position = SCNVector3(distance, 0, 0)
+        let distance = 5.5 * size
+        cameraNode.position = SCNVector3(0, 1, distance)
         let constraint = SCNLookAtConstraint(target: cubeContainer)
-        constraint.isGimbalLockEnabled = true
+//        constraint.isGimbalLockEnabled = true
         cameraNode.constraints = [constraint]
         scene.rootNode.addChildNode(cameraNode)
         
@@ -179,24 +197,36 @@ class CubeManager: ObservableObject {
         scene.rootNode.addChildNode(ambientLight)
     }
     
+    private func material(with color: UIColor) -> SCNMaterial {
+        let material = SCNMaterial()
+        let layer = CubeStickerLayer(color: color)
+        layer.frame = .init(origin: .zero, size: .init(width: 100, height: 100))
+        layer.display()
+        material.diffuse.contents = layer
+        material.locksAmbientWithDiffuse = true
+        material.ambient.contents = UIColor.white
+        return material
+    }
+    
     private func buildCube() {
         // Build the 3×3×3 cube with a chamfer.
+        let colors: [UIColor] = [.red, .blue, .orange, .green, .white, .yellow]
+        
         for x in -1...1 {
             for y in -1...1 {
                 for z in -1...1 {
-                    let box = SCNBox(width: 1, height: 1, length: 1, chamferRadius: 0.05)
-                    let front = SCNMaterial(); front.diffuse.contents = UIColor.red
-                    let right = SCNMaterial(); right.diffuse.contents = UIColor.blue
-                    let back  = SCNMaterial(); back.diffuse.contents = UIColor.orange
-                    let left  = SCNMaterial(); left.diffuse.contents = UIColor.green
-                    let top   = SCNMaterial(); top.diffuse.contents = UIColor.white
-                    let bottom = SCNMaterial(); bottom.diffuse.contents = UIColor.yellow
-                    box.materials = [front, right, back, left, top, bottom]
+                    let box = SCNBox(
+                        width: CGFloat(size),
+                        height: CGFloat(size),
+                        length: CGFloat(size),
+                        chamferRadius: chamfer * CGFloat(size)
+                    )
+                    box.materials = colors.map { material(with: $0) }
                     
                     let cubieNode = SCNNode(geometry: box)
-                    cubieNode.position = SCNVector3(Float(x) * offset,
-                                                    Float(y) * offset,
-                                                    Float(z) * offset)
+                    cubieNode.position = SCNVector3(Float(x) * offset * size,
+                                                    Float(y) * offset * size,
+                                                    Float(z) * offset * size) + box.offsetForSize
                     cubeContainer.addChildNode(cubieNode)
                     let cubie = Cubie(node: cubieNode, position: (x, y, z))
                     cubies.append(cubie)
@@ -206,28 +236,21 @@ class CubeManager: ObservableObject {
     }
     
     private func updateCubieTransform(_ cubie: Cubie) {
-        let newPos = SCNVector3(Float(cubie.logicalPosition.x) * offset,
-                                Float(cubie.logicalPosition.y) * offset,
-                                Float(cubie.logicalPosition.z) * offset)
+        guard let box = cubie.node.geometry as? SCNBox else { return }
+        let newPos = SCNVector3(Float(cubie.logicalPosition.x) * offset * size,
+                                Float(cubie.logicalPosition.y) * offset * size,
+                                Float(cubie.logicalPosition.z) * offset * size) + box.offsetForSize
         cubie.node.position = newPos
         cubie.node.orientation = cubie.netRotation
     }
     
     // MARK: – Move Execution
     @MainActor
-    func performMove(_ move: CubeMove, record: Bool = true, duration: Double = 2) async {
+    func performMove(_ move: CubeMove, record: Bool = true, duration: Double) async {
         guard !isAnimating else { return }
         isAnimating = true
         
-        let layer = move.affectedLayer
-        let affectedCubies = cubies.filter { cubie in
-            switch layer.axis {
-            case "x": return cubie.logicalPosition.x == layer.value
-            case "y": return cubie.logicalPosition.y == layer.value
-            case "z": return cubie.logicalPosition.z == layer.value
-            default: return false
-            }
-        }
+        let affectedCubies = affectedCubies(for: move.affectedLayer)
         
         let groupNode = SCNNode()
         cubeContainer.addChildNode(groupNode)
@@ -236,8 +259,32 @@ class CubeManager: ObservableObject {
             groupNode.addChildNode(cubie.node)
         }
         
-        let rotationAction = SCNAction.rotate(by: CGFloat(move.angle), around: move.axis, duration: duration)
+        let rotationAction = SCNAction.rotate(
+            by: CGFloat(move.angle),
+            around: move.axis, duration: duration
+        )
+        
         await groupNode.runAction(rotationAction)
+        
+        updateCubies(with: affectedCubies, for: move)
+        
+        groupNode.removeFromParentNode()
+        if record { self.moveHistory.append(move) }
+        self.isAnimating = false
+    }
+    
+    private func affectedCubies(for layer: (axis: String, value: Int)) -> [Cubie] {
+        cubies.filter { cubie in
+            switch layer.axis {
+            case "x": return cubie.logicalPosition.x == layer.value
+            case "y": return cubie.logicalPosition.y == layer.value
+            case "z": return cubie.logicalPosition.z == layer.value
+            default: return false
+            }
+        }
+    }
+    
+    private func updateCubies(with affectedCubies: [Cubie], for move: CubeMove) {
         for cubie in affectedCubies {
             cubie.logicalPosition = move.rotateCoordinate(cubie.logicalPosition)
             let oldQuat = cubie.netRotation
@@ -249,9 +296,6 @@ class CubeManager: ObservableObject {
             cubeContainer.addChildNode(cubie.node)
             updateCubieTransform(cubie)
         }
-        groupNode.removeFromParentNode()
-        if record { self.moveHistory.append(move) }
-        self.isAnimating = false
     }
     
     private func multiplyQuaternion(q1: SCNQuaternion, q2: SCNQuaternion) -> SCNQuaternion {
@@ -259,10 +303,14 @@ class CubeManager: ObservableObject {
     }
     
     // MARK: – Scramble & Solve
-    func performMoves(_ moves: [CubeMove]) {
+    func performMoves(_ moves: [CubeMove], animated: Bool) {
         Task {
             for move in moves {
-                await performMove(move, duration: 2)
+                if animated {
+                    await performMove(move, duration: 0.1)
+                } else {
+                    updateCubies(with: affectedCubies(for: move.affectedLayer), for: move)
+                }
             }
         }
     }
@@ -282,3 +330,49 @@ class CubeManager: ObservableObject {
     }
 }
 
+extension SCNBox {
+    var offsetForSize: SCNVector3 {
+        .init(0, 0, 0)
+    }
+}
+
+class CubeStickerLayer: CALayer {
+    let color: UIColor
+    
+    init(color: UIColor) {
+        self.color = color
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    var sizingLength: CGFloat {
+        max(bounds.height, bounds.width)
+    }
+    
+    var insetRatio: CGFloat {
+        0.05
+    }
+    
+    var inset: CGFloat {
+        sizingLength * insetRatio
+    }
+    
+    var cornerSize: CGFloat {
+        (0.2 - insetRatio) * sizingLength
+    }
+    
+    override func draw(in ctx: CGContext) {
+        ctx.setFillColor(UIColor.black.cgColor)
+        ctx.fill(bounds)
+        ctx.addPath(.init(
+            roundedRect: bounds.insetBy(dx: inset, dy: inset),
+            cornerWidth: cornerSize, cornerHeight: cornerSize,
+            transform: nil)
+        )
+        ctx.setFillColor(color.cgColor)
+        ctx.fillPath()
+    }
+}

@@ -7,15 +7,18 @@
 
 import Foundation
 
+typealias ScrambleData = String
+typealias GroupScrambleData = [ScrambleData]
+
 struct AlgorithmGroupData: Codable {
     let algorithms: [AlgorithmData]
     let description: String?
     let groupDescriptions: [String: String]?
-    let scrambles: [[String]]
+    let scrambles: [[ScrambleData]]
 }
 
 extension AlgorithmGroupData {
-    var safeScrambles: [[String]] {
+    var safeScrambles: [[ScrambleData]] {
         scrambles.isEmpty ? Array(repeating: [], count: algorithms.count) : scrambles
     }
 }

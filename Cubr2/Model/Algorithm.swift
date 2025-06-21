@@ -18,7 +18,7 @@ struct Algorithm: Equatable, Hashable, Identifiable {
     let name: String
     let description: String?
     let stepSets: [String]
-    let scrambles: [String]
+    let scrambles: [Scramble]
     
     var id: Int { hashValue }
     

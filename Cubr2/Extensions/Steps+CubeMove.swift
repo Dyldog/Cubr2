@@ -8,33 +8,31 @@
 import Foundation
 
 extension String {
-    var cubeMoves: [CubeMove]! {
+    func applied(to moves: [CubeMove]) -> [CubeMove] {
         switch self {
         case "U": return [.U]
-        case "U2": return [.U, .U]
-        case "U'": return [.UPrime]
+        case "u": return [.U, .EPrime]
+        case "E": return [.E]
         case "D": return [.D]
-        case "D2": return [.D, .D]
-        case "D'": return [.DPrime]
+        case "d": return [.D, .E]
         case "L": return [.L]
-        case "L2": return [.L, .L]
-        case "L'": return [.LPrime]
+        case "l": return [.L, .M]
         case "M": return [.M]
-        case "M2": return [.M, .M]
-        case "M'": return [.MPrime]
         case "R": return [.R]
-        case "R2": return [.R, .R]
-        case "R'": return [.RPrime]
         case "r": return [.R, .MPrime]
-        case "r'": return [.RPrime, .M]
         case "F": return [.F]
-        case "F2": return [.F, .F]
-        case "F'": return [.FPrime]
+        case "f": return [.F, .S]
+        case "S": return [.S]
         case "B": return [.B]
-        case "B2": return [.B, .B]
-        case "B'": return [.BPrime]
-        default: fatalError()
+        case "b": return [.B, .SPrime]
+        case "2": return moves.repeated(2)
+        case "'": return moves.map(\.inverse)
+        default: fatalError("Unknown move string '\(self)'")
         }
+    }
+    
+    var cubeMoves: [CubeMove]! {
+        reduce([], { String($1).applied(to: $0) })
     }
 }
 extension Array where Element == String {

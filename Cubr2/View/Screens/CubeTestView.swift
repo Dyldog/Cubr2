@@ -45,6 +45,9 @@ struct CubeTestView: View {
             VStack {
                 Spacer()
                 
+                CubeView(steps: viewModel.scramble.cubeMoves)
+                    .id(viewModel.scramble)
+                
                 ScrambleSection(scramble: viewModel.scramble)
                     .padding(.horizontal, 24)
                 

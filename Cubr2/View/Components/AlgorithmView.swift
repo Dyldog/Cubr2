@@ -57,7 +57,7 @@ struct AlgorithmView: View {
             }
             
             if let description = algorithm.description {
-                
+               Text(description)
             }
         }
     }

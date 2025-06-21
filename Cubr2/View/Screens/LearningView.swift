@@ -16,7 +16,7 @@ extension AlgorithmWithMethod {
     var name: String { algorithm.name }
     var description: String? { algorithm.description }
     var stepSets: [String] { algorithm.stepSets }
-    var scrambles: [String] { algorithm.scrambles }
+    var scrambles: [Scramble] { algorithm.scrambles }
     
     var id: Int {
         var hasher = Hasher()
@@ -52,7 +52,7 @@ class LearningViewModel: ObservableObject, AlgorithmHandling {
     }
     
     func scramble(for algorithm: Algorithm) -> [String] {
-        algorithm.scrambles.first!.components(separatedBy: " ")
+        algorithm.scrambles.first ?? []
     }
 }
 

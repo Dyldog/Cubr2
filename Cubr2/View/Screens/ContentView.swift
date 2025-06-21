@@ -36,8 +36,8 @@ class ContentViewModel: ObservableObject, AlgorithmHandling {
         reload()
     }
     
-    func scramble(for algorithm: Algorithm) -> [String] {
-        algorithm.scrambles.first!.components(separatedBy: " ")
+    func scramble(for algorithm: Algorithm) -> Scramble {
+        algorithm.scrambles.first ?? []
     }
 }
 

@@ -36,10 +36,14 @@ protocol SolveStep: CaseIterable, Hashable {
     var description: String? { get }
     
     var method: SolveMethod { get }
+    
+    var operatesOnFlipped: Bool { get }
 }
 
 extension SolveStep {
     var shortTitle: String { title }
+    
+    var operatesOnFlipped: Bool { true }
 }
 
 enum BeginnerSolveStep: SolveStep {
@@ -69,6 +73,10 @@ enum BeginnerSolveStep: SolveStep {
     
     var description: String? {
         nil
+    }
+    
+    var operatesOnFlipped: Bool {
+        self != .firstLayer
     }
 }
 

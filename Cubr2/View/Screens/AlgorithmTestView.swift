@@ -18,14 +18,14 @@ class AlgorithmTestViewModel: BestTimeManaging {
     
     @Published var showTimes: Bool = false
     
-    var scramble: [String] { algorithm.algorithm.scrambles.first!.components(separatedBy: " ") }
+    var scramble: [String] { algorithm.algorithm.scrambles.first ?? [] }
     
     let loadFakeScrambles: Bool = false
-    var fakeScrambles: [[String]] = [
+    var fakeScrambles: [ScrambleData] = [
 //        ["L L R R F F L L R R F F"],
 //        ["L L R R F F"],
 //        ["L L R R F F"],
-        ["L F L"]
+        "L F L",
 //        ["M"],
 //        ["M'"],
 //        ["U"],
@@ -67,7 +67,7 @@ class AlgorithmTestViewModel: BestTimeManaging {
                 name: algorithm.name, 
                 description: algorithm.algorithm.description,
                 stepSets: algorithm.stepSets,
-                scrambles: fakeScrambles.removeFirst()
+                scrambles: [fakeScrambles.removeFirst().scramble]
             ))
         }
     }
