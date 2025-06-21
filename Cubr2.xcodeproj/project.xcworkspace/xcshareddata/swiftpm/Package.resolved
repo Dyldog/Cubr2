@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "highlightedtexteditor",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Dyldog/HighlightedTextEditor",
+      "state" : {
+        "branch" : "main",
+        "revision" : "053cfdf6713596c2895bfbe4fc4a03f087e2e96f"
+      }
+    }
+  ],
+  "version" : 2
+}

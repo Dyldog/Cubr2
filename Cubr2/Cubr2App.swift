@@ -5,12 +5,15 @@
 //  Created by Dylan Elliott on 10/6/2025.
 //
 
+import DylKit
 import SwiftUI
 
 @main
 struct Cubr2App: App {
+    @State var showAppNote: Bool = false
+    
     var body: some Scene {
-        WindowGroup {
+        DylApp {
             TabView {
                 NavigationStack {
                     TestView()
