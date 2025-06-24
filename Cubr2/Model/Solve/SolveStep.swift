@@ -111,23 +111,3 @@ enum CFOPSolveStep: SolveStep {
         nil
     }
 }
-
-extension SolveMethod {
-    func allAlgorithms(with manager: AlgorithmsManager = .shared) -> [(String, [AlgorithmWithMethod])] {
-        steps.flatMap { step in
-            manager.algorithms(for: step).map { group in
-                ("\(step.shortTitle): \(group.name)", group.algorithms.map {
-                    .init(method: self, algorithm: $0)
-                })
-            }
-        }
-    }
-}
-
-extension Array where Element == SolveMethod {
-    func allAlgorithms(with manager: AlgorithmsManager = .shared) -> [(String, [AlgorithmWithMethod])] {
-        flatMap { method in
-            method.allAlgorithms(with: manager)
-        }
-    }
-}

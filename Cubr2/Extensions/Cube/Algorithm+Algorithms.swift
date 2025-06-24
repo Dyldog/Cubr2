@@ -1,16 +1,11 @@
 //
-//  AlgorithmMethod.swift
+//  Algorithm+Algorithms.swift
 //  Cubr2
 //
-//  Created by Dylan Elliott on 17/6/2025.
+//  Created by Dylan Elliott on 24/6/2025.
 //
 
 import Foundation
-
-struct AlgorithmMethod: Hashable {
-    let method: SolveMethod
-    let stages: [AlgorithmStage]
-}
 
 extension Array where Element == AlgorithmMethod {
     var algorithms: [Algorithm] {
@@ -69,3 +64,4 @@ extension AlgorithmGroup {
         algorithms.map { mapper(self, $0) }
     }
 }
+

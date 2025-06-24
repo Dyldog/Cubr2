@@ -68,6 +68,12 @@
 		FCEE55212E0A6E6B00D61B94 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEE55202E0A6E6B00D61B94 /* HistoryView.swift */; };
 		FCF229092DF939C700B0F881 /* ScrambleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF229082DF939C700B0F881 /* ScrambleView.swift */; };
 		FCF8761B2E0AAD620045B841 /* CubeMoveList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF8761A2E0AAD620045B841 /* CubeMoveList.swift */; };
+		FCF8761D2E0ACC040045B841 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF8761C2E0ACC040045B841 /* Day.swift */; };
+		FCF876272E0ACCF90045B841 /* AlgorithmGroupData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF876262E0ACCF90045B841 /* AlgorithmGroupData.swift */; };
+		FCF876292E0ACCFF0045B841 /* ScrambleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF876282E0ACCFF0045B841 /* ScrambleData.swift */; };
+		FCF8762B2E0ACD2F0045B841 /* Algorithm+Algorithms.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF8762A2E0ACD2F0045B841 /* Algorithm+Algorithms.swift */; };
+		FCF8762D2E0ACD5A0045B841 /* AlgorithmGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF8762C2E0ACD5A0045B841 /* AlgorithmGroup.swift */; };
+		FCF8762F2E0ACD960045B841 /* AlgorithmsManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF8762E2E0ACD960045B841 /* AlgorithmsManaging.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +157,12 @@
 		FCEE55202E0A6E6B00D61B94 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		FCF229082DF939C700B0F881 /* ScrambleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrambleView.swift; sourceTree = "<group>"; };
 		FCF8761A2E0AAD620045B841 /* CubeMoveList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubeMoveList.swift; sourceTree = "<group>"; };
+		FCF8761C2E0ACC040045B841 /* Day.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
+		FCF876262E0ACCF90045B841 /* AlgorithmGroupData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmGroupData.swift; sourceTree = "<group>"; };
+		FCF876282E0ACCFF0045B841 /* ScrambleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrambleData.swift; sourceTree = "<group>"; };
+		FCF8762A2E0ACD2F0045B841 /* Algorithm+Algorithms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Algorithm+Algorithms.swift"; sourceTree = "<group>"; };
+		FCF8762C2E0ACD5A0045B841 /* AlgorithmGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmGroup.swift; sourceTree = "<group>"; };
+		FCF8762E2E0ACD960045B841 /* AlgorithmsManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmsManaging.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,13 +194,8 @@
 		FC55D4AE2E011D29004D499B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				FC55D4AF2E011D34004D499B /* Duration+TimeString.swift */,
-				FCB95A782E0192CE00D49DEE /* Steps+CubeMove.swift */,
-				FC31740E2E025E25008EEE8E /* Steps+All.swift */,
-				FC1197582E01ABB500744006 /* SceneKit+Math.swift */,
-				FC38F2182E04274F009BB02D /* Zip.swift */,
-				FC38F2142E041DB7009BB02D /* SolveMethod+Algorithms.swift */,
-				FC6CBBA42E06941000B962CC /* Scramble+CubeFlip.swift */,
+				FCF8761F2E0ACC3B0045B841 /* General */,
+				FCF8761E2E0ACC210045B841 /* Cube */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -214,20 +221,92 @@
 			path = CubeView;
 			sourceTree = "<group>";
 		};
+		FC58D9AB2E0ACEC800937390 /* Learning */ = {
+			isa = PBXGroup;
+			children = (
+				FC7C92862E0A2DA3009CC4EC /* ProgressView.swift */,
+			);
+			path = Learning;
+			sourceTree = "<group>";
+		};
+		FC58D9AC2E0ACEE900937390 /* Algorithm */ = {
+			isa = PBXGroup;
+			children = (
+				FC4AA4462DFA9A220069EFBE /* AlgorithmView.swift */,
+				FC5C1C222DFCFFA6004E5190 /* AlgorithmStepsView.swift */,
+				FC5C1C262DFCFFF1004E5190 /* MnemonicButton.swift */,
+				FC5C1C242DFCFFD6004E5190 /* StepButton.swift */,
+				FCBFBE042E01057200E33B6A /* TutorialView.swift */,
+				FCF876312E0ACE0C0045B841 /* Scramble */,
+			);
+			path = Algorithm;
+			sourceTree = "<group>";
+		};
+		FC58D9AD2E0ACF2400937390 /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				FC3174062E02567A008EEE8E /* TestView.swift */,
+				FC9532A02E00E017005E1907 /* AlgorithmTestView.swift */,
+				FC7C92842E0A2743009CC4EC /* LearnTestView.swift */,
+				FC3174042E025652008EEE8E /* CubeTestView.swift */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
+		FC58D9AE2E0ACF3B00937390 /* Scores */ = {
+			isa = PBXGroup;
+			children = (
+				FCEE551E2E0A67F200D61B94 /* PracticesView.swift */,
+				FC9532A42E00F1EA005E1907 /* TimesView.swift */,
+				FC55D4AC2E011814004D499B /* AllTimesView.swift */,
+				FCEE55202E0A6E6B00D61B94 /* HistoryView.swift */,
+			);
+			path = Scores;
+			sourceTree = "<group>";
+		};
+		FC58D9AF2E0ACF5100937390 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				FCF8761A2E0AAD620045B841 /* CubeMoveList.swift */,
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
+		FC58D9B02E0ACFA600937390 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				FC55D4BF2E014EB2004D499B /* MethodsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		FC58D9B12E0ACFD500937390 /* All Algorithms */ = {
+			isa = PBXGroup;
+			children = (
+				FCD988992DF81A080083047A /* ContentView.swift */,
+				FCD988C72DF8238A0083047A /* StageList.swift */,
+			);
+			path = "All Algorithms";
+			sourceTree = "<group>";
+		};
+		FC58D9B22E0ACFE100937390 /* Algorithm Lists */ = {
+			isa = PBXGroup;
+			children = (
+				FC58D9B12E0ACFD500937390 /* All Algorithms */,
+				FC4AA4442DFA99250069EFBE /* LearningView.swift */,
+			);
+			path = "Algorithm Lists";
+			sourceTree = "<group>";
+		};
 		FC5C1C282DFCFFFF004E5190 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				FCD988C12DF81A4C0083047A /* AlgorithmsManager.swift */,
-				FC38F2162E042093009BB02D /* Timeable.swift */,
-				FC55D4B12E01385E004D499B /* AlgorithmStage.swift */,
-				FC55D4B32E0138B4004D499B /* AlgorithmMethod.swift */,
-				FC9532A22E00F0B6005E1907 /* SolveAttempt.swift */,
-				FC5C1C292DFD000E004E5190 /* StepMnemonic.swift */,
-				FC5C1C2E2DFD0067004E5190 /* SolveStep.swift */,
-				FC5C1C302DFD007B004E5190 /* AlgorithmData.swift */,
-				FC5C1C322DFD009D004E5190 /* Algorithm.swift */,
-				FC6CBBA62E06964900B962CC /* Scramble.swift */,
-				FC55D4AA2E0112C3004D499B /* String+Moves.swift */,
+				FCF876252E0ACCEC0045B841 /* Data */,
+				FCF876222E0ACC720045B841 /* Algorithm */,
+				FCF876212E0ACC6E0045B841 /* Solve */,
+				FCF876242E0ACCA00045B841 /* Mnemonics */,
+				FCF876232E0ACC810045B841 /* Time */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -244,21 +323,11 @@
 		FC5C1C2C2DFD0018004E5190 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				FCD988992DF81A080083047A /* ContentView.swift */,
-				FC4AA4442DFA99250069EFBE /* LearningView.swift */,
-				FCD988C72DF8238A0083047A /* StageList.swift */,
-				FCF229082DF939C700B0F881 /* ScrambleView.swift */,
-				FCBFBE042E01057200E33B6A /* TutorialView.swift */,
-				FC3174062E02567A008EEE8E /* TestView.swift */,
-				FC9532A02E00E017005E1907 /* AlgorithmTestView.swift */,
-				FCF8761A2E0AAD620045B841 /* CubeMoveList.swift */,
-				FC3174042E025652008EEE8E /* CubeTestView.swift */,
-				FC7C92842E0A2743009CC4EC /* LearnTestView.swift */,
-				FC9532A42E00F1EA005E1907 /* TimesView.swift */,
-				FCEE551E2E0A67F200D61B94 /* PracticesView.swift */,
-				FC55D4AC2E011814004D499B /* AllTimesView.swift */,
-				FCEE55202E0A6E6B00D61B94 /* HistoryView.swift */,
-				FC55D4BF2E014EB2004D499B /* MethodsView.swift */,
+				FC58D9B22E0ACFE100937390 /* Algorithm Lists */,
+				FC58D9AD2E0ACF2400937390 /* Test */,
+				FC58D9AE2E0ACF3B00937390 /* Scores */,
+				FC58D9B02E0ACFA600937390 /* Settings */,
+				FC58D9AF2E0ACF5100937390 /* Debug */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -267,29 +336,24 @@
 			isa = PBXGroup;
 			children = (
 				FC55D4C12E017BF6004D499B /* CubeView */,
-				FC4AA4462DFA9A220069EFBE /* AlgorithmView.swift */,
-				FC3174082E025919008EEE8E /* TimerView.swift */,
-				FC31740C2E025D11008EEE8E /* BestTimeView.swift */,
-				FC3174102E027295008EEE8E /* ScrambleLabel.swift */,
-				FC3174122E027311008EEE8E /* ScrambleSection.swift */,
-				FC7C92862E0A2DA3009CC4EC /* ProgressView.swift */,
-				FC5C1C222DFCFFA6004E5190 /* AlgorithmStepsView.swift */,
-				FC5C1C262DFCFFF1004E5190 /* MnemonicButton.swift */,
-				FC5C1C242DFCFFD6004E5190 /* StepButton.swift */,
+				FC58D9AC2E0ACEE900937390 /* Algorithm */,
+				FCF876302E0ACE050045B841 /* Times */,
+				FC58D9AB2E0ACEC800937390 /* Learning */,
 			);
 			path = Components;
 			sourceTree = "<group>";
 		};
-		FC5C1C342DFD03BE004E5190 /* Protocol */ = {
+		FC5C1C342DFD03BE004E5190 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				FC5C1C352DFD03CA004E5190 /* MnemonicsHandling.swift */,
+				FCF8762E2E0ACD960045B841 /* AlgorithmsManaging.swift */,
 				FCA096F42E0A928E007A6E9C /* PracticesHandling.swift */,
 				FC31740A2E025CF2008EEE8E /* BestTimeManaging.swift */,
 				FC9532A62E00FCAC005E1907 /* BestTimeHandling.swift */,
 				FC9532A82E00FD6B005E1907 /* AlgorithmHandling.swift */,
 			);
-			path = Protocol;
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 		FCD9888B2DF81A080083047A = {
@@ -316,10 +380,10 @@
 			isa = PBXGroup;
 			children = (
 				FCD988972DF81A080083047A /* Cubr2App.swift */,
-				FC55D4AE2E011D29004D499B /* Extensions */,
-				FC5C1C342DFD03BE004E5190 /* Protocol */,
 				FC5C1C282DFCFFFF004E5190 /* Model */,
 				FC5C1C2B2DFD0013004E5190 /* View */,
+				FC5C1C342DFD03BE004E5190 /* Protocols */,
+				FC55D4AE2E011D29004D499B /* Extensions */,
 				FC55D4B52E014063004D499B /* Data */,
 				FCD9889B2DF81A0B0083047A /* Assets.xcassets */,
 				FCD9889D2DF81A0B0083047A /* Preview Content */,
@@ -350,6 +414,96 @@
 				FCD988B42DF81A0C0083047A /* Cubr2UITestsLaunchTests.swift */,
 			);
 			path = Cubr2UITests;
+			sourceTree = "<group>";
+		};
+		FCF8761E2E0ACC210045B841 /* Cube */ = {
+			isa = PBXGroup;
+			children = (
+				FC31740E2E025E25008EEE8E /* Steps+All.swift */,
+				FC38F2142E041DB7009BB02D /* SolveMethod+Algorithms.swift */,
+				FC6CBBA42E06941000B962CC /* Scramble+CubeFlip.swift */,
+				FCB95A782E0192CE00D49DEE /* Steps+CubeMove.swift */,
+				FC55D4AA2E0112C3004D499B /* String+Moves.swift */,
+				FCF8762A2E0ACD2F0045B841 /* Algorithm+Algorithms.swift */,
+			);
+			path = Cube;
+			sourceTree = "<group>";
+		};
+		FCF8761F2E0ACC3B0045B841 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				FC55D4AF2E011D34004D499B /* Duration+TimeString.swift */,
+				FC1197582E01ABB500744006 /* SceneKit+Math.swift */,
+				FC38F2182E04274F009BB02D /* Zip.swift */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
+		FCF876212E0ACC6E0045B841 /* Solve */ = {
+			isa = PBXGroup;
+			children = (
+				FC9532A22E00F0B6005E1907 /* SolveAttempt.swift */,
+				FC5C1C2E2DFD0067004E5190 /* SolveStep.swift */,
+			);
+			path = Solve;
+			sourceTree = "<group>";
+		};
+		FCF876222E0ACC720045B841 /* Algorithm */ = {
+			isa = PBXGroup;
+			children = (
+				FC55D4B12E01385E004D499B /* AlgorithmStage.swift */,
+				FC55D4B32E0138B4004D499B /* AlgorithmMethod.swift */,
+				FC5C1C322DFD009D004E5190 /* Algorithm.swift */,
+				FC6CBBA62E06964900B962CC /* Scramble.swift */,
+				FCF8762C2E0ACD5A0045B841 /* AlgorithmGroup.swift */,
+			);
+			path = Algorithm;
+			sourceTree = "<group>";
+		};
+		FCF876232E0ACC810045B841 /* Time */ = {
+			isa = PBXGroup;
+			children = (
+				FCF8761C2E0ACC040045B841 /* Day.swift */,
+				FC38F2162E042093009BB02D /* Timeable.swift */,
+			);
+			path = Time;
+			sourceTree = "<group>";
+		};
+		FCF876242E0ACCA00045B841 /* Mnemonics */ = {
+			isa = PBXGroup;
+			children = (
+				FC5C1C292DFD000E004E5190 /* StepMnemonic.swift */,
+			);
+			path = Mnemonics;
+			sourceTree = "<group>";
+		};
+		FCF876252E0ACCEC0045B841 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				FC5C1C302DFD007B004E5190 /* AlgorithmData.swift */,
+				FCF876262E0ACCF90045B841 /* AlgorithmGroupData.swift */,
+				FCF876282E0ACCFF0045B841 /* ScrambleData.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		FCF876302E0ACE050045B841 /* Times */ = {
+			isa = PBXGroup;
+			children = (
+				FC3174082E025919008EEE8E /* TimerView.swift */,
+				FC31740C2E025D11008EEE8E /* BestTimeView.swift */,
+			);
+			path = Times;
+			sourceTree = "<group>";
+		};
+		FCF876312E0ACE0C0045B841 /* Scramble */ = {
+			isa = PBXGroup;
+			children = (
+				FCF229082DF939C700B0F881 /* ScrambleView.swift */,
+				FC3174102E027295008EEE8E /* ScrambleLabel.swift */,
+				FC3174122E027311008EEE8E /* ScrambleSection.swift */,
+			);
+			path = Scramble;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -494,6 +648,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC5C1C2A2DFD000E004E5190 /* StepMnemonic.swift in Sources */,
+				FCF8762B2E0ACD2F0045B841 /* Algorithm+Algorithms.swift in Sources */,
 				FCD9889A2DF81A080083047A /* ContentView.swift in Sources */,
 				FCD988C22DF81A4D0083047A /* AlgorithmsManager.swift in Sources */,
 				FC55D4B02E011D34004D499B /* Duration+TimeString.swift in Sources */,
@@ -504,12 +659,15 @@
 				FC3174052E025652008EEE8E /* CubeTestView.swift in Sources */,
 				FC9532A12E00E017005E1907 /* AlgorithmTestView.swift in Sources */,
 				FC7C92852E0A2743009CC4EC /* LearnTestView.swift in Sources */,
+				FCF8761D2E0ACC040045B841 /* Day.swift in Sources */,
 				FC55D4C32E017C03004D499B /* CubeView.swift in Sources */,
 				FC38F2172E042093009BB02D /* Timeable.swift in Sources */,
+				FCF8762F2E0ACD960045B841 /* AlgorithmsManaging.swift in Sources */,
 				FC38F2192E04274F009BB02D /* Zip.swift in Sources */,
 				FC4AA4452DFA99250069EFBE /* LearningView.swift in Sources */,
 				FC31740B2E025CF2008EEE8E /* BestTimeManaging.swift in Sources */,
 				FC5C1C312DFD007B004E5190 /* AlgorithmData.swift in Sources */,
+				FCF876292E0ACCFF0045B841 /* ScrambleData.swift in Sources */,
 				FC1197592E01ABB500744006 /* SceneKit+Math.swift in Sources */,
 				FC38F2152E041DB7009BB02D /* SolveMethod+Algorithms.swift in Sources */,
 				FC6CBBA52E06941000B962CC /* Scramble+CubeFlip.swift in Sources */,
@@ -521,8 +679,10 @@
 				FC55D4B22E01385E004D499B /* AlgorithmStage.swift in Sources */,
 				FC31740F2E025E25008EEE8E /* Steps+All.swift in Sources */,
 				FC3174132E027311008EEE8E /* ScrambleSection.swift in Sources */,
+				FCF876272E0ACCF90045B841 /* AlgorithmGroupData.swift in Sources */,
 				FC9532A92E00FD6B005E1907 /* AlgorithmHandling.swift in Sources */,
 				FCEE551F2E0A67F200D61B94 /* PracticesView.swift in Sources */,
+				FCF8762D2E0ACD5A0045B841 /* AlgorithmGroup.swift in Sources */,
 				FC5C1C332DFD009D004E5190 /* Algorithm.swift in Sources */,
 				FC55D4C02E014EB2004D499B /* MethodsView.swift in Sources */,
 				FC55D4C52E017D62004D499B /* CubeManager.swift in Sources */,
