@@ -14,13 +14,19 @@ class ScrambleViewModel: ObservableObject, MnemonicsHandling {
     
     var title: String { algorithm.name }
     var steps: [String] { algorithm.defaultSteps }
+    
     var scramble: [String]
+    let hideScramble: Bool
+    
     var mnemonics: [StepMnemonic] { algorithmsManager.mnemonics(for: algorithm.defaultStepsString) }
+    
     var hintItems: [AlgorithmStepsView.Item] = []
     var hasExtraFullHint: Bool = false
+    let onHintRevealed: (() -> Void)?
+    
+    let show3dCube: Bool
     
     @Published var showImage: Bool = true
-    let show3dCube: Bool = true
     @Published var hintCount: Int = 0
     @Published var showExtraFullHint: Bool = false
     @Published var showRemainingSteps: Bool = false
@@ -42,11 +48,17 @@ class ScrambleViewModel: ObservableObject, MnemonicsHandling {
     init(
         algorithm: AlgorithmWithMethod,
         scramble: [String]?,
-        algorithmsManager: AlgorithmsManager = .shared) {
-        self.algorithm = algorithm
-        self.scramble = scramble ?? algorithm.scrambles.first ?? []
-        self.algorithmsManager = algorithmsManager
-        reload()
+        hideScramble: Bool,
+        algorithmsManager: AlgorithmsManager = .shared,
+        show3dCube: Bool,
+        onHintRevealed: (() -> Void)?) {
+            self.algorithm = algorithm
+            self.scramble = scramble ?? algorithm.scrambles.first ?? []
+            self.hideScramble = hideScramble
+            self.algorithmsManager = algorithmsManager
+            self.show3dCube = show3dCube
+            self.onHintRevealed = onHintRevealed
+            reload()
     }
     
     func reload() {
@@ -66,6 +78,8 @@ class ScrambleViewModel: ObservableObject, MnemonicsHandling {
 //            showExtraFullHint = hasExtraFullHint && hintCount > hintItems.count // Check it while it's over
             hintCount = min(hintItems.count, hintCount) // Reset back
         }
+        
+        onHintRevealed?()
     }
     
     func showFullHint() {
@@ -83,10 +97,19 @@ struct ScrambleView: View {
 
     @StateObject var viewModel: ScrambleViewModel
     
-    init(algorithm: AlgorithmWithMethod, scramble: [String]?) {
+    init(
+        algorithm: AlgorithmWithMethod,
+        scramble: [String]?,
+        hideScramble: Bool = false,
+        show3dCube: Bool = true,
+        onHintRevealed: (() -> Void)? = nil
+    ) {
         _viewModel = .init(wrappedValue: .init(
             algorithm: algorithm,
-            scramble: scramble
+            scramble: scramble,
+            hideScramble: hideScramble,
+            show3dCube: show3dCube,
+            onHintRevealed: onHintRevealed
         ))
     }
     
@@ -96,10 +119,10 @@ struct ScrambleView: View {
                 .aspectRatio(1, contentMode: .fit)
                 .frame(minWidth: 150, maxWidth: 250)
             
-            ScrambleSection(scramble: viewModel.scramble)
+            ScrambleSection(scramble: viewModel.scramble, hidesScramble: viewModel.hideScramble)
             
             hintView
-                .padding([.horizontal, .top])
+                .padding()
             
             Spacer()
             
@@ -110,7 +133,7 @@ struct ScrambleView: View {
                 .buttonStyle(.borderedProminent)
             }
         }
-        .padding()
+        .padding(.horizontal)
         .navigationTitle(viewModel.title)
         .sheet(isPresented: $viewModel.showRemainingSteps) {
             NavigationStack {
@@ -125,6 +148,7 @@ struct ScrambleView: View {
             CubeView(steps: viewModel.scramble.cubeMoves)
         } else if let image = viewModel.image {
             Image(image: image)
+                .padding(.top)
         }
     }
     

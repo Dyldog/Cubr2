@@ -29,7 +29,7 @@ extension AlgorithmView {
         bestTime: Duration?,
         mnemonicsHandler: MnemonicsHandling,
         iconTapped: @escaping () -> Void
-    ) {
+    ) where InnerContent == AlgorithmStepsView {
         self.init(algorithm: algorithm, bestTime: bestTime) { [weak mnemonicsHandler] steps in
             mnemonicsHandler?.mnemonics(for: steps) ?? []
         } iconTapped: {

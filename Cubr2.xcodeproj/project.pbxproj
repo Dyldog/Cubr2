@@ -43,6 +43,8 @@
 		FC5C1C362DFD03CA004E5190 /* MnemonicsHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5C1C352DFD03CA004E5190 /* MnemonicsHandling.swift */; };
 		FC6CBBA52E06941000B962CC /* Scramble+CubeFlip.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6CBBA42E06941000B962CC /* Scramble+CubeFlip.swift */; };
 		FC6CBBA72E06964900B962CC /* Scramble.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6CBBA62E06964900B962CC /* Scramble.swift */; };
+		FC7C92852E0A2743009CC4EC /* LearnTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7C92842E0A2743009CC4EC /* LearnTestView.swift */; };
+		FC7C92872E0A2DA3009CC4EC /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7C92862E0A2DA3009CC4EC /* ProgressView.swift */; };
 		FC9532A12E00E017005E1907 /* AlgorithmTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9532A02E00E017005E1907 /* AlgorithmTestView.swift */; };
 		FC9532A32E00F0B6005E1907 /* SolveAttempt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9532A22E00F0B6005E1907 /* SolveAttempt.swift */; };
 		FC9532A52E00F1EA005E1907 /* TimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9532A42E00F1EA005E1907 /* TimesView.swift */; };
@@ -61,6 +63,8 @@
 		FCD988C42DF81B160083047A /* 2LookPLL.json in Resources */ = {isa = PBXBuildFile; fileRef = FCD988C32DF81B160083047A /* 2LookPLL.json */; };
 		FCD988C62DF8235E0083047A /* 2LookOLL.json in Resources */ = {isa = PBXBuildFile; fileRef = FCD988C52DF8235E0083047A /* 2LookOLL.json */; };
 		FCD988C82DF8238A0083047A /* StageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD988C72DF8238A0083047A /* StageList.swift */; };
+		FCEE551F2E0A67F200D61B94 /* PracticesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEE551E2E0A67F200D61B94 /* PracticesView.swift */; };
+		FCEE55212E0A6E6B00D61B94 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEE55202E0A6E6B00D61B94 /* HistoryView.swift */; };
 		FCF229092DF939C700B0F881 /* ScrambleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF229082DF939C700B0F881 /* ScrambleView.swift */; };
 /* End PBXBuildFile section */
 
@@ -117,6 +121,8 @@
 		FC5C1C352DFD03CA004E5190 /* MnemonicsHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MnemonicsHandling.swift; sourceTree = "<group>"; };
 		FC6CBBA42E06941000B962CC /* Scramble+CubeFlip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Scramble+CubeFlip.swift"; sourceTree = "<group>"; };
 		FC6CBBA62E06964900B962CC /* Scramble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scramble.swift; sourceTree = "<group>"; };
+		FC7C92842E0A2743009CC4EC /* LearnTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LearnTestView.swift; sourceTree = "<group>"; };
+		FC7C92862E0A2DA3009CC4EC /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		FC9532A02E00E017005E1907 /* AlgorithmTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmTestView.swift; sourceTree = "<group>"; };
 		FC9532A22E00F0B6005E1907 /* SolveAttempt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolveAttempt.swift; sourceTree = "<group>"; };
 		FC9532A42E00F1EA005E1907 /* TimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesView.swift; sourceTree = "<group>"; };
@@ -138,6 +144,8 @@
 		FCD988C32DF81B160083047A /* 2LookPLL.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = 2LookPLL.json; sourceTree = "<group>"; };
 		FCD988C52DF8235E0083047A /* 2LookOLL.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = 2LookOLL.json; sourceTree = "<group>"; };
 		FCD988C72DF8238A0083047A /* StageList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageList.swift; sourceTree = "<group>"; };
+		FCEE551E2E0A67F200D61B94 /* PracticesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticesView.swift; sourceTree = "<group>"; };
+		FCEE55202E0A6E6B00D61B94 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		FCF229082DF939C700B0F881 /* ScrambleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrambleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -240,8 +248,11 @@
 				FC3174062E02567A008EEE8E /* TestView.swift */,
 				FC9532A02E00E017005E1907 /* AlgorithmTestView.swift */,
 				FC3174042E025652008EEE8E /* CubeTestView.swift */,
+				FC7C92842E0A2743009CC4EC /* LearnTestView.swift */,
 				FC9532A42E00F1EA005E1907 /* TimesView.swift */,
+				FCEE551E2E0A67F200D61B94 /* PracticesView.swift */,
 				FC55D4AC2E011814004D499B /* AllTimesView.swift */,
+				FCEE55202E0A6E6B00D61B94 /* HistoryView.swift */,
 				FC55D4BF2E014EB2004D499B /* MethodsView.swift */,
 			);
 			path = Screens;
@@ -256,6 +267,7 @@
 				FC31740C2E025D11008EEE8E /* BestTimeView.swift */,
 				FC3174102E027295008EEE8E /* ScrambleLabel.swift */,
 				FC3174122E027311008EEE8E /* ScrambleSection.swift */,
+				FC7C92862E0A2DA3009CC4EC /* ProgressView.swift */,
 				FC5C1C222DFCFFA6004E5190 /* AlgorithmStepsView.swift */,
 				FC5C1C262DFCFFF1004E5190 /* MnemonicButton.swift */,
 				FC5C1C242DFCFFD6004E5190 /* StepButton.swift */,
@@ -484,6 +496,7 @@
 				FC9532A72E00FCAC005E1907 /* BestTimeHandling.swift in Sources */,
 				FC3174052E025652008EEE8E /* CubeTestView.swift in Sources */,
 				FC9532A12E00E017005E1907 /* AlgorithmTestView.swift in Sources */,
+				FC7C92852E0A2743009CC4EC /* LearnTestView.swift in Sources */,
 				FC55D4C32E017C03004D499B /* CubeView.swift in Sources */,
 				FC38F2172E042093009BB02D /* Timeable.swift in Sources */,
 				FC38F2192E04274F009BB02D /* Zip.swift in Sources */,
@@ -493,13 +506,16 @@
 				FC1197592E01ABB500744006 /* SceneKit+Math.swift in Sources */,
 				FC38F2152E041DB7009BB02D /* SolveMethod+Algorithms.swift in Sources */,
 				FC6CBBA52E06941000B962CC /* Scramble+CubeFlip.swift in Sources */,
+				FCEE55212E0A6E6B00D61B94 /* HistoryView.swift in Sources */,
 				FC55D4AD2E011814004D499B /* AllTimesView.swift in Sources */,
 				FC5C1C272DFCFFF1004E5190 /* MnemonicButton.swift in Sources */,
+				FC7C92872E0A2DA3009CC4EC /* ProgressView.swift in Sources */,
 				FCD988982DF81A080083047A /* Cubr2App.swift in Sources */,
 				FC55D4B22E01385E004D499B /* AlgorithmStage.swift in Sources */,
 				FC31740F2E025E25008EEE8E /* Steps+All.swift in Sources */,
 				FC3174132E027311008EEE8E /* ScrambleSection.swift in Sources */,
 				FC9532A92E00FD6B005E1907 /* AlgorithmHandling.swift in Sources */,
+				FCEE551F2E0A67F200D61B94 /* PracticesView.swift in Sources */,
 				FC5C1C332DFD009D004E5190 /* Algorithm.swift in Sources */,
 				FC55D4C02E014EB2004D499B /* MethodsView.swift in Sources */,
 				FC55D4C52E017D62004D499B /* CubeManager.swift in Sources */,

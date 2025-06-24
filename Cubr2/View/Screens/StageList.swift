@@ -19,9 +19,13 @@ struct StageList: View {
                     NavigationLink {
                         ContentView(step: step)
                     } label: {
-                        Text(step.title)
-                            .bold()
-                            .font(.largeTitle)
+                        VStack(alignment: .leading) {
+                            Text(step.title)
+                                .bold()
+                                .font(.largeTitle)
+                            
+                            Text(description(for: step))
+                        }
                     }
 
                 }
@@ -40,7 +44,7 @@ struct StageList: View {
         }
         .sheet(isPresented: $showAllTimes) {
             NavigationStack {
-                AllTimesView()
+                HistoryView()
             }
         }
         .sheet(isPresented: $showMethods) {
@@ -48,5 +52,25 @@ struct StageList: View {
                 MethodsView()
             }
         }
+    }
+    
+    private func description(for step: any SolveStep) -> String {
+        let algorithms = step.algorithm(with: algorithmsManager).algorithms { _, _, algorithm in
+            algorithm
+        }
+        
+        let counts = algorithms.map { algorithmsManager.algorithmLearningStatus($0) }.uniqueCount
+        
+        guard counts[.learning] != nil || counts[.learned] != nil else {
+            return "\(algorithms.count) algorithms"
+        }
+        
+        return [
+            counts[.learning].map { "\($0) learning."},
+            counts[.learned].map { "\($0) learned."},
+            counts[nil].map { "\($0) not learning."}
+        ]
+        .compactMap { $0 }
+        .joined(separator: " ")
     }
 }

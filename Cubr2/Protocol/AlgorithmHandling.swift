@@ -15,7 +15,7 @@ extension AlgorithmView {
         handler: AlgorithmHandling,
         disallowMmnemonicsUpdating: Bool = false,
         iconTapped: (() -> Void)?
-    ) {
+    ) where InnerContent == AlgorithmStepsView {
         self.init(
             algorithm: algorithm,
             bestTime: handler.bestTime(for: algorithm),

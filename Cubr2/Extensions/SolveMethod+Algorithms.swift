@@ -36,7 +36,7 @@ extension SolveMethod {
 extension SolveStep {
     func algorithm(
         with manager: AlgorithmsManaging,
-        and filter: (Algorithm) -> Bool
+        and filter: (Algorithm) -> Bool = { _ in true}
     ) -> AlgorithmStage {
         AlgorithmStage(
             title: title,

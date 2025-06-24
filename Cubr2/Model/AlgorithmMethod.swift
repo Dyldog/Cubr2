@@ -13,6 +13,18 @@ struct AlgorithmMethod: Hashable {
 }
 
 extension Array where Element == AlgorithmMethod {
+    var algorithms: [Algorithm] {
+        algorithms { _, _, _, algorithm in
+            algorithm
+        }
+    }
+    
+    var algorithmsWithMethod: [AlgorithmWithMethod] {
+        algorithms { method, _, _, algorithm in
+            .init(method: method.method, algorithm: algorithm)
+        }
+    }
+    
     func algorithms<T>(
         mapper: (
             AlgorithmMethod,

@@ -8,21 +8,34 @@
 import DylKit
 import SwiftUI
 
-struct AlgorithmView: View {
+struct AlgorithmView<InnerContent: View>: View {
     let algorithm: AlgorithmWithMethod
     let bestTime: Duration?
-    let mnemonics: (String) -> [StepMnemonic]
+    let content: () -> InnerContent
     
     let iconTapped: () -> Void
-    let mnemonicsUpdated: (([StepMnemonic], String) -> Void)?
     
-    var stepsString: String { algorithm.defaultStepsString }
-    var steps: [String] { algorithm.defaultSteps}
+//    var stepsString: String { algorithm.defaultStepsString }
+//    var steps: [String] { algorithm.defaultSteps}
+    
+    init(
+        algorithm: AlgorithmWithMethod,
+        bestTime: Duration?,
+        content: @escaping () -> InnerContent,
+        iconTapped: @escaping () -> Void,
+        showTimes: AlgorithmWithMethod? = nil
+    ) {
+        self.algorithm = algorithm
+        self.bestTime = bestTime
+        self.iconTapped = iconTapped
+        self.showTimes = showTimes
+        self.content = content
+    }
     
     @State var showTimes: AlgorithmWithMethod?
     
     var body: some View {
-        content
+        contentView
             .sheet(item: $showTimes) { showTimeAlgorithm in
                 NavigationStack {
                     TimesView(timeable: .algorithm(algorithm))
@@ -30,7 +43,7 @@ struct AlgorithmView: View {
             }
     }
     
-    var content: some View {
+    var contentView: some View {
         VStack {
             header
             rowBody
@@ -74,12 +87,29 @@ struct AlgorithmView: View {
             }
             .buttonStyle(.plain)
             
+            content()
+            
+            Spacer()
+        }
+    }
+}
+
+extension AlgorithmView {
+    init(
+        algorithm: AlgorithmWithMethod,
+        bestTime: Duration?,
+        mnemonics: @escaping (String) -> [StepMnemonic],
+        iconTapped: @escaping () -> Void,
+        mnemonicsUpdated: (([StepMnemonic], String) -> Void)?,
+        showTimes: AlgorithmWithMethod? = nil
+    ) where InnerContent == AlgorithmStepsView {
+        self.init(algorithm: algorithm, bestTime: bestTime, content: {
             AlgorithmStepsView(
-                steps: steps,
-                mnemonics: mnemonics(stepsString),
+                steps: algorithm.defaultSteps,
+                mnemonics: mnemonics(algorithm.defaultStepsString),
                 updateMnemonic: mnemonicsUpdated.map { mnemonicsUpdated in
                     { id, new in
-                        var newMnemonics = mnemonics(stepsString)
+                        var newMnemonics = mnemonics(algorithm.defaultStepsString)
                         
                         let index = newMnemonics.firstIndex(where: { $0.id == id})
                         
@@ -91,10 +121,10 @@ struct AlgorithmView: View {
                             newMnemonics.remove(at: index)
                         }
                         
-                        mnemonicsUpdated(newMnemonics, stepsString)
+                        mnemonicsUpdated(newMnemonics, algorithm.defaultStepsString)
                     }
                 }
             )
-        }
+        }, iconTapped: iconTapped, showTimes: showTimes)
     }
 }

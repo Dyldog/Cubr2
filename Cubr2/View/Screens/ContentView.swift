@@ -27,13 +27,48 @@ class ContentViewModel: ObservableObject, AlgorithmHandling {
         algorithms = algorithmsManager.algorithms(for: step)
     }
     
-    func algorithmIsLearning(_ algorithm: Algorithm) -> Bool {
-        algorithmsManager.algorithmIsLearning(algorithm)
+    func backgroundColor(_ algorithm: Algorithm) -> Color {
+        switch algorithmsManager.algorithmLearningStatus(algorithm) {
+        case .none: .white
+        case .learning: swipeColor(for: .learning)
+        case .learned: swipeColor(for: .learned)
+        }
     }
     
-    func toggleAlgorithmForLearning(_ algorithm: Algorithm) {
-        algorithmsManager.toggleAlgorithmForLearning(algorithm)
+    func swipeColor(for status: LearningStatus?) -> Color {
+        switch status {
+        case .none: .red
+        case .learning: .actualYellow
+        case .learned: .actualGreen
+        }
+    }
+    
+    func swipeImage(for status: LearningStatus?) -> Image {
+        switch status {
+        case .learning: Image(systemName: "brain.fill")
+        case .learned: Image(systemName: "graduationcap.fill")
+        case .none: Image(systemName: "trash")
+        }
+    }
+    
+    func swipeAction(for status: LearningStatus?, for algorithm: Algorithm) {
+        switch status {
+        case .none: algorithmsManager.markAlgorithmForLearning(algorithm, status: nil)
+        case .learning: algorithmsManager.markAlgorithmForLearning(algorithm, status: .learning)
+        case .learned: algorithmsManager.markAlgorithmForLearning(algorithm, status: .learned)
+        }
+        
         reload()
+    }
+    
+    func swipeButtons(for algorithm: Algorithm) -> [(color: Color, image: Image, action: () -> Void)] {
+        let learningStatus = algorithmsManager.algorithmLearningStatus(algorithm).next
+        
+        return [
+            (swipeColor(for: learningStatus), swipeImage(for: learningStatus), { [weak self] in
+                self?.swipeAction(for: learningStatus, for: algorithm)
+            })
+        ]
     }
     
     func scramble(for algorithm: Algorithm) -> Scramble {
@@ -82,26 +117,21 @@ struct ContentView: View {
         AlgorithmView(algorithm: algorithm, handler: viewModel) {
             viewModel.showScramble = algorithm
         }
-        .if(viewModel.algorithmIsLearning(algorithm.algorithm)) {
-            $0.listRowBackground(Color.actualYellow)
-        }
+        .listRowBackground(viewModel.backgroundColor(algorithm.algorithm))
         .swipeActions {
-            Button {
-                viewModel.toggleAlgorithmForLearning(algorithm.algorithm)
-            } label: {
-                Image(systemName: "brain.fill")
+            ForEach(viewModel.swipeButtons(for: algorithm.algorithm)) { button in
+                Button {
+                    button.action()
+                } label: {
+                    button.image
+                }
+                .tint(button.color)
             }
-            .tint(viewModel.algorithmIsLearning(algorithm.algorithm) ? .gray : .actualYellow)
+            
         }
     }
 }
 
 #Preview {
     ContentView(step: CFOPSolveStep.twoLookOLL)
-}
-
-private extension Color {
-    static var actualYellow: Color {
-        .init(uiColor: .yellow)
-    }
 }

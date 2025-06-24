@@ -8,11 +8,26 @@
 import DylKit
 import UIKit
 
+enum LearningStatus: Codable {
+    case learning
+    case learned
+}
+
+extension Optional where Wrapped == LearningStatus {
+    var next: LearningStatus? {
+        switch self {
+        case .none: .learning
+        case .learning: .learned
+        case .learned: .none
+        }
+    }
+}
+
 class AlgorithmsManager: ObservableObject, AlgorithmsManaging {
     static var shared: AlgorithmsManager = .init()
     
     @UserDefaultable(key: DefaultKeys.learnedAlgorithms)
-    private var storedLearningAlgorithms: [String: Bool] = [:]
+    private var storedLearningAlgorithms: [String: LearningStatus] = [:]
     
     @UserDefaultable(key: DefaultKeys.mnemonics) 
     private var mnemonics: [String: [StepMnemonic]] = [:]
@@ -22,6 +37,9 @@ class AlgorithmsManager: ObservableObject, AlgorithmsManaging {
     
     @UserDefaultable(key: DefaultKeys.enabledMethods)
     private var enabledMethods: [SolveMethod: Bool] = [:]
+    
+    @UserDefaultable(key: DefaultKeys.learningEvents)
+    private var learningEvents: [Day: [String: [LearningEvent]]] = [:]
     
     private func data(for step: any SolveStep) -> AlgorithmGroupData {
         let url = Bundle.main.url(forResource: step.file, withExtension: "json")!
@@ -59,16 +77,13 @@ class AlgorithmsManager: ObservableObject, AlgorithmsManaging {
         return groups
     }
     
-    func algorithmIsLearning(_ algorithm: Algorithm) -> Bool {
-        storedLearningAlgorithms[algorithm.name] ?? false
+    func algorithmLearningStatus(_ algorithm: Algorithm) -> LearningStatus? {
+        storedLearningAlgorithms[algorithm.name]
     }
     
-    func markAlgorithmForLearning(_ algorithm: Algorithm, learning: Bool) {
-        storedLearningAlgorithms[algorithm.name] = learning
-    }
-    
-    func toggleAlgorithmForLearning(_ algorithm: Algorithm) {
-        markAlgorithmForLearning(algorithm, learning: !algorithmIsLearning(algorithm))
+    func markAlgorithmForLearning(_ algorithm: Algorithm, status: LearningStatus?) {
+        objectWillChange.send()
+        storedLearningAlgorithms[algorithm.name] = status
     }
     
     var methodsEnabled: [SolveMethod] {
@@ -77,7 +92,13 @@ class AlgorithmsManager: ObservableObject, AlgorithmsManaging {
     
     var learningAlgorithms: [AlgorithmMethod] {
         methodsEnabled.algorithms(with: self) {
-            algorithmIsLearning($0)
+            algorithmLearningStatus($0) == .learning
+        }
+    }
+    
+    var learnedAndLearningAlgorithms: [AlgorithmMethod] {
+        methodsEnabled.algorithms(with: self) {
+            algorithmLearningStatus($0) != nil
         }
     }
     
@@ -121,6 +142,50 @@ class AlgorithmsManager: ObservableObject, AlgorithmsManaging {
         objectWillChange.send()
         enabledMethods[method] = enabled
     }
+    
+    var maxLearnedCountForToday: Int {
+        var learningAlgorithmNames = learningAlgorithms.algorithms.map { $0.name }
+        return learningEvents[.today]?
+            .filter { learningAlgorithmNames.contains($0.key) }
+            .map { $0.value.count }.min() ?? 0
+    }
+    
+    func testAlgorithms(
+        for day: Day = .today,
+        countForLearned: Int = LearningEvent.countForLearned,
+        includeAll: Bool = false
+    ) -> [AlgorithmWithMethod] {
+        guard includeAll == false else { return learningAlgorithms.algorithmsWithMethod }
+        
+        let alreadyTested = learningEvents[day, default: [:]]
+            .filter { $0.value.count >= countForLearned }.keys
+        
+        return learningAlgorithms.algorithmsWithMethod
+            .filter { !alreadyTested.contains($0.name) }
+    }
+    
+    var learningDays: [Day] {
+        Array(learningEvents.keys)
+    }
+    
+    func learningEvents(for algorithm: Algorithm, on day: Day = .today) -> [LearningEvent] {
+        learningEvents[day, default: [:]][algorithm.name, default: []]
+    }
+    
+    func allLearningEvents(for algorithm: Algorithm) -> [Day: [LearningEvent]] {
+        learningDays.reduce(into: [:]) { partialResult, day in
+            partialResult[day] = learningEvents(for: algorithm, on: day)
+        }
+        .filter { $0.value.isEmpty == false }
+    }
+    
+    func updateLearningEvents(
+        for algorithm: Algorithm,
+        to newEvents: [LearningEvent],
+        on day: Day = .today
+    ) {
+        learningEvents[day, default: [:]][algorithm.name] = newEvents
+    }
 }
 
 private extension AlgorithmsManager {
@@ -129,6 +194,7 @@ private extension AlgorithmsManager {
         case mnemonics = "MNEMONICS"
         case bestTimes = "BEST_TIMES"
         case enabledMethods = "ENABLED_METHODS"
+        case learningEvents = "LEARNING_EVENTS"
     }
 }
 
@@ -141,5 +207,32 @@ private extension AlgorithmGroupData {
 extension Array {
     func grouping<Key: Hashable>(by grouper: (Element) -> Key) -> Dictionary<Key, [Element]> {
         Dictionary(grouping: self, by: grouper)
+    }
+}
+
+struct Day: Hashable, Codable, Comparable, Identifiable {
+    let day: Int
+    let month: Int
+    let year: Int
+    
+    var id: String { "D:\(day)M:\(month)Y:\(year)"}
+    
+    static var today: Day {
+        Calendar.autoupdatingCurrent.today
+    }
+    
+    static func < (lhs: Day, rhs: Day) -> Bool {
+        lhs.year < rhs.year && lhs.month < rhs.month && lhs.day < rhs.day
+    }
+    
+    var string: String {
+        "\(day)/\(month)/\(year)"
+    }
+}
+
+extension Calendar {
+    var today: Day {
+        let comps = dateComponents([.year, .month, .day], from: .now)
+        return .init(day: comps.day!, month: comps.month!, year: comps.year!)
     }
 }

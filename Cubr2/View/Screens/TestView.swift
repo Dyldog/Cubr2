@@ -9,8 +9,8 @@ import DylKit
 import SwiftUI
 
 enum TestMode: CaseIterable, Pickable {
-    case cube
     case algorithms
+    case cube
     
     var title: String {
         switch self {
@@ -21,7 +21,7 @@ enum TestMode: CaseIterable, Pickable {
 }
 
 class TestViewModel: ObservableObject {
-    @Published var mode: TestMode = .cube
+    @Published var mode: TestMode = .algorithms
 }
 
 struct TestView: View {
@@ -29,15 +29,15 @@ struct TestView: View {
     
     var body: some View {
         VStack {
-            Picker("Test Mode", selection: $viewModel.mode)
-                .pickerStyle(.segmented)
-                .labelsHidden()
-                .padding(.horizontal)
-            
             switch viewModel.mode {
             case .cube: CubeTestView()
-            case .algorithms: AlgorithmTestView()
+            case .algorithms: LearnTestView() // AlgorithmTestView()
             }
+        }
+        .toolbar {
+            Picker("Test Mode", selection: $viewModel.mode)
+                .pickerStyle(.menu)
+                .labelsHidden()
         }
     }
 }

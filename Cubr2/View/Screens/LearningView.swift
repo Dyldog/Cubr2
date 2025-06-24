@@ -5,6 +5,7 @@
 //  Created by Dylan Elliott on 12/6/2025.
 //
 
+import DylKit
 import SwiftUI
 
 struct AlgorithmWithMethod: Hashable, Identifiable {
@@ -35,13 +36,16 @@ class LearningViewModel: ObservableObject, AlgorithmHandling {
 
     @Published private(set) var algorithms: [AlgorithmMethod] = []
     @Published var learningAlgorithm: AlgorithmWithMethod?
+    @Published var showLearned: Bool = false
     
     init() {
         reload()
     }
     
     func reload() {
-        algorithms = algorithmsManager.learningAlgorithms
+        algorithms = showLearned
+                     ? algorithmsManager.learnedAndLearningAlgorithms
+                     : algorithmsManager.learningAlgorithms
     }
     
     var randomAlgorithm: AlgorithmWithMethod? {
@@ -54,6 +58,19 @@ class LearningViewModel: ObservableObject, AlgorithmHandling {
     func scramble(for algorithm: Algorithm) -> [String] {
         algorithm.scrambles.first ?? []
     }
+    
+    func backgroundColor(for algorithm: Algorithm) -> Color {
+        switch algorithmsManager.algorithmLearningStatus(algorithm) {
+        case .none: .white
+        case .learning: .actualYellow
+        case .learned: .actualGreen
+        }
+    }
+    
+    func showLearnedTapped() {
+        showLearned.toggle()
+        reload()
+    }
 }
 
 struct LearningView: View {
@@ -61,9 +78,13 @@ struct LearningView: View {
     
     var body: some View {
         List {
-            ForEach(viewModel.algorithms) { method in
-                ForEach(method.stages) { stage in
-                    stageView(for: stage, in: method.method)
+            if viewModel.algorithms.isEmpty {
+                Text("Add some algorithms to learn in the 'All' tab")
+            } else {
+                ForEach(viewModel.algorithms) { method in
+                    ForEach(method.stages) { stage in
+                        stageView(for: stage, in: method.method)
+                    }
                 }
             }
         }
@@ -71,6 +92,10 @@ struct LearningView: View {
         .toolbar {
             Button(systemName: "brain.fill") {
                 viewModel.learningAlgorithm = viewModel.randomAlgorithm
+            }
+            
+            Button(systemName: "graduationcap.fill") {
+                viewModel.showLearnedTapped()
             }
         }
         .sheet(item: $viewModel.learningAlgorithm) { algorithm in
@@ -102,6 +127,7 @@ struct LearningView: View {
             ) {
                 viewModel.learningAlgorithm = .init(method: method, algorithm: algorithm)
             }
+            .listRowBackground(viewModel.backgroundColor(for: algorithm))
         }
     }
 }
