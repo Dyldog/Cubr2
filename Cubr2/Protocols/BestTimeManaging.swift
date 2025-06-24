@@ -11,12 +11,13 @@ import SwiftUI
 protocol BestTimeManaging: AnyObject, BestTimeHandling, ObservableObject
 where Self.ObjectWillChangePublisher == ObservableObjectPublisher {
     var currentTime: Duration? { get set }
-    var bestTime: Duration? { get }
+    var currentHints: Int { get set }
+    var bestTime: SolveTime? { get }
     var currentTimer: Timer? { get set }
     var showTimes: Bool { get set}
     
     func loadTest()
-    func saveTime(_ time: Duration)
+    func saveTime(_ time: Duration, hints: Int)
 }
 
 extension BestTimeManaging {
@@ -28,11 +29,12 @@ extension BestTimeManaging {
     }
     
     var bestTimeString: String? {
-        bestTime.map { $0.timeString }
+        bestTime.map { "\($0.time.timeString) (\($0.hints))" }
     }
     
     private func startTimer() {
         currentTime = .zero
+        currentHints = 0
         
         currentTimer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { timer in
             self.currentTime = (self.currentTime ?? .zero) + .seconds(timer.timeInterval)
@@ -52,6 +54,7 @@ extension BestTimeManaging {
         stopTimer()
         loadTest()
         currentTime = nil
+        currentHints = 0
     }
     
     func stopTapped() {
@@ -61,7 +64,7 @@ extension BestTimeManaging {
         
         objectWillChange.send()
         
-        saveTime(currentTime)
+        saveTime(currentTime, hints: currentHints)
     }
     
     func cancelTapped() {

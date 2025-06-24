@@ -14,9 +14,22 @@ struct TimesView: View {
     
     @State private var sortOrder: SortOrder = .byTime
     @State private var testTime: SolveAttempt?
+    @State private var hideWithHints: Bool
+    
+    init(
+        timeable: Timeable,
+        hideWithHints: Bool = false
+    ) {
+        self.timeable = timeable
+        self._hideWithHints = .init(initialValue: hideWithHints)
+    }
     
     var times: [SolveAttempt] {
-        algorithmsManager.attempts(for: timeable).sorted(by: sortOrder)
+        algorithmsManager
+            .attempts(for: timeable).sorted(by: sortOrder)
+            .if(hideWithHints) {
+                $0.filter { $0.hints == 0 }
+            }
     }
     
     var body: some View {
@@ -32,6 +45,10 @@ struct TimesView: View {
             }
         }
         .toolbar {
+            Button(systemName: hideWithHints ? "eye.slash.fill" : "eye.fill") {
+                hideWithHints.toggle()
+            }
+            
             Button(systemName: "arrow.up.arrow.down") {
                 sortOrder = sortOrder.next
             }
@@ -45,28 +62,13 @@ struct TimesView: View {
     }
     
     private func row(for time: SolveAttempt) -> some View {
-        VStack(alignment: .leading) {
-            HStack(alignment: .firstTextBaseline) {
-                Text(time.time.timeString)
-                    .font(.largeTitle)
-                    .fixedSize()
-                
-                Text(time.date.description)
-                    .foregroundStyle(.gray)
-                    .font(.footnote)
-                    .frame(maxWidth: .infinity)
+        TimeRow(time: time)
+            .swipeActions {
+                Button(systemName: "trash") {
+                    algorithmsManager.deleteTime(time, for: timeable)
+                }
+                .tint(.red)
             }
-            
-            ScrambleLabel(scramble: time.scramble, fontSize: 20)
-                .allowsHitTesting(false)
-                .padding(.horizontal)
-        }
-        .swipeActions {
-            Button(systemName: "trash") {
-                algorithmsManager.deleteTime(time, for: timeable)
-            }
-            .tint(.red)
-        }
     }
     
     @ViewBuilder
@@ -77,6 +79,46 @@ struct TimesView: View {
         case .cube:
             CubeTestView(viewModel: .init(forcedScramble: time.scramble))
         }
+    }
+}
+
+struct TimeRow: View {
+//    @State var showHint: Bool = false
+    let time: SolveAttempt
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            
+            HStack {
+                Text(time.time.timeString)
+                    .font(.system(size: 48))
+                    .fixedSize()
+                
+                Spacer()
+                
+                VStack {
+                    if time.hints > 0 {
+                        Text("\(time.hints) \("hint".pluralise(time.hints)) used")
+                            .font(.footnote)
+                    }
+                    
+                    Text(time.date.formatted(date: .numeric, time: .omitted))
+                        .foregroundStyle(.gray)
+                        .font(.footnote)
+                }
+                
+//                Button(systemName: "eye.fill") {
+//                    showHint = true
+//                }
+            }
+            
+//            if showHint {
+//                ScrambleLabel(scramble: time.scramble, fontSize: 20)
+//                    .allowsHitTesting(false)
+//                    .padding(.horizontal)
+//            }
+        }
+        .id(time)
     }
 }
 

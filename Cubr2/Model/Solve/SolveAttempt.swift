@@ -7,9 +7,10 @@
 
 import Foundation
 
-struct SolveAttempt: Codable, Identifiable {
+struct SolveAttempt: Codable, Identifiable, Hashable {
     let id: UUID
     let date: Date
     let time: Duration
+    let hints: Int
     let scramble: [String]
 }

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct AlgorithmView<InnerContent: View>: View {
     let algorithm: AlgorithmWithMethod
-    let bestTime: Duration?
+    let bestTime: SolveTime?
     let content: () -> InnerContent
     
     let iconTapped: () -> Void
@@ -20,7 +20,7 @@ struct AlgorithmView<InnerContent: View>: View {
     
     init(
         algorithm: AlgorithmWithMethod,
-        bestTime: Duration?,
+        bestTime: SolveTime?,
         content: @escaping () -> InnerContent,
         iconTapped: @escaping () -> Void,
         showTimes: AlgorithmWithMethod? = nil
@@ -63,7 +63,7 @@ struct AlgorithmView<InnerContent: View>: View {
                     } label: {
                         HStack {
                             Image(systemName: "star")
-                            Text(bestTime.timeString)
+                            Text(bestTime.string)
                         }
                     }
                 }
@@ -97,7 +97,7 @@ struct AlgorithmView<InnerContent: View>: View {
 extension AlgorithmView {
     init(
         algorithm: AlgorithmWithMethod,
-        bestTime: Duration?,
+        bestTime: SolveTime?,
         mnemonics: @escaping (String) -> [StepMnemonic],
         iconTapped: @escaping () -> Void,
         mnemonicsUpdated: (([StepMnemonic], String) -> Void)?,

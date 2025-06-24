@@ -115,17 +115,18 @@ class AlgorithmsManager: ObservableObject, AlgorithmsManaging {
         bestTimes[timeable.id, default: []]
     }
     
-    func bestTime(for timeable: Timeable) -> Duration? {
+    func bestTime(for timeable: Timeable, withoutHints: Bool = false) -> SolveTime? {
         attempts(for: timeable)
+            .if(withoutHints) { times in times.filter { $0.hints == 0 } }
             .sorted { $0.time < $1.time }
-            .first?
-            .time
+            .first
+            .map { .init(time: $0.time, hints: $0.hints) }
     }
     
-    func addTime(_ duration: Duration, for timeable: Timeable, with scramble: [String]) {
+    func addTime(_ duration: Duration, with hints: Int, for timeable: Timeable, with scramble: [String]) {
         objectWillChange.send()
         bestTimes[timeable.id, default: []].append(
-            SolveAttempt(id: .init(), date: .now, time: duration, scramble: scramble)
+            SolveAttempt(id: .init(), date: .now, time: duration, hints: hints, scramble: scramble)
         )
     }
     

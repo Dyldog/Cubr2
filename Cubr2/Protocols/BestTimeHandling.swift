@@ -12,7 +12,7 @@ protocol BestTimeHandling {
 }
 
 extension BestTimeHandling {
-    func bestTime(for algorithm: AlgorithmWithMethod) -> Duration? {
+    func bestTime(for algorithm: AlgorithmWithMethod) -> SolveTime? {
         algorithmsManager.bestTime(for: .algorithm(algorithm))
     }
 }

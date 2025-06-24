@@ -15,6 +15,7 @@ class AlgorithmTestViewModel: BestTimeManaging {
 
     @Published var currentTimer: Timer?
     @Published var currentTime: Duration?
+    @Published var currentHints: Int = 0
     
     @Published var showTimes: Bool = false
     
@@ -72,14 +73,15 @@ class AlgorithmTestViewModel: BestTimeManaging {
         }
     }
     
-    var bestTime: Duration? {
+    var bestTime: SolveTime? {
         algorithmsManager.bestTime(for: .algorithm(algorithm))
     }
 
     
-    func saveTime(_ duration: Duration) {
+    func saveTime(_ time: Duration, hints: Int) {
         algorithmsManager.addTime(
-            duration,
+            time,
+            with: hints,
             for: .algorithm(algorithm),
             with: scramble
         )

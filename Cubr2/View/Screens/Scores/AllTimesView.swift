@@ -18,6 +18,8 @@ struct AllTimesView: View {
         algorithmsManager.methodsEnabled.allAlgorithmsWithTimes()
     }
     
+    @State var hideWithHints: Bool = false
+    
     var body: some View {
         List {
             if hasFullCubeTimes {
@@ -34,8 +36,13 @@ struct AllTimesView: View {
                 }
             }
         }
+        .toolbar {
+            Button(systemName: hideWithHints ? "eye.slash.fill" : "eye.fill") {
+                hideWithHints.toggle()
+            }
+        }
         .navigationDestination(for: Timeable.self) { timeable in
-            TimesView(timeable: timeable)
+            TimesView(timeable: timeable, hideWithHints: hideWithHints)
         }
         .navigationTitle("All Times")
     }
@@ -46,7 +53,7 @@ struct AllTimesView: View {
                 Image(uiImage: timeable.image)
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 100)
+                    .frame(width: 90)
                 
                 VStack(alignment: .leading) {
                     Text(timeable.name)
@@ -66,7 +73,8 @@ struct AllTimesView: View {
     }
     
     private func bestTime(for timeable: Timeable) -> String {
-        algorithmsManager.bestTime(for: timeable)?.timeString ?? ""
+        let time = algorithmsManager.bestTime(for: timeable, withoutHints: hideWithHints)
+        return time.map { hideWithHints ? $0.time.timeString : $0.string } ?? ""
     }
     
     private func attemptsString(for timeable: Timeable) -> String {

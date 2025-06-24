@@ -26,7 +26,7 @@ extension MnemonicsHandling {
 extension AlgorithmView {
     init(
         algorithm: AlgorithmWithMethod, 
-        bestTime: Duration?,
+        bestTime: SolveTime?,
         mnemonicsHandler: MnemonicsHandling,
         iconTapped: @escaping () -> Void
     ) where InnerContent == AlgorithmStepsView {
