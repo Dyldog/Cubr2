@@ -152,15 +152,17 @@ class AlgorithmsManager: ObservableObject, AlgorithmsManaging {
     
     func testAlgorithms(
         for day: Day = .today,
-        countForLearned: Int = LearningEvent.countForLearned,
-        includeAll: Bool = false
+        countForLearned: Int? = LearningEvent.countForLearned,
+        includeLearned: Bool = false
     ) -> [AlgorithmWithMethod] {
-        guard includeAll == false else { return learningAlgorithms.algorithmsWithMethod }
+        var baseArray = includeLearned ? learnedAndLearningAlgorithms : learningAlgorithms
+        
+        guard let countForLearned else { return baseArray.algorithmsWithMethod }
         
         let alreadyTested = learningEvents[day, default: [:]]
             .filter { $0.value.count >= countForLearned }.keys
         
-        return learningAlgorithms.algorithmsWithMethod
+        return baseArray.algorithmsWithMethod
             .filter { !alreadyTested.contains($0.name) }
     }
     

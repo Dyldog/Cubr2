@@ -9,19 +9,21 @@ import DylKit
 import SwiftUI
 
 enum TestMode: CaseIterable, Pickable {
-    case algorithms
+    case learningAlgorithms
+    case learningAndLearnedAlgorithms
     case cube
     
     var title: String {
         switch self {
         case .cube: "Full Cube"
-        case .algorithms: "Algorithms"
+        case .learningAlgorithms: "Learning Algorithms"
+        case .learningAndLearnedAlgorithms: "Learning & Learned Algorithms"
         }
     }
 }
 
 class TestViewModel: ObservableObject {
-    @Published var mode: TestMode = .algorithms
+    @Published var mode: TestMode = .learningAlgorithms
 }
 
 struct TestView: View {
@@ -31,7 +33,8 @@ struct TestView: View {
         VStack {
             switch viewModel.mode {
             case .cube: CubeTestView()
-            case .algorithms: LearnTestView() // AlgorithmTestView()
+            case .learningAlgorithms: LearnTestView() // AlgorithmTestView()
+            case .learningAndLearnedAlgorithms: LearnTestView(includeLearned: true)
             }
         }
         .toolbar {

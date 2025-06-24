@@ -15,6 +15,8 @@ class LearnTestViewModel: ObservableObject, PracticesHandling {
     @Published private(set) var learningEvents: [LearningEvent] = []
     @Published private(set) var hintUsed: Bool = false
     
+    let includeLearned: Bool
+    
     @Published var alert: DylKit.Alert?
 
     var countForLearned: Int = 0
@@ -38,13 +40,17 @@ class LearnTestViewModel: ObservableObject, PracticesHandling {
     
     var completedTests: [(AlgorithmWithMethod, [PracticesHandling.Label])] { labels(for: .today) }
     
-    init() {
-        countForLearned = LearningEvent.countForLearned
+    init(includeLearned: Bool) {
+        self.countForLearned = LearningEvent.countForLearned
+        self.includeLearned = includeLearned
         loadTest()
     }
     
     func loadTest() {
-        algorithm = algorithmsManager.testAlgorithms(countForLearned: countForLearned).randomElement()
+        algorithm = algorithmsManager.testAlgorithms(
+            countForLearned: countForLearned,
+            includeLearned: includeLearned
+        ).randomElement()
         learningEvents = (algorithm?.algorithm).map { algorithmsManager.learningEvents(for: $0) } ?? []
         hintUsed = false
     }
@@ -99,7 +105,11 @@ class LearnTestViewModel: ObservableObject, PracticesHandling {
 }
 
 struct LearnTestView: View {
-    @StateObject var viewModel: LearnTestViewModel = .init()
+    @StateObject var viewModel: LearnTestViewModel
+    
+    init(includeLearned: Bool = false) {
+        _viewModel = .init(wrappedValue: .init(includeLearned: includeLearned))
+    }
     
     var body: some View {
         VStack(spacing: 0) {
