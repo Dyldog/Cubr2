@@ -45,7 +45,7 @@ struct CubeTestView: View {
             VStack {
                 Spacer()
                 
-                CubeView(steps: viewModel.scramble.cubeMoves)
+                CubeView(steps: viewModel.scramble.cubeMoves, showResetButton: true)
                     .id(viewModel.scramble)
                 
                 ScrambleSection(scramble: viewModel.scramble)

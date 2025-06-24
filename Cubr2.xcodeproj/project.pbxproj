@@ -67,6 +67,7 @@
 		FCEE551F2E0A67F200D61B94 /* PracticesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEE551E2E0A67F200D61B94 /* PracticesView.swift */; };
 		FCEE55212E0A6E6B00D61B94 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEE55202E0A6E6B00D61B94 /* HistoryView.swift */; };
 		FCF229092DF939C700B0F881 /* ScrambleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF229082DF939C700B0F881 /* ScrambleView.swift */; };
+		FCF8761B2E0AAD620045B841 /* CubeMoveList.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF8761A2E0AAD620045B841 /* CubeMoveList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,6 +150,7 @@
 		FCEE551E2E0A67F200D61B94 /* PracticesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticesView.swift; sourceTree = "<group>"; };
 		FCEE55202E0A6E6B00D61B94 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		FCF229082DF939C700B0F881 /* ScrambleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrambleView.swift; sourceTree = "<group>"; };
+		FCF8761A2E0AAD620045B841 /* CubeMoveList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CubeMoveList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -249,6 +251,7 @@
 				FCBFBE042E01057200E33B6A /* TutorialView.swift */,
 				FC3174062E02567A008EEE8E /* TestView.swift */,
 				FC9532A02E00E017005E1907 /* AlgorithmTestView.swift */,
+				FCF8761A2E0AAD620045B841 /* CubeMoveList.swift */,
 				FC3174042E025652008EEE8E /* CubeTestView.swift */,
 				FC7C92842E0A2743009CC4EC /* LearnTestView.swift */,
 				FC9532A42E00F1EA005E1907 /* TimesView.swift */,
@@ -529,6 +532,7 @@
 				FC3174092E025919008EEE8E /* TimerView.swift in Sources */,
 				FC3174072E02567A008EEE8E /* TestView.swift in Sources */,
 				FC55D4B42E0138B4004D499B /* AlgorithmMethod.swift in Sources */,
+				FCF8761B2E0AAD620045B841 /* CubeMoveList.swift in Sources */,
 				FC9532A32E00F0B6005E1907 /* SolveAttempt.swift in Sources */,
 				FC5C1C2F2DFD0067004E5190 /* SolveStep.swift in Sources */,
 				FC3174112E027295008EEE8E /* ScrambleLabel.swift in Sources */,

@@ -28,6 +28,7 @@ class TestViewModel: ObservableObject {
 
 struct TestView: View {
     @StateObject var viewModel: TestViewModel = .init()
+    @State var showDebug: Bool = false
     
     var body: some View {
         VStack {
@@ -37,10 +38,23 @@ struct TestView: View {
             case .learningAndLearnedAlgorithms: LearnTestView(includeLearned: true)
             }
         }
+        .sheet(isPresented: $showDebug) {
+            NavigationStack {
+                CubeMoveList()
+            }
+        }
         .toolbar {
-            Picker("Test Mode", selection: $viewModel.mode)
-                .pickerStyle(.menu)
-                .labelsHidden()
+            ToolbarItem(placement: .topBarTrailing) {
+                Picker("Test Mode", selection: $viewModel.mode)
+                    .pickerStyle(.menu)
+                    .labelsHidden()
+            }
+            
+            ToolbarItem(placement: .topBarLeading) {
+                Button(systemName: "ant.fill") {
+                    showDebug = true
+                }
+            }
         }
     }
 }
