@@ -19,7 +19,7 @@ class LearnTestViewModel: ObservableObject, PracticesHandling {
     
     @Published var alert: DylKit.Alert?
 
-    var countForLearned: Int = 0
+    @Published var countForLearned: Int = 0
     
     var image: UIImage { algorithm.image }
     var scramble: [String] { algorithm.algorithm.scrambles.first ?? [] }
