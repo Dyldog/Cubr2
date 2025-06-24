@@ -21,8 +21,10 @@ extension PracticesHandling {
             .map { ($0.value, $0.key.color, $0.key.image) }
     }
     
-    func algorithms(for day: Day) -> [AlgorithmWithMethod] {
-        algorithmsManager.testAlgorithms(for: day, includeAll: true)
+    private func algorithms(for day: Day) -> [AlgorithmWithMethod] {
+        algorithmsManager.methodsEnabled
+            .algorithms(with: algorithmsManager) { _ in true }
+            .algorithmsWithMethod
     }
     
     func labels(for day: Day) -> [(AlgorithmWithMethod, [Label])] {
