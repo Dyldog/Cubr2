@@ -144,7 +144,7 @@ class AlgorithmsManager: ObservableObject, AlgorithmsManaging {
     }
     
     var maxLearnedCountForToday: Int {
-        var learningAlgorithmNames = learningAlgorithms.algorithms.map { $0.name }
+        let learningAlgorithmNames = learningAlgorithms.algorithms.map { $0.name }
         return learningEvents[.today]?
             .filter { learningAlgorithmNames.contains($0.key) }
             .map { $0.value.count }.min() ?? 0

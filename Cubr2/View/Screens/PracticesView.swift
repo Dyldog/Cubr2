@@ -7,9 +7,7 @@
 
 import SwiftUI
 
-class PracticesViewModel: ObservableObject {
-    typealias Label = (Int, Image)
-    
+class PracticesViewModel: ObservableObject, PracticesHandling {
     let algorithmsManager: AlgorithmsManager
     
     var days: [Day] {
@@ -19,7 +17,7 @@ class PracticesViewModel: ObservableObject {
             .sorted(by: >)
     }
     
-    @Published var tests: [Day: [(AlgorithmWithMethod, [Label])]] = [:]
+    @Published var tests: [Day: [(AlgorithmWithMethod, [PracticesHandling.Label])]] = [:]
     
     init(algorithmsManager: AlgorithmsManager = .shared) {
         self.algorithmsManager = algorithmsManager
@@ -31,24 +29,6 @@ class PracticesViewModel: ObservableObject {
             .reduce(into: [:], { days, day in
                 days[day] = labels(for: day)
             })
-    }
-    
-    private func algorithms(for day: Day) -> [AlgorithmWithMethod] {
-        algorithmsManager.testAlgorithms(for: day, includeAll: true)
-    }
-    
-    private func labels(for day: Day) -> [(AlgorithmWithMethod, [Label])] {
-        algorithms(for: day).map { algorithm in
-            (algorithm, labels(for: algorithm.algorithm, on: day))
-        }
-        .filter { $0.1.isEmpty == false }
-    }
-    
-    private func labels(for algorithm: Algorithm, on day: Day) -> [Label] {
-        algorithmsManager.learningEvents(for: algorithm, on: day)
-            .uniqueCount
-            .sorted { $0.key < $1.key }
-            .map { ($0.value, $0.key.image)}
     }
     
     func deletePractices(for algorithm: Algorithm, on day: Day) {
@@ -83,7 +63,7 @@ struct PracticesView: View {
 
 struct PracticeRow: View {
     let algorithm: AlgorithmWithMethod
-    let labels: [(Int, Image)]
+    let labels: [PracticesHandling.Label]
     
     var body: some View {
         AlgorithmView(
@@ -111,15 +91,17 @@ struct PracticeRow: View {
 }
 
 struct PracticeLabel: View {
-    let label: (Int, Image)
+    let label: PracticesHandling.Label
     
     var body: some View {
         VStack {
             Text("\(label.0)")
                 .font(.system(size: 48))
-            label.1.bold()
+                .fixedSize()
+            label.2.bold()
         }
         .padding([.bottom, .horizontal])
         .padding(.top, 4)
+        .foregroundStyle(label.1)
     }
 }

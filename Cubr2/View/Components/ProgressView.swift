@@ -159,6 +159,14 @@ enum LearningEvent: Int, Codable {
     var image: Image {
         .init(systemName: imageName)
     }
+    
+    var color: Color {
+        switch self {
+        case .success: .green
+        case .fail: .red
+        case .successWithHint: .purple
+        }
+    }
 }
 
 extension LearningEvent: Comparable {

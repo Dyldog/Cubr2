@@ -50,6 +50,7 @@
 		FC9532A52E00F1EA005E1907 /* TimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9532A42E00F1EA005E1907 /* TimesView.swift */; };
 		FC9532A72E00FCAC005E1907 /* BestTimeHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9532A62E00FCAC005E1907 /* BestTimeHandling.swift */; };
 		FC9532A92E00FD6B005E1907 /* AlgorithmHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9532A82E00FD6B005E1907 /* AlgorithmHandling.swift */; };
+		FCA096F52E0A928E007A6E9C /* PracticesHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA096F42E0A928E007A6E9C /* PracticesHandling.swift */; };
 		FCB95A792E0192CF00D49DEE /* Steps+CubeMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB95A782E0192CE00D49DEE /* Steps+CubeMove.swift */; };
 		FCBFBE052E01057200E33B6A /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBFBE042E01057200E33B6A /* TutorialView.swift */; };
 		FCD988982DF81A080083047A /* Cubr2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD988972DF81A080083047A /* Cubr2App.swift */; };
@@ -128,6 +129,7 @@
 		FC9532A42E00F1EA005E1907 /* TimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesView.swift; sourceTree = "<group>"; };
 		FC9532A62E00FCAC005E1907 /* BestTimeHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BestTimeHandling.swift; sourceTree = "<group>"; };
 		FC9532A82E00FD6B005E1907 /* AlgorithmHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgorithmHandling.swift; sourceTree = "<group>"; };
+		FCA096F42E0A928E007A6E9C /* PracticesHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticesHandling.swift; sourceTree = "<group>"; };
 		FCB95A782E0192CE00D49DEE /* Steps+CubeMove.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Steps+CubeMove.swift"; sourceTree = "<group>"; };
 		FCBFBE042E01057200E33B6A /* TutorialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialView.swift; sourceTree = "<group>"; };
 		FCD988942DF81A080083047A /* Cubr2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cubr2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -279,6 +281,7 @@
 			isa = PBXGroup;
 			children = (
 				FC5C1C352DFD03CA004E5190 /* MnemonicsHandling.swift */,
+				FCA096F42E0A928E007A6E9C /* PracticesHandling.swift */,
 				FC31740A2E025CF2008EEE8E /* BestTimeManaging.swift */,
 				FC9532A62E00FCAC005E1907 /* BestTimeHandling.swift */,
 				FC9532A82E00FD6B005E1907 /* AlgorithmHandling.swift */,
@@ -493,6 +496,7 @@
 				FC55D4B02E011D34004D499B /* Duration+TimeString.swift in Sources */,
 				FC5C1C362DFD03CA004E5190 /* MnemonicsHandling.swift in Sources */,
 				FCB95A792E0192CF00D49DEE /* Steps+CubeMove.swift in Sources */,
+				FCA096F52E0A928E007A6E9C /* PracticesHandling.swift in Sources */,
 				FC9532A72E00FCAC005E1907 /* BestTimeHandling.swift in Sources */,
 				FC3174052E025652008EEE8E /* CubeTestView.swift in Sources */,
 				FC9532A12E00E017005E1907 /* AlgorithmTestView.swift in Sources */,

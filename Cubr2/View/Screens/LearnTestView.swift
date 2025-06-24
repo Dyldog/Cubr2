@@ -8,8 +8,8 @@
 import DylKit
 import SwiftUI
 
-class LearnTestViewModel: ObservableObject {
-    @Published private var algorithmsManager: AlgorithmsManager = .shared
+class LearnTestViewModel: ObservableObject, PracticesHandling {
+    @Published var algorithmsManager: AlgorithmsManager = .shared
     
     @Published var algorithm: AlgorithmWithMethod!
     @Published private(set) var learningEvents: [LearningEvent] = []
@@ -36,8 +36,10 @@ class LearnTestViewModel: ObservableObject {
         == [.success].repeated(LearningEvent.countForMoveToLearned)
     }
     
+    var completedTests: [(AlgorithmWithMethod, [PracticesHandling.Label])] { labels(for: .today) }
+    
     init() {
-        countForLearned = LearningEvent.nextCountForLearned(after: algorithmsManager.maxLearnedCountForToday)
+        countForLearned = LearningEvent.countForLearned
         loadTest()
     }
     
@@ -78,7 +80,7 @@ class LearnTestViewModel: ObservableObject {
     }
     
     func keepLearningTapped() {
-        countForLearned += LearningEvent.countForLearned
+        countForLearned = LearningEvent.nextCountForLearned(after: algorithmsManager.maxLearnedCountForToday)
         loadTest()
     }
     
@@ -121,7 +123,7 @@ struct LearnTestView: View {
                     viewModel.nextTapped()
                 }
             } else {
-                completedView
+                emptyView
             }
         }
         .alert($viewModel.alert)
@@ -130,11 +132,11 @@ struct LearnTestView: View {
         }
     }
     
-    private var completedView: some View {
+    private var emptyView: some View {
         VStack(spacing: 24) {
             Text(
                 viewModel.hasLearningAlgorithms
-                ? "All practices completed"
+                ? "All practices completed for today"
                 : "Add some algorithms to learn in the 'All' tab"
             )
             .font(.largeTitle)
@@ -146,6 +148,19 @@ struct LearnTestView: View {
                     viewModel.keepLearningTapped()
                 }
                 .bold()
+                
+                ScrollView {
+                    VStack() {
+                        ForEach(viewModel.completedTests) { (algorithm, labels) in
+                            PracticeRow(
+                                algorithm: algorithm,
+                                labels: labels
+                            )
+                        }
+                    }
+                    .padding()
+                    .padding(.horizontal)
+                }
             }
         }
     }
