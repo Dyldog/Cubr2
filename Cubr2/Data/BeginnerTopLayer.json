@@ -1,17 +1,17 @@
 {
     "algorithms": [{
         "name":"Top Dot",
-        "alg":["F R U R' U'"],
+        "alg":["F R U R' U' F'"],
         "group":"1: Cross",
         "prob":1,
     }, {
         "name":"Top Line",
-        "alg":["F R U R' U'"],
+        "alg":["F R U R' U' F'"],
         "group":"1: Cross",
         "prob":1,
     }, {
         "name":"Top Corner",
-        "alg":["F R U R' U'"],
+        "alg":["F R U R' U' F'"],
         "group":"1: Cross",
         "prob":1,
     }, {
