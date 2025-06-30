@@ -187,6 +187,7 @@ class AlgorithmsManager: ObservableObject, AlgorithmsManaging {
         to newEvents: [LearningEvent],
         on day: Day = .today
     ) {
+        objectWillChange.send()
         learningEvents[day, default: [:]][algorithm.name] = newEvents
     }
 }

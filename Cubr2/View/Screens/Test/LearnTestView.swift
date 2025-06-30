@@ -137,9 +137,9 @@ struct LearnTestView: View {
             }
         }
         .alert($viewModel.alert)
-        .onAppear {
-            viewModel.reload()
-        }
+//        .onAppear {
+//            viewModel.reload()
+//        }
     }
     
     private var emptyView: some View {
