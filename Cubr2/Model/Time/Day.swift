@@ -19,11 +19,25 @@ struct Day: Hashable, Codable, Comparable, Identifiable {
     }
     
     static func < (lhs: Day, rhs: Day) -> Bool {
-        lhs.year < rhs.year && lhs.month < rhs.month && lhs.day < rhs.day
+        if lhs.year < rhs.year {
+            return true
+        } else if lhs.month < rhs.month {
+            return true
+        } else {
+            return lhs.day < rhs.day
+        }
     }
     
     var string: String {
-        "\(day)/\(month)/\(year)"
+        string(today: "Today")
+    }
+        
+    func string(today: String? = nil) -> String {
+        if let today, self == .today {
+            return today
+        } else {
+            return "\(day)/\(month)/\(year)"
+        }
     }
 }
 
