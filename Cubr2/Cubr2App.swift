@@ -6,6 +6,7 @@
 //
 
 import DylKit
+import DylKitNotes
 import SwiftUI
 
 @main
@@ -13,7 +14,7 @@ struct Cubr2App: App {
     @State var showAppNote: Bool = false
     
     var body: some Scene {
-        DylApp {
+        WindowGroup {
             TabView {
                 NavigationStack {
                     TestView()
@@ -33,6 +34,7 @@ struct Cubr2App: App {
                     Label("All", systemImage: "list.bullet")
                 }
             }
+            .showAppNoteOnShake()
         }
     }
 }

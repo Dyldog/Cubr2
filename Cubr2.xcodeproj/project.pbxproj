@@ -55,6 +55,7 @@
 		FCA096F52E0A928E007A6E9C /* PracticesHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA096F42E0A928E007A6E9C /* PracticesHandling.swift */; };
 		FCB95A792E0192CF00D49DEE /* Steps+CubeMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB95A782E0192CE00D49DEE /* Steps+CubeMove.swift */; };
 		FCBFBE052E01057200E33B6A /* TutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBFBE042E01057200E33B6A /* TutorialView.swift */; };
+		FCCFA0A32E0E87A80012BBF9 /* DylKitNotes in Frameworks */ = {isa = PBXBuildFile; productRef = FCCFA0A22E0E87A80012BBF9 /* DylKitNotes */; };
 		FCD988982DF81A080083047A /* Cubr2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD988972DF81A080083047A /* Cubr2App.swift */; };
 		FCD9889A2DF81A080083047A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD988992DF81A080083047A /* ContentView.swift */; };
 		FCD9889C2DF81A0B0083047A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCD9889B2DF81A0B0083047A /* Assets.xcassets */; };
@@ -175,6 +176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC4AA4432DFA973B0069EFBE /* DylKit in Frameworks */,
+				FCCFA0A32E0E87A80012BBF9 /* DylKitNotes in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,6 +363,13 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
+		FCCFA0A12E0E87A80012BBF9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FCD9888B2DF81A080083047A = {
 			isa = PBXGroup;
 			children = (
@@ -368,6 +377,7 @@
 				FCD988A72DF81A0C0083047A /* Cubr2Tests */,
 				FCD988B12DF81A0C0083047A /* Cubr2UITests */,
 				FCD988952DF81A080083047A /* Products */,
+				FCCFA0A12E0E87A80012BBF9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -530,6 +540,7 @@
 			name = Cubr2;
 			packageProductDependencies = (
 				FC4AA4422DFA973B0069EFBE /* DylKit */,
+				FCCFA0A22E0E87A80012BBF9 /* DylKitNotes */,
 			);
 			productName = Cubr2;
 			productReference = FCD988942DF81A080083047A /* Cubr2.app */;
@@ -1052,6 +1063,11 @@
 		FC4AA4422DFA973B0069EFBE /* DylKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = DylKit;
+		};
+		FCCFA0A22E0E87A80012BBF9 /* DylKitNotes */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FC4AA4412DFA973B0069EFBE /* XCLocalSwiftPackageReference "../DylKit" */;
+			productName = DylKitNotes;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
